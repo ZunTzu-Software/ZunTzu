@@ -1,0 +1,654 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutosaveDialogCaption" xml:space="preserve">
+    <value>AutoRecuperación</value>
+  </data>
+  <data name="AutosaveDialogText" xml:space="preserve">
+    <value>La última sesión no se ha cerrado correctamente. ¿Recuperar la partida guardada automáticamente?</value>
+  </data>
+  <data name="AutosaveNotFound" xml:space="preserve">
+    <value>Can't restore: no autosave file was found.</value>
+  </data>
+  <data name="AvailableCommands" xml:space="preserve">
+    <value>Available commands:</value>
+  </data>
+  <data name="BoardIsHidden" xml:space="preserve">
+    <value>Este tablero esta oculto</value>
+  </data>
+  <data name="CantStartServer" xml:space="preserve">
+    <value>No puede iniciarse el servidor: {0}</value>
+  </data>
+  <data name="CantStartServerInvalidDeviceAddress" xml:space="preserve">
+    <value>No puede iniciarse el servidor: puerto {0} está en uso. Inténtalo de nuevo con un puerto diferente.</value>
+  </data>
+  <data name="CommandError" xml:space="preserve">
+    <value>Error de tipo {0}: {1}</value>
+  </data>
+  <data name="ConnectionData" xml:space="preserve">
+    <value>ip: {0} puerto: {1}</value>
+  </data>
+  <data name="ConnectionDataCopiedToClipboard" xml:space="preserve">
+    <value>La dirección IP y el puerto han sido copiados al portapapeles.</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>Conexión fallida</value>
+  </data>
+  <data name="ConnectionFailureHostRejectedConnection" xml:space="preserve">
+    <value>La petición de conexión fue rechazada por el jugador anfitrión.</value>
+  </data>
+  <data name="ConnectionFailureNoConnection" xml:space="preserve">
+    <value>No se ha establecido link  de comunicación.</value>
+  </data>
+  <data name="ConnectionFailureNotHost" xml:space="preserve">
+    <value>Has intentado conectar con un ordenador de un jugador no anfitrión.</value>
+  </data>
+  <data name="ConnectionFailureOther" xml:space="preserve">
+    <value>La petición de conexión al jugador anfitrión ha fallado.</value>
+  </data>
+  <data name="ConnectionFailureSessionFull" xml:space="preserve">
+    <value>Se ha alcanzado el máximo número de jugadores para esta sesión.</value>
+  </data>
+  <data name="ConnectionFailureTimeOut" xml:space="preserve">
+    <value>Time out en la petición de conexión.</value>
+  </data>
+  <data name="ConnectivityCancelLimited" xml:space="preserve">
+    <value>Abortar</value>
+  </data>
+  <data name="ConnectivityCancelNoEgress" xml:space="preserve">
+    <value>Abortar</value>
+  </data>
+  <data name="ConnectivityCancelNoIngress" xml:space="preserve">
+    <value>Abortar</value>
+  </data>
+  <data name="ConnectivityCancelNoInternet" xml:space="preserve">
+    <value>Abortar</value>
+  </data>
+  <data name="ConnectivityCancelPortInUse" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ConnectivityCaptionLimited" xml:space="preserve">
+    <value>Conectividad limitada</value>
+  </data>
+  <data name="ConnectivityCaptionNoEgress" xml:space="preserve">
+    <value>Un cortafuegos está bloqueando ZunTzu</value>
+  </data>
+  <data name="ConnectivityCaptionNoIngress" xml:space="preserve">
+    <value>Un cortafuegos está bloqueando ZunTzu</value>
+  </data>
+  <data name="ConnectivityCaptionNoInternet" xml:space="preserve">
+    <value>Sin Internet</value>
+  </data>
+  <data name="ConnectivityCaptionPortInUse" xml:space="preserve">
+    <value>Puerto en uso</value>
+  </data>
+  <data name="ConnectivityOkLimited" xml:space="preserve">
+    <value>Crear de todos modos</value>
+  </data>
+  <data name="ConnectivityOkNoEgress" xml:space="preserve">
+    <value>Crear de todos modos</value>
+  </data>
+  <data name="ConnectivityOkNoIngress" xml:space="preserve">
+    <value>Crear de todos modos</value>
+  </data>
+  <data name="ConnectivityOkNoInternet" xml:space="preserve">
+    <value>Crear de todos modos</value>
+  </data>
+  <data name="ConnectivityOkPortInUse" xml:space="preserve">
+    <value>Intentar de nuevo</value>
+  </data>
+  <data name="ConnectivityTextLimited" xml:space="preserve">
+    <value>El servidor central de ZunTzu está fuera de servicio momentáneamente. Los jugadores podrían ser incapaces de unirse al juego.</value>
+  </data>
+  <data name="ConnectivityTextNoEgress" xml:space="preserve">
+    <value>Cambia los ajustes de tu cortafuegos para permitir que ZunTzu envíe datos a Internet.</value>
+  </data>
+  <data name="ConnectivityTextNoIngress" xml:space="preserve">
+    <value>Cambia los ajustes de tu cortafuegos para permitir que ZunTzu reciba peticiones de conexión desde Internet.</value>
+  </data>
+  <data name="ConnectivityTextNoInternet" xml:space="preserve">
+    <value>Solo podrán unirse jugadores de tu red local.</value>
+  </data>
+  <data name="ConnectivityTextPortInUse" xml:space="preserve">
+    <value>Ese puerto de Internet esta reservado por otro programa. Inténtalo de nuevo con un número de puerto diferente.</value>
+  </data>
+  <data name="DiceModelsComplex" xml:space="preserve">
+    <value>Complejo (recomendado)</value>
+  </data>
+  <data name="DiceModelsSimple" xml:space="preserve">
+    <value>Simple</value>
+  </data>
+  <data name="DisconnectFirst" xml:space="preserve">
+    <value>Command ignored. You need to disconnect first.</value>
+  </data>
+  <data name="FileOpenFilter" xml:space="preserve">
+    <value>Archivos ZunTzu (*.ztb;*.ztg;*.zts)|*.ztb;*.ztg;*.zts|Todos los archivos|*.*</value>
+  </data>
+  <data name="FileSaveAsFilter" xml:space="preserve">
+    <value>Juegos ZunTzu (*.ztg)|*.ztg| Todos los archivos |*.*</value>
+  </data>
+  <data name="GameBoxAlreadyOpened" xml:space="preserve">
+    <value>Game box "{0}" is already opened.</value>
+  </data>
+  <data name="GameBoxError00" xml:space="preserve">
+    <value>Error: {0}.</value>
+  </data>
+  <data name="GameBoxError01" xml:space="preserve">
+    <value>Archivo no contiene un fichero "game-box.xml".</value>
+  </data>
+  <data name="GameBoxError02" xml:space="preserve">
+    <value>game-box.xml no empieza con una línea "&lt;?xml " seguida de "&lt;game-box ".</value>
+  </data>
+  <data name="GameBoxError03" xml:space="preserve">
+    <value>, línea {0}: atributos "{1}" y "{2}" son incompatibles.</value>
+  </data>
+  <data name="GameBoxError04" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" está obsoleto.</value>
+  </data>
+  <data name="GameBoxError05" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" es invalido sin atributo "{2}".</value>
+  </data>
+  <data name="GameBoxError06" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" es irrelevante para una sección de carta.</value>
+  </data>
+  <data name="GameBoxError07" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" es irrelevante para una sección de ficha o terreno.</value>
+  </data>
+  <data name="GameBoxError08" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}"  se refiere a un fichero que no puede ser encontrado en el archivo del game box.</value>
+  </data>
+  <data name="GameBoxError09" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" debe terminar con "{2}".</value>
+  </data>
+  <data name="GameBoxError10" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" debe terminar con ".jpg" o ".png".</value>
+  </data>
+  <data name="GameBoxError11" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" es irrelevante para una sección de terreno.</value>
+  </data>
+  <data name="GameBoxError12" xml:space="preserve">
+    <value>, línea {0}: tablero "{1}" se ha definido dos veces.</value>
+  </data>
+  <data name="GameBoxError13" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" se ha definido dos veces</value>
+  </data>
+  <data name="GameBoxError14" xml:space="preserve">
+    <value>, línea {0}: se esperaba etiqueta de fin "&lt;/{1}&gt;".</value>
+  </data>
+  <data name="GameBoxError15" xml:space="preserve">
+    <value>, línea {0}: se esperaba "&lt;dice " o "&lt;/dice-hand&gt;".</value>
+  </data>
+  <data name="GameBoxError16" xml:space="preserve">
+    <value>, línea {0}: se esperaba "&lt;dice-hand ", "&lt;map ", "&lt;counter-sheet ", "&lt;terrain-sheet " o "&lt;/game-box&gt;".</value>
+  </data>
+  <data name="GameBoxError17" xml:space="preserve">
+    <value>, línea {0}: se esperaba definición de sección o "&lt;/{1}&gt;".</value>
+  </data>
+  <data name="GameBoxError18" xml:space="preserve">
+    <value>, línea {0}: encontrado "&lt;/{1}&gt;" pero esperado "&lt;/{2}&gt;".</value>
+  </data>
+  <data name="GameBoxError19" xml:space="preserve">
+    <value>, línea {0}: encontrados datos despues de una etiqueta de fin "&lt;/{1}&gt;".</value>
+  </data>
+  <data name="GameBoxError20" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}"  no válido porque no hay imagen en la otra cara.</value>
+  </data>
+  <data name="GameBoxError21" xml:space="preserve">
+    <value>, línea {0}: valor "{1}" no válido para atributo "{2}" porque no hay imagen en la otra cara.</value>
+  </data>
+  <data name="GameBoxError22" xml:space="preserve">
+    <value>, línea {0}: faltan atributos de localización "front-..." o "back-...".</value>
+  </data>
+  <data name="GameBoxError23" xml:space="preserve">
+    <value>, línea {0}: falta atributo obligatorio "{1}".</value>
+  </data>
+  <data name="GameBoxError24" xml:space="preserve">
+    <value>, línea {0}: atributo obligatorio "{1}" presente pero vacío.</value>
+  </data>
+  <data name="GameBoxError25" xml:space="preserve">
+    <value>, línea {0}: el tipo de sección es "{1}", así que el atributo "{2}" no es válido.</value>
+  </data>
+  <data name="GameBoxError26" xml:space="preserve">
+    <value>, línea {0}: el tipo de sección es "{1}", por lo que se requiere el atributo "{2}".</value>
+  </data>
+  <data name="GameBoxError27" xml:space="preserve">
+    <value>, línea {0}: tipo de sección no válido para esta plantilla.</value>
+  </data>
+  <data name="GameBoxError28" xml:space="preserve">
+    <value>, línea {0}: atributo "{1}" no soportado.</value>
+  </data>
+  <data name="GameBoxError29" xml:space="preserve">
+    <value>, línea {0}: etiqueta "&lt;{1} " no soportada.</value>
+  </data>
+  <data name="GameBoxError30" xml:space="preserve">
+    <value>: fichero no referenciado en game-box.xml.</value>
+  </data>
+  <data name="GameBoxError31" xml:space="preserve">
+    <value>: fichero de escenario no empieza con la línea "&lt;?xml "  seguida por "&lt;game ".</value>
+  </data>
+  <data name="GameBoxError32" xml:space="preserve">
+    <value>, línea {0}: se esperaba "&lt;layout ", "&lt;hand " o "&lt;/game&gt;".</value>
+  </data>
+  <data name="GameBoxError33" xml:space="preserve">
+    <value>, línea {0}: se esperaba definición de ficha o "&lt;/{1}&gt;".</value>
+  </data>
+  <data name="GameBoxError34" xml:space="preserve">
+    <value>, línea {0}: se esperaba definición de apilamiento o "&lt;/{1}&gt;".</value>
+  </data>
+  <data name="GameBoxError35" xml:space="preserve">
+    <value>, línea {0}: tablero visible definido dos veces.</value>
+  </data>
+  <data name="GameBoxError36" xml:space="preserve">
+    <value>, línea {0}: atributo "board" se refiere a un tablero no definido "{1}".</value>
+  </data>
+  <data name="GameBoxError37" xml:space="preserve">
+    <value>, línea {0}: tablero "{1}", se asume erróneamente como “double-sided”.</value>
+  </data>
+  <data name="GameBoxError38" xml:space="preserve">
+    <value>, línea {0}: apilamiento sin fichas.</value>
+  </data>
+  <data name="GameBoxError39" xml:space="preserve">
+    <value>, línea {0}: tablero definido como privado.</value>
+  </data>
+  <data name="GameBoxError40" xml:space="preserve">
+    <value>, línea {0}: mano privada no vacía.</value>
+  </data>
+  <data name="GameBoxError41" xml:space="preserve">
+    <value>: no es un fichero de imagen válido.</value>
+  </data>
+  <data name="GameBoxError42" xml:space="preserve">
+    <value>, línea {0}: tamaño de máscara no es igual al tamaño de la imagen.</value>
+  </data>
+  <data name="GameBoxError43" xml:space="preserve">
+    <value>, línea {0}: valor "{1}"  no válido para el  atributo "{2}".</value>
+  </data>
+  <data name="GameBoxError44" xml:space="preserve">
+    <value>, línea {0}: falta atributo obligatorio "board" o "tab".</value>
+  </data>
+  <data name="GameBoxFileMoved" xml:space="preserve">
+    <value>El fichero del game box "{0}" ha sido borrado o movido.</value>
+  </data>
+  <data name="GameBoxNotFound" xml:space="preserve">
+    <value>No se ha encontrado el game box "{0}" en la librería.</value>
+  </data>
+  <data name="GameBoxOpened" xml:space="preserve">
+    <value>Game box "{0}" abierto.</value>
+  </data>
+  <data name="GameSaved" xml:space="preserve">
+    <value>Partida guardada.</value>
+  </data>
+  <data name="HintFlip" xml:space="preserve">
+    <value>Girar</value>
+  </data>
+  <data name="HintRotate" xml:space="preserve">
+    <value>Rotar</value>
+  </data>
+  <data name="HintScroll" xml:space="preserve">
+    <value>Deslizar</value>
+  </data>
+  <data name="HintZoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="HostHasLeft" xml:space="preserve">
+    <value>El jugador anfitrión ha abandonado la partida.</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command: {0}</value>
+  </data>
+  <data name="InvalidParameters" xml:space="preserve">
+    <value>Invalid parameters for {0} command. Usage: {1}</value>
+  </data>
+  <data name="LibraryAddFilter" xml:space="preserve">
+    <value>ZunTzu game boxes (*.ztb)|*.ztb</value>
+  </data>
+  <data name="LoadingGraphics" xml:space="preserve">
+    <value>Cargando gráficos...</value>
+  </data>
+  <data name="MapDetail150Dpi" xml:space="preserve">
+    <value>150 ppp</value>
+  </data>
+  <data name="MapDetail300Dpi" xml:space="preserve">
+    <value>150 o 300 ppp (recomendado)</value>
+  </data>
+  <data name="MapDetail600Dpi" xml:space="preserve">
+    <value>150, 300 o 600 ppp</value>
+  </data>
+  <data name="MenuAboutZunTzu" xml:space="preserve">
+    <value>Acerca de ZunTzu...</value>
+  </data>
+  <data name="MenuConnect" xml:space="preserve">
+    <value>Conectar...</value>
+  </data>
+  <data name="MenuDisconnect" xml:space="preserve">
+    <value>Desconectar</value>
+  </data>
+  <data name="MenuDisplay" xml:space="preserve">
+    <value>Pantalla...</value>
+  </data>
+  <data name="MenuFile" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>Ayuda...</value>
+  </data>
+  <data name="MenuHost" xml:space="preserve">
+    <value>Crear partida en red...</value>
+  </data>
+  <data name="MenuLibrary" xml:space="preserve">
+    <value>Explorar Librería...</value>
+  </data>
+  <data name="MenuMultiplayer" xml:space="preserve">
+    <value>Multijugador</value>
+  </data>
+  <data name="MenuOpenFile" xml:space="preserve">
+    <value>Abrir Archivo...</value>
+  </data>
+  <data name="MenuOpenScenario" xml:space="preserve">
+    <value>Abrir Escenario...</value>
+  </data>
+  <data name="MenuPlayer" xml:space="preserve">
+    <value>Jugador...</value>
+  </data>
+  <data name="MenuQuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="MenuQuit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="MenuSave" xml:space="preserve">
+    <value>Guardar (Ctrl+S)</value>
+  </data>
+  <data name="MenuSaveAs" xml:space="preserve">
+    <value>Guardar como...</value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="MenuVideo" xml:space="preserve">
+    <value>Video...</value>
+  </data>
+  <data name="MenuVoice" xml:space="preserve">
+    <value>Audio...</value>
+  </data>
+  <data name="NoGameToSave" xml:space="preserve">
+    <value>No hay juego para guardar.</value>
+  </data>
+  <data name="NoInternetConnection" xml:space="preserve">
+    <value>Nadie puede unirse a esta sesión desde Internet.  Comprueba tu conexión a Internet y los ajustes de tu cortafuegos.</value>
+  </data>
+  <data name="NoParameterSupported" xml:space="preserve">
+    <value>{0} command doesn't allow parameters.</value>
+  </data>
+  <data name="NotConnected" xml:space="preserve">
+    <value>Command ignored. You are not connected.</value>
+  </data>
+  <data name="NotHosting" xml:space="preserve">
+    <value>Comando ignorado. Debes ser el jugador anfitrión para ejecutar el comando.</value>
+  </data>
+  <data name="PlayerHasJoined" xml:space="preserve">
+    <value>Jugador {0} se ha unido a la partida.</value>
+  </data>
+  <data name="PlayerHasLeft" xml:space="preserve">
+    <value>Jugador {0} ha abandonado la partida.</value>
+  </data>
+  <data name="PlayerRenamed" xml:space="preserve">
+    <value>El jugador {0} es ahora {1}.</value>
+  </data>
+  <data name="QuitNoSavingRequiredButton" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="QuitNoSavingRequiredPrompt" xml:space="preserve">
+    <value>¿Salir?</value>
+  </data>
+  <data name="SameAsDesktop" xml:space="preserve">
+    <value>Igual que el de escritorio</value>
+  </data>
+  <data name="ServerListeningNatTraversalDisabled" xml:space="preserve">
+    <value>Los jugadores pueden unirse desde Internet usando la dirección {0} y el puerto {1} (NAT traversal deshabilitado).</value>
+  </data>
+  <data name="ServerListeningNatTraversalEnabled" xml:space="preserve">
+    <value>Los jugadores pueden unirse desde Internet usando la dirección {0} y el puerto {1}.</value>
+  </data>
+  <data name="ServerModeForwardingAdpcm" xml:space="preserve">
+    <value>32 Kbps per stream</value>
+  </data>
+  <data name="ServerModeForwardingGsm" xml:space="preserve">
+    <value>13 Kbps per stream</value>
+  </data>
+  <data name="ServerModeMixingAdpcm" xml:space="preserve">
+    <value>32 Kbps mixed</value>
+  </data>
+  <data name="ServerModeMixingGsm" xml:space="preserve">
+    <value>13 Kbps mixed</value>
+  </data>
+  <data name="TextureFormat16Bits" xml:space="preserve">
+    <value>16 bits</value>
+  </data>
+  <data name="TextureFormat32Bits" xml:space="preserve">
+    <value>32 bits</value>
+  </data>
+  <data name="TextureFormat8BitsCompressedFast" xml:space="preserve">
+    <value>Comprimido, carga rápida</value>
+  </data>
+  <data name="TextureFormat8BitsCompressedQuality" xml:space="preserve">
+    <value>Comprimido, calidad (recomendado)</value>
+  </data>
+  <data name="ToolTipClose" xml:space="preserve">
+    <value>Cerrar (Esc)</value>
+  </data>
+  <data name="ToolTipHideBoard" xml:space="preserve">
+    <value>Ocultar tablero</value>
+  </data>
+  <data name="ToolTipHideHand" xml:space="preserve">
+    <value>Ocultar mano</value>
+  </data>
+  <data name="ToolTipInvert" xml:space="preserve">
+    <value>Invertir</value>
+  </data>
+  <data name="ToolTipPin" xml:space="preserve">
+    <value>Poner chincheta</value>
+  </data>
+  <data name="ToolTipRecycle" xml:space="preserve">
+    <value>Devolver fichas a la plantilla (Del)</value>
+  </data>
+  <data name="ToolTipRedo" xml:space="preserve">
+    <value>Repetir (Ctrl+Y)</value>
+  </data>
+  <data name="ToolTipRevealBoard" xml:space="preserve">
+    <value>Mostrar tablero</value>
+  </data>
+  <data name="ToolTipShowHand" xml:space="preserve">
+    <value>Mostrar mano</value>
+  </data>
+  <data name="ToolTipShowMenu" xml:space="preserve">
+    <value>Mostrar menú (Esc)</value>
+  </data>
+  <data name="ToolTipShuffle" xml:space="preserve">
+    <value>Barajar</value>
+  </data>
+  <data name="ToolTipStacking" xml:space="preserve">
+    <value>Apilamiento</value>
+  </data>
+  <data name="ToolTipTerrainMode" xml:space="preserve">
+    <value>Editar terrenos</value>
+  </data>
+  <data name="ToolTipUndo" xml:space="preserve">
+    <value>Deshacer (Ctrl+Z)</value>
+  </data>
+  <data name="ToolTipUnpin" xml:space="preserve">
+    <value>Quitar chincheta</value>
+  </data>
+  <data name="UnableToConnectGameBoxNotFound" xml:space="preserve">
+    <value>No se puede conectar a un juego. No se encontró el game box "{0}" en la librería.</value>
+  </data>
+  <data name="UnableToOpenGame" xml:space="preserve">
+    <value>No se puede abrir el juego. No se encontró el game box "{0}" en la librería.</value>
+  </data>
+  <data name="UseSaveasCommand" xml:space="preserve">
+    <value>Usar comando saveas.</value>
+  </data>
+  <data name="UseSaveasquitCommand" xml:space="preserve">
+    <value>Usar comando saveasquit.</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>1.2</value>
+  </data>
+  <data name="VistaWarningNoVoice" xml:space="preserve">
+    <value>This version of ZunTzu doesn't support voice communication when running Windows Vista.</value>
+  </data>
+  <data name="VoiceConnectionFailed" xml:space="preserve">
+    <value>Ha fallado la conexión de voz.</value>
+  </data>
+  <data name="VoiceFailureCompressionNotSupported" xml:space="preserve">
+    <value>La máquina local no soporta el tipo especificado de compresión.</value>
+  </data>
+  <data name="VoiceFailureIncompatibleVersion" xml:space="preserve">
+    <value>El cliente se ha conectado a una sesión de voz que es incompatible con el ordenador del jugador anfitrión.</value>
+  </data>
+  <data name="VoiceFailureNoVoiceSession" xml:space="preserve">
+    <value>La sesión especificada no es una sesión de voz.</value>
+  </data>
+  <data name="VoiceFailureOther" xml:space="preserve">
+    <value>Ha fallado la petición de conexión al jugador anfitrión.</value>
+  </data>
+  <data name="VoiceFailureRunSetup" xml:space="preserve">
+    <value>La configuración de audio especificada no ha sido testeada.</value>
+  </data>
+  <data name="VoiceFailureSoundInitFailure" xml:space="preserve">
+    <value>Se ha encontrado un fallo inicializando la tarjeta de sonido.</value>
+  </data>
+  <data name="VoiceFailureTimeOut" xml:space="preserve">
+    <value>La operación no ha podido ser realizada en el tiempo especificado.</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bienvenido a ZunTzu! Pulsa Esc para empezar.</value>
+  </data>
+  <data name="YouAreConnected" xml:space="preserve">
+    <value>Conectado al ordenador anfitrión. Esperando datos del juego...</value>
+  </data>
+  <data name="YouAreDisconnected" xml:space="preserve">
+    <value>Estás desconectado.</value>
+  </data>
+  <data name="YouAreHosting" xml:space="preserve">
+    <value>Estás haciendo de anfitrión.</value>
+  </data>
+  <data name="YouHaveBeenDisconnectedGameBoxNotFound" xml:space="preserve">
+    <value>Has sido desconectado. No se encontró el game box "{0}" en la librería.</value>
+  </data>
+</root>

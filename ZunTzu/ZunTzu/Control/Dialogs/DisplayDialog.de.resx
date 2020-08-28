@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="diceModelsTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 20</value>
+  </data>
+  <data name="diceModelsTextBox.Text" xml:space="preserve">
+    <value>Komplex (empfohlen)</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Bevorzugter Vollbildmodus:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Drücken Sie während des Spiels ALT+ENTER um zwischen Vollbild- und Fenstermodus.</value>
+  </data>
+  <data name="waitForVerticalBlankCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 428</value>
+  </data>
+  <data name="waitForVerticalBlankCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>420, 24</value>
+  </data>
+  <data name="waitForVerticalBlankCheckBox.Text" xml:space="preserve">
+    <value>Vertikale Synchronisation aktivieren (nicht empfohlen)</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 220</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Qualität</value>
+  </data>
+  <data name="diceModelsTrackBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 155</value>
+  </data>
+  <data name="diceModelsTrackBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 45</value>
+  </data>
+  <data name="mapsAndCounterDetailTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 20</value>
+  </data>
+  <data name="mapsAndCounterDetailTextBox.Text" xml:space="preserve">
+    <value>150 oder 300 dpi (empfohlen)</value>
+  </data>
+  <data name="mapsAndCounterDetailTrackBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 123</value>
+  </data>
+  <data name="mapsAndCounterDetailTrackBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 45</value>
+  </data>
+  <data name="texturesFormatTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 20</value>
+  </data>
+  <data name="texturesFormatTextBox.Text" xml:space="preserve">
+    <value>Komprimiert, Qualität (empfohlen)</value>
+  </data>
+  <data name="texturesFormatTrackBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 91</value>
+  </data>
+  <data name="texturesFormatTrackBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 45</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Würfelmodelle:</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 29</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Details Spielpläne und Plättchen:</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Texturenformat:</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>417, 67</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 23</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Höchste Qualität</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 67</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Beste Leistung</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>500, 40</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Spiele mit sehr großen Spielplänen benötigen viel Speicherplatz, was den Spielfluss beeinträchtigen kann. Diese Einstellungen erlauben Ihnen, die Grafikqualität zu reduzieren, damit das Spiel flüssiger läuft.</value>
+  </data>
+  <data name="fullscreenModeComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>166, 51</value>
+  </data>
+  <data name="fullscreenModeComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 21</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 124</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Vollbildmodus</value>
+  </data>
+  <data name="widescreenCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 71</value>
+  </data>
+  <data name="widescreenCheckBox.Text" xml:space="preserve">
+    <value>Breitbildmodus</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>500, 44</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Diese Einstellung betrifft alle Spieler. Sie müssen das Spiel hosten um diese Einstellung ändern zu können. Schwarze Streifen werden angezeigt, wenn das Bildschirmverhältnis nicht dem Bildverhältnis des Spiels entspricht.</value>
+  </data>
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>240, 468</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>524, 100</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Spiel Bildverhältnis</value>
+  </data>
+  <data name="applyButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>336, 468</value>
+  </data>
+  <data name="applyButton.Text" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 468</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>556, 500</value>
+  </data>
+</root>

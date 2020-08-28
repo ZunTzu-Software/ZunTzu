@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 23</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Livello di input del microfono:</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 23</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Soglia di attivazione voce:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Massimo</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Minimo</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>L'input del microfono viene costantemente analizzato per determinare se stai parlando. Quando l'input eccede un livello di soglia, inizi a trasmettere.</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Controllo Registrazione</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Si raccomanda l'uso di cuffie per prevenire l'eco generato da altoparlanti esterni e da un microfono sensibile. La soppressione dell'eco funziona inibendo il microfono durante l'ascolto e ritardando l'ascolto mentre si parla.</value>
+  </data>
+  <data name="activateEchoSuppressionCheckBox.Text" xml:space="preserve">
+    <value>Attiva soppressione eco</value>
+  </data>
+  <data name="jitterControlTrackBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 81</value>
+  </data>
+  <data name="jitterControlTrackBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>317, 45</value>
+  </data>
+  <data name="automaticJitterControlCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 81</value>
+  </data>
+  <data name="automaticJitterControlCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 43</value>
+  </data>
+  <data name="automaticJitterControlCheckBox.Text" xml:space="preserve">
+    <value>Adatta automaticamente alle condizioni della rete</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>463, 65</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 23</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Migliore qualità</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 65</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 23</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Migliore latenza</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>584, 61</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Se il buffer di tremolio è impostato per massimizzare la qualità, si otterrà un ritardo del sonoro: le comunicazioni verbali verranno udite anche con parecchi secondi di ritardo dalla registrazione. Se il buffer del tremolio è impostato per ridurre il ritardo, le comunicazioni verbali saranno udite quasi al momento della registrazione. Potranno però avere una qualità “interrotta”.</value>
+  </data>
+  <data name="jitterControlGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>616, 130</value>
+  </data>
+  <data name="jitterControlGroupBox.Text" xml:space="preserve">
+    <value>Controllo del tremolio</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Se il tuo sistema ha più di un microfono ed il microfono non è connesso alla porta microfono 0, dovrai disabilitare la configurazione automatica e configurare il mixer manualmente attraverso il Pannello di Controllo.</value>
+  </data>
+  <data name="disableAutoconfigurationCheckBox.Text" xml:space="preserve">
+    <value>Disabilita la configurazione automatica della parte di registrazione del mixer audio</value>
+  </data>
+  <data name="audioMixerConfigurationGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 144</value>
+  </data>
+  <data name="audioMixerConfigurationGroupBox.Text" xml:space="preserve">
+    <value>Configurazione Mixer Audio</value>
+  </data>
+  <data name="muteRecordingCheckBox.Text" xml:space="preserve">
+    <value>Disabilita microfono</value>
+  </data>
+  <data name="muteAllCheckBox.Text" xml:space="preserve">
+    <value>Nessun suono</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="muteSoundEffectsCheckBox.Text" xml:space="preserve">
+    <value>Disabilita effetti sonori</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Impostazioni di Base</value>
+  </data>
+  <data name="serverModeTrackBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 69</value>
+  </data>
+  <data name="serverModeTrackBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>317, 45</value>
+  </data>
+  <data name="serverModeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 77</value>
+  </data>
+  <data name="serverModeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 20</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 75</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Modo</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>466, 53</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 23</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Migiore qualità</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 53</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 23</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Migliore Scalabilità</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Usa questa impostazione per consentire la connessione a più giocatori quando si fa da server per una partita. Le modifiche avranno effetto alla prossima esecuzione di ZunTzu.</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 238</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>616, 119</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Ampiezza di banda usata dal server</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Impostazioni Avanzate</value>
+  </data>
+</root>

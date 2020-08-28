@@ -1,0 +1,6 @@
+; ZunTzuLib.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ZunTzuLib"
+
+EXPORTS
+    ; Explicit exports can go here

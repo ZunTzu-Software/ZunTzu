@@ -1,0 +1,1174 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D40954A5-D441-476C-B8E9-5A9BF39BC7A6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZunTzu</RootNamespace>
+    <AssemblyName>ZunTzu</AssemblyName>
+    <SccProjectName>"%24/ZunTzu.root/ZunTzu", OBAAAAAA</SccProjectName>
+    <SccLocalPath>..</SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <ManifestCertificateThumbprint>A1A72DF9F1986A715552F231A99E01A490C14D6C</ManifestCertificateThumbprint>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+    <SignManifests>true</SignManifests>
+    <StartupObject>ZunTzu.EntryPoint</StartupObject>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <Win32Resource>.\ResourceFiles\ZunTzu.res</Win32Resource>
+    <SignAssembly>false</SignAssembly>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <ApplicationRevision>12</ApplicationRevision>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishUrl>..\..\ZunTzuWeb\WebSite\download\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://www.zuntzu.com/download/</InstallUrl>
+    <ProductName>ZunTzu</ProductName>
+    <PublisherName>ZunTzu Software</PublisherName>
+    <MinimumRequiredVersion>1.2.1.14</MinimumRequiredVersion>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <TrustUrlParameters>true</TrustUrlParameters>
+    <ApplicationVersion>1.2.1.%2a</ApplicationVersion>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.DirectX, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectPlay, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AudioVideo\AudioManager.cs" />
+    <Compile Include="Control\CommandLineParser.cs" />
+    <Compile Include="Control\Control.cs" />
+    <Compile Include="Control\Controller.cs" />
+    <Compile Include="Control\Dialogs\ConnectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\ConnectDialog.Designer.cs">
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\DisplayDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\DisplayDialog.Designer.cs">
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\FirewallDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\FirewallDialog.Designer.cs">
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\GameBoxErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\GameBoxErrorDialog.Designer.cs">
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\HelpDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\HelpDialog.Designer.cs">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\HostDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\HostDialog.Designer.cs">
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\LibraryDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\LibraryDialog.Designer.cs">
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\MessageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\MessageDialog.Designer.cs">
+      <DependentUpon>MessageDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\PlayerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\PlayerDialog.Designer.cs">
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\QuitDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\QuitDialog.Designer.cs">
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\ScenarioDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\ScenarioDialog.Designer.cs">
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\VideoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\VideoDialog.Designer.cs">
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Dialogs\VoiceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Control\Dialogs\VoiceDialog.Designer.cs">
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Menu\BackMenuItem.cs" />
+    <Compile Include="Control\Menu\DialogMenuItem.cs" />
+    <Compile Include="Control\Menu\DisconnectMenuItem.cs" />
+    <Compile Include="Control\Menu\FileMenuItem.cs" />
+    <Compile Include="Control\Menu\GameOptionsMenuItem.cs" />
+    <Compile Include="Control\Menu\IMenuItem.cs" />
+    <Compile Include="Control\Menu\MultiplayerMenuItem.cs" />
+    <Compile Include="Control\Menu\OpenFileMenuItem.cs" />
+    <Compile Include="Control\Menu\OpenScenarioMenuItem.cs" />
+    <Compile Include="Control\Menu\QuestionMarkMenuItem.cs" />
+    <Compile Include="Control\Menu\SaveAsMenuItem.cs" />
+    <Compile Include="Control\Menu\SaveMenuItem.cs" />
+    <Compile Include="Control\Menu\SettingsMenuItem.cs" />
+    <Compile Include="Control\Menu\ShowMenuSwitchMenuItem.cs" />
+    <Compile Include="Control\Messages\AddPlayerHandMessage.cs" />
+    <Compile Include="Control\Messages\BeginRotationMessage.cs" />
+    <Compile Include="Control\Messages\ChangeAcceptedMessage.cs" />
+    <Compile Include="Control\Messages\ChangeModeMessage.cs" />
+    <Compile Include="Control\Messages\ChangeRejectedMessage.cs" />
+    <Compile Include="Control\Messages\ChangeStackingMessage.cs" />
+    <Compile Include="Control\Messages\ChatMessage.cs" />
+    <Compile Include="Control\Messages\ConnectionAcceptedMessage.cs" />
+    <Compile Include="Control\Messages\ConnectionEstablishedMessage.cs" />
+    <Compile Include="Control\Messages\ConnectionFailedMessage.cs" />
+    <Compile Include="Control\Messages\ContinueRotationMessage.cs" />
+    <Compile Include="Control\Messages\PieceDraggedMessage.cs" />
+    <Compile Include="Control\Messages\DiceCastMessage.cs" />
+    <Compile Include="Control\Messages\DiceResultsMessage.cs" />
+    <Compile Include="Control\Messages\DisableDeckAutoInspectMessage.cs" />
+    <Compile Include="Control\Messages\DragDropPieceIntoHandMessage.cs" />
+    <Compile Include="Control\Messages\DragDropPieceIntoOtherStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropPieceIntoSameStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropPieceMessage.cs" />
+    <Compile Include="Control\Messages\DragDropPieceOnTopOfOtherStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropStackIntoHandMessage.cs" />
+    <Compile Include="Control\Messages\DragDropStackIntoOtherStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropStackOnTopOfOtherStackMessage.cs" />
+    <Compile Include="Control\Messages\DragDropTerrainIntoHandMessage.cs" />
+    <Compile Include="Control\Messages\DragDropTerrainMessage.cs" />
+    <Compile Include="Control\Messages\EnableDeckAutoInspectMessage.cs" />
+    <Compile Include="Control\Messages\FlipPieceMessage.cs" />
+    <Compile Include="Control\Messages\FlipCounterSheetMessage.cs" />
+    <Compile Include="Control\Messages\FlipStackMessage.cs" />
+    <Compile Include="Control\Messages\FlipTerrainMessage.cs" />
+    <Compile Include="Control\Messages\GameAspectRatioChangedMessage.cs" />
+    <Compile Include="Control\Messages\GameBoxHasChangedMessage.cs" />
+    <Compile Include="Control\Messages\GameLoadedMessage.cs" />
+    <Compile Include="Control\Messages\GrabPieceMessage.cs" />
+    <Compile Include="Control\Messages\GrabStackMessage.cs" />
+    <Compile Include="Control\Messages\GrabTerrainMessage.cs" />
+    <Compile Include="Control\Messages\HideCursorMessage.cs" />
+    <Compile Include="Control\Messages\HideRevealBoardMessage.cs" />
+    <Compile Include="Control\Messages\HostDisconnectedMessage.cs" />
+    <Compile Include="Control\Messages\Message.cs" />
+    <Compile Include="Control\Messages\MouseMovedMessage.cs" />
+    <Compile Include="Control\Messages\MoveSelectionMessage.cs" />
+    <Compile Include="Control\Messages\PlayerColorChangedMessage.cs" />
+    <Compile Include="Control\Messages\PlayerHasJoinedMessage.cs" />
+    <Compile Include="Control\Messages\PlayerHasLeftMessage.cs" />
+    <Compile Include="Control\Messages\PlayerNameChangedMessage.cs" />
+    <Compile Include="Control\Messages\PlayerWantsToJoinMessage.cs" />
+    <Compile Include="Control\Messages\RearrangePlayerHandMessage.cs" />
+    <Compile Include="Control\Messages\RedoMessage.cs" />
+    <Compile Include="Control\Messages\RemovePlayerHandMessage.cs" />
+    <Compile Include="Control\Messages\InvertMessage.cs" />
+    <Compile Include="Control\Messages\RemoveTerrainMessage.cs" />
+    <Compile Include="Control\Messages\RotatePieceMessage.cs" />
+    <Compile Include="Control\Messages\RotateStackMessage.cs" />
+    <Compile Include="Control\Messages\RotateTerrainMessage.cs" />
+    <Compile Include="Control\Messages\ShowCursorMessage.cs" />
+    <Compile Include="Control\Messages\ShuffleMessage.cs" />
+    <Compile Include="Control\Messages\ShuffleResultMessage.cs" />
+    <Compile Include="Control\Messages\TerrainDraggedMessage.cs" />
+    <Compile Include="Control\Messages\UnpunchPieceMessage.cs" />
+    <Compile Include="Control\Messages\UnpunchSelectionMessage.cs" />
+    <Compile Include="Control\Messages\SelectionChangedMessage.cs" />
+    <Compile Include="Control\Messages\StackDraggedMessage.cs" />
+    <Compile Include="Control\Messages\DragDropAbortedMessage.cs" />
+    <Compile Include="Control\Messages\UndoMessage.cs" />
+    <Compile Include="Control\Messages\UnpunchStackMessage.cs" />
+    <Compile Include="Control\Messages\VideoFrameReceivedMessage.cs" />
+    <Compile Include="Control\Messages\VisibleAreaChangedMessage.cs" />
+    <Compile Include="Control\Messages\VisibleBoardChangedMessage.cs" />
+    <Compile Include="Control\Messages\VoiceConnectionFailedMessage.cs" />
+    <Compile Include="Control\Messages\VoicePlaybackStartedMessage.cs" />
+    <Compile Include="Control\Messages\VoicePlaybackStoppedMessage.cs" />
+    <Compile Include="Control\Messages\VoiceRecordingStartedMessage.cs" />
+    <Compile Include="Control\Messages\VoiceRecordingStoppedMessage.cs" />
+    <Compile Include="Control\NetworkClient.cs" />
+    <Compile Include="Control\States\DialogState.cs" />
+    <Compile Include="Control\States\DraggingPieceState.cs" />
+    <Compile Include="Control\States\DraggingHandCounterState.cs" />
+    <Compile Include="Control\States\DraggingStackState.cs" />
+    <Compile Include="Control\States\IdleState.cs" />
+    <Compile Include="Control\States\MeasuringState.cs" />
+    <Compile Include="Control\States\MovingState.cs" />
+    <Compile Include="Control\States\ResizingHandState.cs" />
+    <Compile Include="Control\States\ScrollingState.cs" />
+    <Compile Include="Control\States\SelectingPieceState.cs" />
+    <Compile Include="Control\States\SelectingStackState.cs" />
+    <Compile Include="Control\States\State.cs" />
+    <Compile Include="Control\VideoConferencingClient.cs" />
+    <Compile Include="EntryPoint.cs" />
+    <Compile Include="FileSystem\Archive.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\Resource.cs" />
+    <Compile Include="Graphics\DXGraphics.cs" />
+    <Compile Include="Graphics\DXDieMesh.cs" />
+    <Compile Include="Graphics\DXMonochromaticImage.cs" />
+    <Compile Include="Graphics\DXQuad.cs" />
+    <Compile Include="Graphics\Dxtc\Decoder.cs" />
+    <Compile Include="Graphics\Dxtc\Encoder.cs" />
+    <Compile Include="Graphics\DXTextCache.cs" />
+    <Compile Include="Graphics\DXTexturedImage.cs" />
+    <Compile Include="Graphics\DXTile.cs" />
+    <Compile Include="Graphics\DXTileSet.cs" />
+    <Compile Include="Graphics\DXVideoImage.cs" />
+    <Compile Include="Graphics\DXVideoTexture.cs" />
+    <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Modelization\AnimationManager.cs" />
+    <Compile Include="Modelization\Animations\AddPlayerHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\Animation.cs" />
+    <Compile Include="Modelization\Animations\AttachStacksAnimation.cs" />
+    <Compile Include="Modelization\Animations\CastDieAnimation.cs" />
+    <Compile Include="Modelization\Animations\DetachStacksAnimation.cs" />
+    <Compile Include="Modelization\Animations\EmptyPlayerHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\FillPlayerHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\FlipPiecesAnimation.cs" />
+    <Compile Include="Modelization\Animations\IdleAnimation.cs" />
+    <Compile Include="Modelization\Animations\InstantFlipPiecesAnimation.cs" />
+    <Compile Include="Modelization\Animations\InstantRotatePiecesAnimation.cs" />
+    <Compile Include="Modelization\Animations\MergeStacksAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackFromEdgeOfScreenAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackFromHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackInstantlyAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackToEdgeOfScreenAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveStackToHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\MoveToFrontOfBoardAnimation.cs" />
+    <Compile Include="Modelization\Animations\RearrangePlayerHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\RearrangeStackAnimation.cs" />
+    <Compile Include="Modelization\Animations\RemovePlayerHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\RemoveTerrainAnimation.cs" />
+    <Compile Include="Modelization\Animations\ResetDieAnimation.cs" />
+    <Compile Include="Modelization\Animations\RestoreContextAnimation.cs" />
+    <Compile Include="Modelization\Animations\ReturnStackFromHandAnimation.cs" />
+    <Compile Include="Modelization\Animations\ReturnStacksAnimation.cs" />
+    <Compile Include="Modelization\Animations\InvertAnimation.cs" />
+    <Compile Include="Modelization\Animations\RotatePiecesAnimation.cs" />
+    <Compile Include="Modelization\Animations\SaveGameAnimation.cs" />
+    <Compile Include="Modelization\Animations\SmoothMouseAnimation.cs" />
+    <Compile Include="Modelization\Animations\SmoothScrollAnimation.cs" />
+    <Compile Include="Modelization\Animations\StackInspectorAnimation.cs" />
+    <Compile Include="Modelization\Animations\SetZOrderAnimation.cs" />
+    <Compile Include="Modelization\Animations\ShuffleAnimation.cs" />
+    <Compile Include="Modelization\Animations\SplitStackAnimation.cs" />
+    <Compile Include="Modelization\Animations\UndoReturnStacksAnimation.cs" />
+    <Compile Include="Modelization\Board.cs" />
+    <Compile Include="Modelization\Card.cs" />
+    <Compile Include="Modelization\CommandManager.cs" />
+    <Compile Include="Modelization\Commands\AggregableCommand.cs" />
+    <Compile Include="Modelization\Commands\CloneTerrainFromHandCommand.cs" />
+    <Compile Include="Modelization\Commands\Command.cs" />
+    <Compile Include="Modelization\Commands\ConfirmedRotatePieceCommand.cs" />
+    <Compile Include="Modelization\Commands\ConfirmedRotateTopOfStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackIntoHandCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackIntoOtherAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackIntoOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackOnTopOfOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropAttachedStackOnTopOfOtherStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropPieceCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropPieceIntoHandCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropPieceIntoSameStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropPieceOnTopOfOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropHandPieceCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropHandPieceIntoOtherAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropHandPieceIntoOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropHandPieceOnTopOfOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackIntoHandCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackIntoOtherAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackIntoOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackOnTopOfOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropStackOnTopOfOtherStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTerrainIntoHandCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackIntoHandCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackIntoOtherAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackIntoOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\DragDropTopOfStackOnTopOfOtherStackCommand.cs" />
+    <Compile Include="Modelization\Commands\FlipSelectionCommand.cs" />
+    <Compile Include="Modelization\Commands\GrabAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\GrabPieceCommand.cs" />
+    <Compile Include="Modelization\Commands\GrabStackCommand.cs" />
+    <Compile Include="Modelization\Commands\GrabTerrainCommand.cs" />
+    <Compile Include="Modelization\Commands\GrabTopOfStackCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveAttachedStackCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveAttachedStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveStackCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveStackFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveSubSelectionCommand.cs" />
+    <Compile Include="Modelization\Commands\MoveSubSelectionFromOtherBoardCommand.cs" />
+    <Compile Include="Modelization\Commands\InvertCommand.cs" />
+    <Compile Include="Modelization\Commands\RemoveTerrainCommand.cs" />
+    <Compile Include="Modelization\Commands\RemoveTerrainFromHandCommand.cs" />
+    <Compile Include="Modelization\Commands\RotatePieceCommand.cs" />
+    <Compile Include="Modelization\Commands\RotateTopOfStackCommand.cs" />
+    <Compile Include="Modelization\Commands\ShuffleCommand.cs" />
+    <Compile Include="Modelization\Commands\UnpunchHandPieceCommand.cs" />
+    <Compile Include="Modelization\Commands\UnpunchSelectionCommand.cs" />
+    <Compile Include="Modelization\Commands\UnpunchSubSelectionCommand.cs" />
+    <Compile Include="Modelization\Piece.cs" />
+    <Compile Include="Modelization\CounterSection.cs" />
+    <Compile Include="Modelization\CounterSheet.cs" />
+    <Compile Include="Modelization\Game.cs" />
+    <Compile Include="Modelization\GameBox.cs" />
+    <Compile Include="Modelization\GameBoxReference.cs" />
+    <Compile Include="Modelization\GameBoxVerifier.cs" />
+    <Compile Include="Modelization\GameLibrary.cs" />
+    <Compile Include="Modelization\Map.cs" />
+    <Compile Include="Modelization\Model.cs" />
+    <Compile Include="Modelization\Modelization.cs" />
+    <Compile Include="Modelization\Player.cs" />
+    <Compile Include="Modelization\PlayerHand.cs" />
+    <Compile Include="Modelization\RandomNumberGenerator.cs" />
+    <Compile Include="Modelization\Counter.cs" />
+    <Compile Include="Modelization\Rotation.cs" />
+    <Compile Include="Modelization\ScenarioReference.cs" />
+    <Compile Include="Modelization\Selection.cs" />
+    <Compile Include="Modelization\Stack.cs" />
+    <Compile Include="Modelization\TerrainClone.cs" />
+    <Compile Include="Modelization\TerrainPrototype.cs" />
+    <Compile Include="Networking\DXClient.cs" />
+    <Compile Include="Networking\DXServer.cs" />
+    <Compile Include="Networking\NatResolver.cs" />
+    <Compile Include="Networking\Networking.cs" />
+    <Compile Include="Networking\PortSpoofing.cs" />
+    <Compile Include="Networking\VideoFrameHistory.cs" />
+    <Compile Include="Properties.Resources.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.es.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.it.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.it.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.pt-BR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.pt-BR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <BaseApplicationManifest Include="Properties\app.manifest" />
+    <Content Include="Connect.wma">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="default.ztb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Disconnect.wma">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="library.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="ResourceFiles\ConnectivityIconLimited.png" />
+    <EmbeddedResource Include="ResourceFiles\ConnectivityIconNoEgress.png" />
+    <EmbeddedResource Include="ResourceFiles\ConnectivityIconNoIngress.png" />
+    <EmbeddedResource Include="ResourceFiles\ConnectivityIconNoInternet.png" />
+    <EmbeddedResource Include="ResourceFiles\ConnectivityIconPortInUse.png" />
+    <EmbeddedResource Include="ResourceFiles\Die0.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die1.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die2.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die3.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die4.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die5.wav" />
+    <EmbeddedResource Include="ResourceFiles\Die6.wav" />
+    <Content Include="ZunTzuLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="ResourceFiles\Shuffle.wav" />
+    <EmbeddedResource Include="ResourceFiles\D12Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\D20Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\D4Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\D8Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\Finger.cur" />
+    <EmbeddedResource Include="ResourceFiles\FingerAdd.cur" />
+    <EmbeddedResource Include="ResourceFiles\FingerDouble.cur" />
+    <EmbeddedResource Include="ResourceFiles\FingerRemove.cur" />
+    <EmbeddedResource Include="ResourceFiles\Fist.cur" />
+    <EmbeddedResource Include="ResourceFiles\Hand.cur" />
+    <None Include="Resources\ZunTzuBox.ico" />
+    <None Include="Resources\ZunTzuGame.ico" />
+    <None Include="app.config" />
+    <None Include="Dotfuscator.xml" />
+    <None Include="FileSystem\ICSharpCode.SharpZipLib.dll">
+    </None>
+    <None Include="Graphics\Microsoft.DirectX.Direct3D.dll" />
+    <None Include="Graphics\Microsoft.DirectX.dll" />
+    <None Include="Networking\Microsoft.DirectX.DirectPlay.dll" />
+    <None Include="Networking\Microsoft.DirectX.DirectSound.dll" />
+    <None Include="ResourceFiles\ZunTzu.res" />
+    <None Include="Resources\ZunTzu.ico" />
+    <None Include="Resources\AboutZunTzu.ico" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ZunTzu Software Certificate.pfx" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Randomness\BigInteger.cs" />
+    <Compile Include="Randomness\DieSimulator.cs" />
+    <Compile Include="Randomness\MersenneTwister.cs" />
+    <Compile Include="Randomness\Permutation.cs" />
+    <Compile Include="Randomness\Randomness.cs" />
+    <Compile Include="Randomness\EntropyPool.cs" />
+    <Compile Include="Timing\PrecisionTimer.cs" />
+    <Compile Include="Timing\Timing.cs" />
+    <Compile Include="AudioVideo\DirectShow.cs" />
+    <Compile Include="AudioVideo\AudioVideo.cs" />
+    <Compile Include="AudioVideo\VideoCaptureManager.cs" />
+    <Compile Include="VideoCompression\Huffman.cs" />
+    <None Include="VideoCompression\NullVideoCodec.cs" />
+    <Compile Include="VideoCompression\VideoCompression.cs" />
+    <Compile Include="VideoCompression\ZtcVideoCodec.cs" />
+    <Compile Include="Visualization\DiceBag.cs" />
+    <Compile Include="Visualization\Dice\D10ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D10SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D12ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D12SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D20ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D20SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D4ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D4SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D6ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D6SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D8ComplexModel.cs" />
+    <Compile Include="Visualization\Dice\D8SimpleModel.cs" />
+    <Compile Include="Visualization\ErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visualization\ErrorForm.Designer.cs">
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visualization\ErrorReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visualization\ErrorReportForm.Designer.cs">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visualization\Hand.cs" />
+    <Compile Include="Visualization\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visualization\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visualization\Menu.cs" />
+    <Compile Include="Visualization\PerformanceGraph.cs" />
+    <Compile Include="Visualization\PlayerView.cs" />
+    <Compile Include="Visualization\Prompter.cs" />
+    <Compile Include="Visualization\StackInspector.cs" />
+    <Compile Include="Visualization\Tabs.cs" />
+    <Compile Include="Visualization\View.cs" />
+    <Compile Include="Visualization\Visualization.cs">
+    </Compile>
+    <Compile Include="ZunTzuLib.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.de.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.de.resx">
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ConnectDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.de.resx">
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\DisplayDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DisplayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.de.resx">
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\FirewallDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FirewallDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.de.resx">
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\GameBoxErrorDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GameBoxErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.de.resx">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HelpDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.de.resx">
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\HostDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HostDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.de.resx">
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\LibraryDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LibraryDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\AboutDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\MessageDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MessageDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.de.resx">
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\PlayerDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlayerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.de.resx">
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\QuitDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuitDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.de.resx">
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\ScenarioDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.de.resx">
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VideoDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VideoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.de.resx">
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Dialogs\VoiceDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VoiceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.de.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Resources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.es.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Resources.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.fr.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Resources.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.it.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Resources.it.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Resources.pt-BR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties.Resources.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceFiles\D10Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\D6Texture.png" />
+    <EmbeddedResource Include="ResourceFiles\Icons.png" />
+    <EmbeddedResource Include="ResourceFiles\IconsMask.png" />
+    <EmbeddedResource Include="ResourceFiles\Zoom.cur" />
+    <EmbeddedResource Include="ResourceFiles\ZunTzuDiceTexture.png" />
+    <EmbeddedResource Include="ResourceFiles\ZunTzuTitle.png" />
+    <EmbeddedResource Include="Visualization\ErrorForm.de.resx">
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorForm.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorForm.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorForm.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorForm.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.de.resx">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.es.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.fr.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.it.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.pt-BR.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\ErrorReportForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visualization\MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Connect.wma">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="default.ztb">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="de\ZunTzu.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="Disconnect.wma">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="es\ZunTzu.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="fr\ZunTzu.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ICSharpCode.SharpZipLib">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="it\ZunTzu.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="library.xml">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>DataFile</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.DirectX">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.DirectX.Direct3D">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.DirectX.DirectPlay">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.DirectX.DirectSound">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="pt-BR\ZunTzu.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ZunTzu.pdb">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="ZunTzuLib.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <_DeploymentManifestIconFile Include="ZunTzu.ico">
+      <TargetPath>ZunTzu.ico</TargetPath>
+    </_DeploymentManifestIconFile>
+  </ItemGroup>
+  <Target Name="BeforePublish">
+    <!-- copy non obfuscated assemblies -->
+    <Copy SourceFiles="obj\Release\ZunTzu.exe" DestinationFiles="obj\Release\ZunTzu.exe.bak" />
+    <Copy SourceFiles="bin\Release\ZunTzu.exe" DestinationFiles="bin\Release\ZunTzu.exe.bak" />
+    <!--	call Dotfuscator -->
+    <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio 8\Application\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscator.exe&quot; -q Dotfuscator.xml" />
+    <Exec Command="updatekey.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
+    <Copy SourceFiles="obj\Release\ZunTzu.exe" DestinationFiles="bin\Release\ZunTzu.exe" />
+    <Copy SourceFiles="obj\Release\fr\ZunTzu.resources.dll" DestinationFiles="bin\Release\fr\ZunTzu.resources.dll" />
+    <!--	patch resource file -->
+    <!--Exec WorkingDirectory="" Command="patchencrypt.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
+		  <Exec WorkingDirectory="" Command="patchencrypt.exe obj\Release\ZunTzu.exe bin\Release\fr\ZunTzu.resources.dll" /-->
+    <CreateProperty Value="true">
+      <Output TaskParameter="Value" PropertyName="GenerateClickOnceManifests" />
+    </CreateProperty>
+    <CreateProperty Value="true">
+      <Output TaskParameter="Value" PropertyName="PublishingZunTzu" />
+    </CreateProperty>
+  </Target>
+  <Target Name="GenerateManifests" Condition="'$(GenerateClickOnceManifests)'=='true' or '@(NativeReference)'!='' or '@(ResolvedIsolatedComModules)'!=''" DependsOnTargets="GenerateApplicationManifest;GenerateDeploymentManifest">
+    <Copy Condition="'$(PublishingZunTzu)'=='true'" SourceFiles="obj\Release\ZunTzu.exe.manifest" DestinationFiles="bin\Release\ZunTzu.exe.manifest" />
+    <Copy Condition="'$(PublishingZunTzu)'=='true'" SourceFiles="obj\Release\ZunTzu.application" DestinationFiles="bin\Release\ZunTzu.application" />
+  </Target>
+  <Target Name="AfterPublish">
+    <!--	restore the non-obsfucated assemblies back to their original location so that
+		  subsequent builds and development within Visual Studio doesn't break -->
+    <Copy SourceFiles="obj\Release\ZunTzu.exe.bak" DestinationFiles="obj\Release\ZunTzu.exe" />
+    <Copy SourceFiles="bin\Release\ZunTzu.exe.bak" DestinationFiles="bin\Release\ZunTzu.exe" />
+  </Target>
+</Project>

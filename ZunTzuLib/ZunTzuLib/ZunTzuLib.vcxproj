@@ -175,7 +175,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;USE_SSE2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling />
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -308,6 +308,7 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
     <Library Include="..\libcmt.lib" />
     <Library Include="..\libjpeg.lib" />
     <Library Include="..\libpng.lib" />
+    <Library Include="..\msvcrt.lib" />
     <Library Include="..\zlib.lib" />
   </ItemGroup>
   <ItemGroup>

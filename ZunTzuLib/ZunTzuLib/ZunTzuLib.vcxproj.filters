@@ -137,6 +137,7 @@
     <Library Include="..\libjpeg.lib" />
     <Library Include="..\libpng.lib" />
     <Library Include="..\zlib.lib" />
+    <Library Include="..\msvcrt.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

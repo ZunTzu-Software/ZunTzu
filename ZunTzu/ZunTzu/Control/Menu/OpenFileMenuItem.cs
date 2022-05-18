@@ -1,4 +1,4 @@
-// Copyright (c) 2020 ZunTzu Software and contributors
+// Copyright (c) 2022 ZunTzu Software and contributors
 
 using System;
 using System.ComponentModel;

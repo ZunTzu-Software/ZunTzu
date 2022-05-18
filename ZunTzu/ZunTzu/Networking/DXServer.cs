@@ -7,7 +7,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.DirectX.DirectPlay;
-using Microsoft.DirectX.DirectPlay.Voice;
 using ZunTzu.VideoCompression;
 
 namespace ZunTzu.Networking {
@@ -27,9 +26,8 @@ namespace ZunTzu.Networking {
 		}
 
 		/// <summary>Begin a new game as a host.</summary>
-		/// <param name="mode">Server codec and mixing policy.</param>
 		/// <param name="port">IP port that will listen.</param>
-		public void Start(VoiceServerMode mode, int port) {
+		public void Start(int port) {
 			uncompressJobsPending = new ManualResetEvent(false);
 
 			try {
@@ -48,19 +46,6 @@ namespace ZunTzu.Networking {
 					address.AddComponent(Address.KeyPort, port);
 
 					server.Host(description, address);
-				}
-
-				if(System.Environment.OSVersion.Version.Major < 6) {	// not Vista?
-					// launch a voice session
-					voiceServer = new Microsoft.DirectX.DirectPlay.Voice.Server(server);
-					SessionDescription desc = new SessionDescription();
-					desc.SessionType = SessionType.Fowarding; // (mode == VoiceServerMode.ForwardingAdpcm || mode == VoiceServerMode.ForwardingGsm ? SessionType.Fowarding : SessionType.Mixing);
-					desc.BufferQuality = BufferQuality.Default;
-					desc.GuidCompressionType = (mode == VoiceServerMode.ForwardingAdpcm || mode == VoiceServerMode.MixingAdpcm ? CompressionGuid.AdPcm : CompressionGuid.Gsm);
-					desc.BufferAggressiveness = BufferAggressiveness.Default;
-					desc.Flags = Microsoft.DirectX.DirectPlay.Voice.SessionFlags.NoHostMigration;
-					//desc.Flags = Microsoft.DirectX.DirectPlay.Voice.SessionFlags.ServerControlTarget;
-					voiceServer.StartSession(desc);
 				}
 
 				// allow NAT traversal (3 trials)
@@ -159,11 +144,6 @@ namespace ZunTzu.Networking {
 
 		public void Dispose() {
 			if(server != null && !server.Disposed) {
-				if(voiceServer != null && !voiceServer.Disposed) {
-					voiceServer.StopSession();
-					voiceServer.Dispose();
-					voiceServer = null;
-				}
 				server.PlayerCreated -= new PlayerCreatedEventHandler(onPlayerCreated);
 				server.PlayerDestroyed -= new PlayerDestroyedEventHandler(onPlayerDestroyed);
 				server.Receive -= new ReceiveEventHandler(onReceive);
@@ -239,12 +219,6 @@ namespace ZunTzu.Networking {
 			} else {
 				int otherPlayersGroupId = ((PlayerContext)e.Message.PlayerContext).AllOtherPlayersGroupId;
 
-				// remove this player from all existing groups of "other players"
-				//foreach(int groupId in server.Groups) {
-				//	if(groupId != otherPlayersGroupId)
-				//		server.RemovePlayerFromGroup(groupId, e.Message.PlayerID, 0);
-				//}
-
 				// notify all other players
 				using(NetworkPacket packet = new NetworkPacket(5)) {
 					packet.Write((byte)ReservedMessageType.PlayerHasLeft);
@@ -260,19 +234,7 @@ namespace ZunTzu.Networking {
 		private void onReceive(object sender, ReceiveEventArgs e) {
 			byte[] message = e.Message.ReceiveData.GetData();
 			byte messageType = message[0];
-			if(messageType <= (byte)ReservedMessageType.VoicePlaybackStopped) {
-				// voice playback notification
-				int otherPlayersGroupId = ((PlayerContext)e.Message.PlayerContext).AllOtherPlayersGroupId;
-				using(NetworkPacket packet = new NetworkPacket(message.Length + 4)) {
-					// insert sender id in the message
-					message[0] = (byte)((uint)e.Message.SenderID >> 24);
-					packet.Write(((uint)e.Message.SenderID << 8) | (uint)messageType);
-					packet.Write(message);
-					server.SendTo(otherPlayersGroupId, packet,
-						(messageType == (byte)ReservedMessageType.VoicePlaybackStarted ? 1000 : 0),
-						(messageType == (byte)ReservedMessageType.VoicePlaybackStarted ? SendFlags.NoComplete | SendFlags.Coalesce : SendFlags.Guaranteed | SendFlags.Coalesce));
-				}
-			} else if(messageType >= (byte) ReservedMessageType.VideoFrame) {
+			if(messageType >= (byte) ReservedMessageType.VideoFrame) {
 				// videoconferencing message
 				switch(messageType) {
 					case (byte) ReservedMessageType.VideoFrame:
@@ -557,7 +519,6 @@ namespace ZunTzu.Networking {
 		}
 
 		private Microsoft.DirectX.DirectPlay.Server server = null;
-		private Microsoft.DirectX.DirectPlay.Voice.Server voiceServer = null;
 		private volatile int serverId = 0;
 		private volatile int hostingPlayerId = 0;
 

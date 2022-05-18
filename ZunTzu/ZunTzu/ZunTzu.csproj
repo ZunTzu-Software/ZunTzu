@@ -271,11 +271,6 @@
     <Compile Include="Control\Messages\VideoFrameReceivedMessage.cs" />
     <Compile Include="Control\Messages\VisibleAreaChangedMessage.cs" />
     <Compile Include="Control\Messages\VisibleBoardChangedMessage.cs" />
-    <Compile Include="Control\Messages\VoiceConnectionFailedMessage.cs" />
-    <Compile Include="Control\Messages\VoicePlaybackStartedMessage.cs" />
-    <Compile Include="Control\Messages\VoicePlaybackStoppedMessage.cs" />
-    <Compile Include="Control\Messages\VoiceRecordingStartedMessage.cs" />
-    <Compile Include="Control\Messages\VoiceRecordingStoppedMessage.cs" />
     <Compile Include="Control\NetworkClient.cs" />
     <Compile Include="Control\States\DialogState.cs" />
     <Compile Include="Control\States\DraggingPieceState.cs" />

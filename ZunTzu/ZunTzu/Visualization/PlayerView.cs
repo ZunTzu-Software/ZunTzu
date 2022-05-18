@@ -73,10 +73,10 @@ namespace ZunTzu.Visualization {
 
 					if(player == model.ThisPlayer) {
 						background.Render(new RectangleF(area.X + scale * 193.0f, area.Y + scale * 14.0f, scale * 7.0f, scale * 46.0f), 0xFF000000);
-						background.Render(new RectangleF(area.X + scale * 193.0f, area.Y + scale * (60.0f - model.NetworkClient.VoiceInputLevel * (46.0f / 99.0f)), scale * 7.0f, scale * model.NetworkClient.VoiceInputLevel * (46.0f / 99.0f)),
+						background.Render(new RectangleF(area.X + scale * 193.0f, area.Y + scale * 60.0f, scale * 7.0f, 0.0f),
 							(model.NetworkClient.IsRecording ? 0xFF00FF00 : 0xFFFFFFFF));
 						microphoneLevelIcon.Render(new RectangleF(area.X + scale * 187.0f, area.Y + scale * 8.0f, scale * 19.0f, scale * 59.0f));
-						microphoneThresholdIcon.Render(new RectangleF(area.X + scale * 198.0f, area.Y + scale * (54.5f - model.NetworkClient.VoiceActivationThresholdLevel * (46.0f / 99.0f)), scale * 9.0f, scale * 11.0f));
+						microphoneThresholdIcon.Render(new RectangleF(area.X + scale * 198.0f, area.Y + scale * 54.5f, scale * 9.0f, scale * 11.0f));
 					} else if(player.VoicePlaybackInProgress) {
 						loudspeakerIcon.Render(new RectangleF(area.X + scale * 60.0f, area.Y + scale * 37.0f - 7.5f, 10.0f, 15.0f), player.Color);
 						float animationProgress = (currentTimeInMicroseconds % (long) 300000) * 0.00000333333f;

@@ -6,22 +6,7 @@ using System.Drawing;
 namespace ZunTzu.AudioVideo {
 
 	public struct AudioProperties {
-		public bool MuteAll;
 		public bool MuteSoundEffects;
-		public bool MuteRecording;
-		public bool MutePlayback;
-		public bool UseVoiceActivation;
-		public bool AdjustActivationThresholdAutomatically;
-		///<remarks>This value can range from 0 through 99</remarks>
-		public int ActivationThreshold;
-		public bool ActivateEchoSuppression;
-		public bool UseAutomaticJitterControl;
-		///<remarks>This value can range from 0 through 99</remarks>
-		public int JitterControl;
-		public bool DisableAutomaticGainControl;
-		///<remarks>This value can range from -10,000 through 0</remarks>
-		public int MicrophoneInputLevel;
-		public bool DisableAutoconfiguration;
 	}
 
 	public enum AudioTrack { None, Shuffle, Die0, Die1, Die2, Die3, Die4, Die5, Die6 }

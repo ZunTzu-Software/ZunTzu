@@ -181,16 +181,7 @@ namespace ZunTzu.Control {
 			Settings.Default.DisplayWidescreen = (displayProperties.GameAspectRatio == ZunTzu.Graphics.AspectRatioType.SixteenToTen);
 
 			AudioProperties audioProperties = model.AudioManager.AudioProperties;
-			Settings.Default.VoiceMuteAll = audioProperties.MuteAll;
 			Settings.Default.AudioDisableSoundEffects = audioProperties.MuteSoundEffects;
-			Settings.Default.VoiceMuteRecording = audioProperties.MuteRecording;
-			Settings.Default.VoiceMutePlayback = audioProperties.MutePlayback;
-			Settings.Default.VoiceActivationThreshold = audioProperties.ActivationThreshold;
-			Settings.Default.VoiceEchoSuppression = audioProperties.ActivateEchoSuppression;
-			Settings.Default.VoiceAutomaticJitterControl = audioProperties.UseAutomaticJitterControl;
-			Settings.Default.VoiceJitterBuffer = audioProperties.JitterControl;
-			Settings.Default.VoiceDisableAudioMixerAutoconfig = audioProperties.DisableAutoconfiguration;
-			Settings.Default.VoiceMicrophoneInputLevel = audioProperties.MicrophoneInputLevel;
 
 			Settings.Default.DisplayWindowSize = mainForm.ClientSize;
 			Settings.Default.DisplayMaximizeWindow = (mainForm.WindowState == FormWindowState.Maximized);

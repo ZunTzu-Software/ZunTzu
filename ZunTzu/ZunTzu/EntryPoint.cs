@@ -39,7 +39,7 @@ namespace ZunTzu {
 				// launch standalone server
 				int port = int.Parse(args[1]);
 				using(IServer server = new DXServer()) {
-					server.Start((VoiceServerMode) Settings.Default.VoiceServerMode, port);
+					server.Start(port);
 				}
 
 			} else {
@@ -64,19 +64,7 @@ namespace ZunTzu {
 					displayProperties.GameAspectRatio = (Settings.Default.DisplayWidescreen ? AspectRatioType.SixteenToTen : AspectRatioType.FourToThree);
 
 					AudioProperties audioProperties;
-					audioProperties.MuteAll = Settings.Default.VoiceMuteAll;
 					audioProperties.MuteSoundEffects = Settings.Default.AudioDisableSoundEffects;
-					audioProperties.MuteRecording = Settings.Default.VoiceMuteRecording;
-					audioProperties.MutePlayback = Settings.Default.VoiceMutePlayback;
-					audioProperties.UseVoiceActivation = true;
-					audioProperties.AdjustActivationThresholdAutomatically = false;
-					audioProperties.ActivationThreshold = Settings.Default.VoiceActivationThreshold;
-					audioProperties.ActivateEchoSuppression = Settings.Default.VoiceEchoSuppression;
-					audioProperties.UseAutomaticJitterControl = Settings.Default.VoiceAutomaticJitterControl;
-					audioProperties.JitterControl = Settings.Default.VoiceJitterBuffer;
-					audioProperties.DisableAutomaticGainControl = true;
-					audioProperties.DisableAutoconfiguration = Settings.Default.VoiceDisableAudioMixerAutoconfig;
-					audioProperties.MicrophoneInputLevel = Settings.Default.VoiceMicrophoneInputLevel;
 
 					Size windowSize = Settings.Default.DisplayWindowSize;
 					System.Windows.Forms.FormWindowState windowState = (Settings.Default.DisplayMaximizeWindow ? System.Windows.Forms.FormWindowState.Maximized : System.Windows.Forms.FormWindowState.Normal);
@@ -99,7 +87,7 @@ namespace ZunTzu {
 					// initialize mainForm, model, view, controller
 					using(MainForm mainForm = new MainForm(windowSize, windowState)) {
 						IModel model = new Model(mainForm, audioProperties, playerFirstName, playerLastName, playerGuid);
-						IView view = new View(model, mainForm, displayProperties);
+					IView view = new View(model, mainForm, displayProperties);
 						IController controller = new Controller(model, mainForm, view);
 						IPrecisionTimer precisionTimer = new PrecisionTimer();
 

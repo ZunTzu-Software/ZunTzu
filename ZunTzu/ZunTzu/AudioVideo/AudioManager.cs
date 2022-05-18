@@ -54,7 +54,7 @@ namespace ZunTzu.AudioVideo {
 		/// <summary>Plays a WMA audio file on disk.</summary>
 		/// <param name="fileName">File name.</param>
 		public void PlayAudioFile(string fileName) {
-			if(device != null && !(audioProperties.MuteAll || audioProperties.MuteSoundEffects)) {
+			if(device != null && !audioProperties.MuteSoundEffects) {
 				string fullPath = Path.Combine(
 					(ApplicationDeployment.IsNetworkDeployed ?
 						ApplicationDeployment.CurrentDeployment.DataDirectory :
@@ -67,7 +67,7 @@ namespace ZunTzu.AudioVideo {
 		/// <summary>Plays a sound from the sound bank.</summary>
 		/// <param name="track">Sound to play.</param>
 		public void PlayAudioTrack(AudioTrack track) {
-			if(device != null && !(audioProperties.MuteAll || audioProperties.MuteSoundEffects)) {
+			if(device != null && !audioProperties.MuteSoundEffects) {
 				SecondaryBuffer buffer = secondaryBuffers[(int) track - 1];
 				try {
 					if(buffer.Status.BufferLost) {

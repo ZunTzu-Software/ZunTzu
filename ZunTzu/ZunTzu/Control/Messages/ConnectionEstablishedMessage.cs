@@ -23,12 +23,6 @@ namespace ZunTzu.Control.Messages {
 				controller.View.Prompter.AddTextToHistory(0xFFFF0000, Resources.YouAreHosting);
 				controller.NetworkClient.Send(new PlayerHasJoinedMessage(
 					model.ThisPlayer.FirstName, model.ThisPlayer.LastName, model.ThisPlayer.Guid, controller.View.ConvertScreenToModelCoordinates(controller.MainForm.PointToClient(Cursor.Position)), model.ThisPlayer.IsCursorVisible));
-
-				if(System.Environment.OSVersion.Version.Major >= 6) {	// running Vista?
-					controller.DialogState.Dialog = new MessageDialog(SystemIcons.Warning, Resources.VistaWarningNoVoice);
-					controller.State = controller.DialogState;
-					controller.View.ShowDialog(controller.DialogState.Dialog);
-				}
 			} else {
 				controller.View.Prompter.AddTextToHistory(0xFFFF0000, Resources.YouAreConnected);
 			}

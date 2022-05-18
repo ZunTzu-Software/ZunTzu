@@ -12,7 +12,7 @@ namespace ZunTzu.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -92,102 +92,6 @@ namespace ZunTzu.Properties {
             }
             set {
                 this["DisplayWaitForVerticalBlank"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VoiceMuteAll {
-            get {
-                return ((bool)(this["VoiceMuteAll"]));
-            }
-            set {
-                this["VoiceMuteAll"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VoiceMuteRecording {
-            get {
-                return ((bool)(this["VoiceMuteRecording"]));
-            }
-            set {
-                this["VoiceMuteRecording"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VoiceMutePlayback {
-            get {
-                return ((bool)(this["VoiceMutePlayback"]));
-            }
-            set {
-                this["VoiceMutePlayback"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int VoiceActivationThreshold {
-            get {
-                return ((int)(this["VoiceActivationThreshold"]));
-            }
-            set {
-                this["VoiceActivationThreshold"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VoiceEchoSuppression {
-            get {
-                return ((bool)(this["VoiceEchoSuppression"]));
-            }
-            set {
-                this["VoiceEchoSuppression"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool VoiceAutomaticJitterControl {
-            get {
-                return ((bool)(this["VoiceAutomaticJitterControl"]));
-            }
-            set {
-                this["VoiceAutomaticJitterControl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int VoiceJitterBuffer {
-            get {
-                return ((int)(this["VoiceJitterBuffer"]));
-            }
-            set {
-                this["VoiceJitterBuffer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VoiceDisableAudioMixerAutoconfig {
-            get {
-                return ((bool)(this["VoiceDisableAudioMixerAutoconfig"]));
-            }
-            set {
-                this["VoiceDisableAudioMixerAutoconfig"] = value;
             }
         }
         
@@ -308,30 +212,6 @@ namespace ZunTzu.Properties {
             }
             set {
                 this["LibraryDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int VoiceMicrophoneInputLevel {
-            get {
-                return ((int)(this["VoiceMicrophoneInputLevel"]));
-            }
-            set {
-                this["VoiceMicrophoneInputLevel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int VoiceServerMode {
-            get {
-                return ((int)(this["VoiceServerMode"]));
-            }
-            set {
-                this["VoiceServerMode"] = value;
             }
         }
         

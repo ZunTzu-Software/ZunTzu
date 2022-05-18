@@ -19,8 +19,6 @@ using System.Windows.Forms;
 namespace ZunTzu.Networking {
 
 	public enum NetworkStatus { Disconnected, Connecting, Connected }
-	public enum VoiceStatus { Disconnected, Connecting, Connected }
-	public enum VoiceServerMode { MixingGsm = 0, ForwardingGsm = 1, MixingAdpcm = 2, ForwardingAdpcm = 3 }
 
 	public delegate void MessageHandler(byte messageType, int senderId, byte[] message);
 	public delegate void PlayerRelatedNetworkEventHandler(int playerId);
@@ -41,10 +39,10 @@ namespace ZunTzu.Networking {
 	/// 0x01 : host disconnected (no data)
 	/// 0x02 : player wants to join (no data)
 	/// 0x03 : player has left (no data)
-	/// 0x04 : voice recording started (no data)
-	/// 0x05 : voice recording stopped (no data)
-	/// 0x06 : voice playback started (no data)
-	/// 0x07 : voice playback stopped (no data)
+    /// 0x04 : voice recording started (no data)
+    /// 0x05 : voice recording stopped (no data)
+    /// 0x06 : voice playback started (no data)
+    /// 0x07 : voice playback stopped (no data)
 	/// 0x08 : video frame received
 	/// 0xfc : video frame received, internal
 	/// 0xfd : video frame ack
@@ -90,23 +88,11 @@ namespace ZunTzu.Networking {
 		Other
 	}
 
-	public enum VoiceFailureCause : byte {
-		CompressionNotSupported,
-		IncompatibleVersion,
-		RunSetup,
-		SoundInitFailure,
-		TimeOut,
-		NoVoiceSession,
-		Other
-	}
-
 	/// <summary>Component in charge of network communication.</summary>
 	/// <remarks>The topology used is client/server.</remarks>
 	public interface IClient : IDisposable {
 		/// <summary>Network connection status.</summary>
 		NetworkStatus Status { get; }
-		/// <summary>Voice connection status.</summary>
-		VoiceStatus VoiceStatus { get; }
 		/// <summary>Network id of this player.</summary>
 		int PlayerId { get; }
 		/// <summary>Connect to a server.</summary>
@@ -132,23 +118,8 @@ namespace ZunTzu.Networking {
 		/// <summary>Get all pending messages received.</summary>
 		/// <returns>An array of NetworkMessage instances.</returns>
 		NetworkMessage[] RetrieveNetworkMessages();
-		/// <summary>Indicates that this player is transmitting a voice communication.</summary>
-		bool IsRecording { get; }
-		/// <summary>Peak level across the current recording frame.</summary>
-		/// <remarks>
-		/// A frame corresponds to approximately 1/10 second of audio stream. The current frame typically
-		/// lags 50-200 ms behind real-time. This value can range from 0 through 99, with 0 being completely
-		/// silent and 99 being the highest possible input level.
-		/// </remarks>
-		int VoiceInputLevel { get; }
-		/// <summary>Current voice recording volume.</summary>
-		/// <remarks>The value can range from -10,000 to 0. This member is available even when automatic gain control is active.</remarks>
-		int VoiceGainLevel { get; }
-		/// <summary>Voice activation level that caused the transmission to begin.</summary>
-		/// <remarks>This value can range from 0 through 99</remarks>
-		int VoiceActivationThresholdLevel { get; }
-		/// <summary>Indicates if the mandatory audio setup has been performed on this computer.</summary>
-		bool VoiceSetupOk { get; }
+        /// <summary>Indicates that this player is transmitting a voice communication.</summary>
+        bool IsRecording { get; }
 		/// <summary>The IP address of this computer as seen from the Internet.</summary>
 		//string PublicIpAddress { get; }
 		/// <summary>Retrieves statistics for the connection between this client and the host.</summary>
@@ -161,8 +132,7 @@ namespace ZunTzu.Networking {
 	/// <remarks>The topology used is client/server.</remarks>
 	public interface IServer : IDisposable {
 		/// <summary>Begin a new game as a host.</summary>
-		/// <param name="mode">Server codec and mixing policy.</param>
 		/// <param name="port">IP port that will listen.</param>
-		void Start(VoiceServerMode mode, int port);
+		void Start(int port);
 	}
 }

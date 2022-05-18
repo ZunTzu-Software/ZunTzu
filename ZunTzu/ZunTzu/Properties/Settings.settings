@@ -20,30 +20,6 @@
     <Setting Name="DisplayWaitForVerticalBlank" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="VoiceMuteAll" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="VoiceMuteRecording" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="VoiceMutePlayback" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="VoiceActivationThreshold" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="VoiceEchoSuppression" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="VoiceAutomaticJitterControl" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="VoiceJitterBuffer" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="VoiceDisableAudioMixerAutoconfig" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="DisplayWindowSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
@@ -73,12 +49,6 @@
     </Setting>
     <Setting Name="LibraryDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\</Value>
-    </Setting>
-    <Setting Name="VoiceMicrophoneInputLevel" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="VoiceServerMode" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="PlayerId" Type="System.Guid" Scope="User">
       <Value Profile="(Default)">00000000-0000-0000-0000-000000000000</Value>

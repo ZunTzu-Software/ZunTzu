@@ -118,133 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 23</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Nivel de entrada del micrófono:</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 23</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Umbral de activación de voz:</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Más Alto</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Más Bajo</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>La entrada del micrófono se analiza constantemente para determinar si estás hablando. Cuando la entrada sobrepasa cierto umbral empiezas a transmitir.</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Control de grabación</value>
-  </data>
-  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 282</value>
-  </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 48</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Se recomienda el uso de cascos para prevenir el eco producido por altavoces externos y micrófonos sensibles. La supresión del eco detiene automáticamente la grabación durante la reproducción y  retrasa la reproducción durante la grabación.</value>
-  </data>
-  <data name="activateEchoSuppressionCheckBox.Text" xml:space="preserve">
-    <value>Activar supresión del eco</value>
-  </data>
-  <data name="automaticJitterControlCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 43</value>
-  </data>
-  <data name="automaticJitterControlCheckBox.Text" xml:space="preserve">
-    <value>Ajustar automáticamente según las condiciones de red</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Mejor calidad</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Mejor latencia</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Si el buffer de jitter se fija para maximizar la calidad, el resultado será una latencia en el audio: la voz podría escucharse algunos segundos despues de ser grabada. Si el buffer de jitter se fija para reducir la latencia, escucharás la voz casi al mismo tiempo que se graba, sin embargo la calidad será mínima.</value>
-  </data>
-  <data name="jitterControlGroupBox.Text" xml:space="preserve">
-    <value>Control de Jitter</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Si tu sistema tiene más de un micrófono y el micrófono no está conectado a la entrada de micro 0, tendrás que deshabilitar la configuración automática y configurar el mezclador manualmente a través del Panel de Control.</value>
-  </data>
-  <data name="disableAutoconfigurationCheckBox.Text" xml:space="preserve">
-    <value>Deshabilitar la configuración automática de la sección de grabación del mezclador de audio</value>
-  </data>
-  <data name="audioMixerConfigurationGroupBox.Text" xml:space="preserve">
-    <value>Configuración del mezclador de audio</value>
-  </data>
-  <data name="muteRecordingCheckBox.Text" xml:space="preserve">
-    <value>Deshabilitar micrófono</value>
-  </data>
-  <data name="muteAllCheckBox.Text" xml:space="preserve">
-    <value>Silenciar todo</value>
-  </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>289, 418</value>
+    <value>80, 100</value>
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>Cerrar</value>
   </data>
   <data name="muteSoundEffectsCheckBox.Text" xml:space="preserve">
     <value>Deshabilitar efectos de sonido</value>
-  </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>628, 372</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>Ajustes Básicos</value>
-  </data>
-  <data name="serverModeTrackBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>256, 72</value>
-  </data>
-  <data name="serverModeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>122, 80</value>
-  </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 78</value>
-  </data>
-  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>493, 56</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Mejor calidad</value>
-  </data>
-  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>256, 56</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 23</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Mejor escalabilidad</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Usa estos ajustes para acomodar un mayor número de jugadores cuando hagas de anfitrión. Los cambios en estos ajustes tendrán efecto solo despues de que reinicies ZunTzu.</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>616, 122</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Uso del ancho de banda del servidor</value>
-  </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>628, 372</value>
-  </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>Ajustes Avanzados</value>
-  </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>636, 398</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>651, 450</value>
   </data>
 </root>

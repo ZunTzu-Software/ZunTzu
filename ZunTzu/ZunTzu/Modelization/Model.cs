@@ -16,7 +16,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Constructor.</summary>
 		public Model(Form mainForm, AudioProperties audioProperties, string playerFirstName, string playerLastName, Guid playerGuid) {
 			audioManager = new AudioManager(mainForm, audioProperties);
-			networkClient = new DXClient(mainForm, audioManager);
+			networkClient = new DXClient();
 			commandManager = new CommandManager(this);
 			animationManager = new AnimationManager(this);
 			gameLibrary = new GameLibrary();
@@ -240,14 +240,9 @@ namespace ZunTzu.Modelization {
 		private Player[] players;
 		private bool isHosting = true;
 		private Player thisPlayer = null;
-		//private string playerFirstName;
-		//private string playerLastName;
 		private int stateChangeSequenceNumber = 0;
 		private GameBox currentGameBox = null;
 		private Selection currentSelection = null;
-		//private Stack stackBeingDragged = null;
-		//private Piece pieceBeingDragged = null;
-		//private PointF dragAndDropAnchor = PointF.Empty;
 		private bool isRotating = false;
 		private float rotationAngle = 0.0f;
 		private bool isMeasuring = false;

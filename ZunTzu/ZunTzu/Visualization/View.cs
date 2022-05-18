@@ -541,7 +541,7 @@ namespace ZunTzu.Visualization {
 							gameDisplayArea.Y + gameDisplayArea.Height * 0.7f + 60.0f,
 							40.0f, 10.0f),
 						StringAlignment.Center,
-						"Copyright© ZunTzu Software 2006-2011");
+						"Copyright© ZunTzu Software 2006-2022");
 				} else if(model.CurrentGameBox.CurrentGame.VisibleBoard.Owner != Guid.Empty && model.CurrentGameBox.CurrentGame.VisibleBoard.Owner != model.ThisPlayer.Guid) {
 					// black background
 					graphics.MonochromaticImage.Render(gameDisplayArea, 0xFF000000);

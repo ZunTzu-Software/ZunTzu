@@ -100,6 +100,10 @@ namespace ZunTzu.Networking {
 		/// <param name="serverPort">IP port on which the server is listening.</param>
 		/// <remarks>The first client to connect becomes the hosting player.</remarks>
 		void Connect(string serverName, int serverPort);
+		/// <summary>Connect to a server.</summary>
+		/// <param name="sessionId">ID of an existing game session.</param>
+		/// <remarks>The first client to connect becomes the hosting player.</remarks>
+		void Connect(string sessionId);
 		/// <summary>Disconnect from server.</summary>
 		void Disconnect();
 		/// <summary>Send a message.</summary>
@@ -125,8 +129,6 @@ namespace ZunTzu.Networking {
 		/// <summary>Retrieves statistics for the connection between this client and the host.</summary>
 		string[] Statistics { get; }
 	}
-
-	public enum InternetConnectivity { Unknown, None, NoEgress, NoIngress, Full }
 
 	/// <summary>Component in charge of relaying network communication between clients.</summary>
 	/// <remarks>The topology used is client/server.</remarks>

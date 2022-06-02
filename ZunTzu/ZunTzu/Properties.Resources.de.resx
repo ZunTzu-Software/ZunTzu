@@ -527,10 +527,10 @@
     <value>Gleich wie Desktop</value>
   </data>
   <data name="ServerListeningNatTraversalDisabled" xml:space="preserve">
-    <value>Spieler können über das Internet mit der Adresse {0} und dem Port {1} teilnehmen (NAT traversal deaktiviert).</value>
+    <value>Spieler können über das Internet mit der Adresse {0} und dem Port {1} teilnehmen.</value>
   </data>
   <data name="ServerListeningNatTraversalEnabled" xml:space="preserve">
-    <value>Spieler können über das Internet mit der Adresse {0} und dem Port {1} teilnehmen.</value>
+    <value>Spieler können über das Internet mit dem Sitzungscode {0} teilnehmen.</value>
   </data>
   <data name="ServerModeForwardingAdpcm" xml:space="preserve">
     <value>32 Kbps je Datenstrom</value>
@@ -543,6 +543,9 @@
   </data>
   <data name="ServerModeMixingGsm" xml:space="preserve">
     <value>13 Kbps gemischt</value>
+  </data>
+  <data name="SessionIdCopiedToClipboard" xml:space="preserve">
+    <value>Der Sitzungscode wurde in die Zwischenablage kopiert.</value>
   </data>
   <data name="TextureFormat16Bits" xml:space="preserve">
     <value>16 Bit</value>

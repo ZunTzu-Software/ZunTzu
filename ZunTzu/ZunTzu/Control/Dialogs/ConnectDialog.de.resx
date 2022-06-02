@@ -130,4 +130,16 @@
   <data name="okButton.Text" xml:space="preserve">
     <value>Verbinden</value>
   </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Sitzungscode:</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>104, 59</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>- ODER -</value>
+  </data>
 </root>

@@ -523,10 +523,10 @@
     <value>Identique au bureau</value>
   </data>
   <data name="ServerListeningNatTraversalDisabled" xml:space="preserve">
-    <value>Les joueurs peuvent joindre cette session depuis Internet en utilisant l'adresse {0} et le port {1} (traversée de NAT désactivée).</value>
+    <value>Les joueurs peuvent joindre cette session depuis Internet en utilisant l'adresse {0} et le port {1}.</value>
   </data>
   <data name="ServerListeningNatTraversalEnabled" xml:space="preserve">
-    <value>Les joueurs peuvent joindre cette session depuis Internet en utilisant l'adresse {0} et le port {1}.</value>
+    <value>Les joueurs peuvent joindre cette session depuis Internet en utilisant le code de session {0}.</value>
   </data>
   <data name="ServerModeForwardingAdpcm" xml:space="preserve">
     <value>32 Kb/s par flux</value>
@@ -654,5 +654,8 @@
   </data>
   <data name="YouHaveBeenDisconnectedGameBoxNotFound" xml:space="preserve">
     <value>Vous avez été déconnecté. Le jeu "{0}" est introuvable dans la ludothèque.</value>
+  </data>
+  <data name="SessionIdCopiedToClipboard" xml:space="preserve">
+    <value>Le code session a été recopié vers le presse-papier.</value>
   </data>
 </root>

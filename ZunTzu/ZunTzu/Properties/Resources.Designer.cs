@@ -1277,7 +1277,7 @@ namespace ZunTzu.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Players can join from the Internet using address {0} and port {1} (NAT traversal disabled)..
+        ///   Looks up a localized string similar to Players can join from the Internet using address {0} and port {1}..
         /// </summary>
         internal static string ServerListeningNatTraversalDisabled {
             get {
@@ -1286,7 +1286,7 @@ namespace ZunTzu.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Players can join from the Internet using address {0} and port {1}..
+        ///   Looks up a localized string similar to Players can join from the Internet using session code {0}..
         /// </summary>
         internal static string ServerListeningNatTraversalEnabled {
             get {
@@ -1327,6 +1327,15 @@ namespace ZunTzu.Properties {
         internal static string ServerModeMixingGsm {
             get {
                 return ResourceManager.GetString("ServerModeMixingGsm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session code has been copied to the clipboard..
+        /// </summary>
+        internal static string SessionIdCopiedToClipboard {
+            get {
+                return ResourceManager.GetString("SessionIdCopiedToClipboard", resourceCulture);
             }
         }
         

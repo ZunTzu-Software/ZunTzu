@@ -90,10 +90,16 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.VisualC" />
+    <Reference Include="Open.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f22a6a4582336c76, processorArchitecture=MSIL">
+      <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net35\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -422,9 +428,7 @@
     <Compile Include="Modelization\TerrainPrototype.cs" />
     <Compile Include="Networking\DXClient.cs" />
     <Compile Include="Networking\DXServer.cs" />
-    <Compile Include="Networking\NatResolver.cs" />
     <Compile Include="Networking\Networking.cs" />
-    <Compile Include="Networking\PortSpoofing.cs" />
     <Compile Include="Networking\VideoFrameHistory.cs" />
     <Compile Include="Properties.Resources.de.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -501,6 +505,7 @@
     <EmbeddedResource Include="ResourceFiles\FingerRemove.cur" />
     <EmbeddedResource Include="ResourceFiles\Fist.cur" />
     <EmbeddedResource Include="ResourceFiles\Hand.cur" />
+    <None Include="packages.config" />
     <None Include="Resources\ZunTzuBox.ico" />
     <None Include="Resources\ZunTzuGame.ico" />
     <None Include="app.config" />

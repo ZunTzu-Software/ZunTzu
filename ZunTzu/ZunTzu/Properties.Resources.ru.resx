@@ -605,11 +605,11 @@
     <comment>Text for the fullscreen definition in the Display Settings dialog.</comment>
   </data>
   <data name="ServerListeningNatTraversalDisabled" xml:space="preserve">
-    <value>Players can join from the Internet using address {0} and port {1} (NAT traversal disabled).</value>
+    <value>Players can join from the Internet using address {0} and port {1}.</value>
     <comment>Notification when hosting. {0} is a placeholder for an IP address. {1} is a placeholder for a port number.</comment>
   </data>
   <data name="ServerListeningNatTraversalEnabled" xml:space="preserve">
-    <value>Players can join from the Internet using address {0} and port {1}.</value>
+    <value>Players can join from the Internet using session code {0}.</value>
     <comment>Notification when hosting. {0} is a placeholder for an IP address. {1} is a placeholder for a port number.</comment>
   </data>
   <data name="ServerModeForwardingAdpcm" xml:space="preserve">
@@ -627,6 +627,9 @@
   <data name="ServerModeMixingGsm" xml:space="preserve">
     <value>13 Kbps mixed</value>
     <comment>Text used in the Voice Settings dialog.</comment>
+  </data>
+  <data name="SessionIdCopiedToClipboard" xml:space="preserve">
+    <value>Session code has been copied to the clipboard.</value>
   </data>
   <data name="TextureFormat16Bits" xml:space="preserve">
     <value>16 bits</value>

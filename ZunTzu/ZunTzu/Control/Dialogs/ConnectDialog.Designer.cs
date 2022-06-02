@@ -30,83 +30,78 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
+            this.sessionTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // hostTextBox
             // 
-            this.hostTextBox.AccessibleDescription = null;
-            this.hostTextBox.AccessibleName = null;
             resources.ApplyResources(this.hostTextBox, "hostTextBox");
-            this.hostTextBox.BackgroundImage = null;
-            this.hostTextBox.Font = null;
             this.hostTextBox.Name = "hostTextBox";
             // 
             // portTextBox
             // 
-            this.portTextBox.AccessibleDescription = null;
-            this.portTextBox.AccessibleName = null;
             resources.ApplyResources(this.portTextBox, "portTextBox");
-            this.portTextBox.BackgroundImage = null;
-            this.portTextBox.Font = null;
             this.portTextBox.Name = "portTextBox";
             // 
             // label4
             // 
-            this.label4.AccessibleDescription = null;
-            this.label4.AccessibleName = null;
             resources.ApplyResources(this.label4, "label4");
-            this.label4.Font = null;
             this.label4.Name = "label4";
             // 
             // label1
             // 
-            this.label1.AccessibleDescription = null;
-            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
-            this.label1.Font = null;
             this.label1.Name = "label1";
             // 
             // cancelButton
             // 
-            this.cancelButton.AccessibleDescription = null;
-            this.cancelButton.AccessibleName = null;
             resources.ApplyResources(this.cancelButton, "cancelButton");
-            this.cancelButton.BackgroundImage = null;
             this.cancelButton.CausesValidation = false;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Font = null;
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // okButton
             // 
-            this.okButton.AccessibleDescription = null;
-            this.okButton.AccessibleName = null;
             resources.ApplyResources(this.okButton, "okButton");
-            this.okButton.BackgroundImage = null;
             this.okButton.CausesValidation = false;
-            this.okButton.Font = null;
             this.okButton.Name = "okButton";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            // 
+            // sessionTextBox
+            // 
+            resources.ApplyResources(this.sessionTextBox, "sessionTextBox");
+            this.sessionTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.sessionTextBox.Name = "sessionTextBox";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
             // ConnectDialog
             // 
             this.AcceptButton = this.okButton;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.CancelButton = this.cancelButton;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.sessionTextBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.hostTextBox);
             this.Controls.Add(this.portTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.Font = null;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = null;
             this.Name = "ConnectDialog";
             this.Load += new System.EventHandler(this.ConnectDialog_Load);
             this.ResumeLayout(false);
@@ -122,5 +117,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;
-	}
+        private System.Windows.Forms.TextBox sessionTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+    }
 }

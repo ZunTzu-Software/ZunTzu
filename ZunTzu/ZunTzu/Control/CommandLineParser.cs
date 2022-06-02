@@ -124,45 +124,52 @@ namespace ZunTzu.Control {
 							model.StateChangeSequenceNumber = 0;
 							model.NetworkClient.Connect("localhost", port);
 
-							Regex publicAddressRegex = new Regex(@"^Server started (?<1>[0-4])/(?<2>[^/]+)/(?<3>[^/]+)", RegexOptions.Singleline);
+							Regex publicAddressRegex = new Regex(@"^Server started (?<1>\?|[0-9.]+)/(?<2>\?|[0-9]+)/(?<3>\?|[0-9A-Z]+)", RegexOptions.Singleline);
 							Match publicAddressMatch = publicAddressRegex.Match(serverOutput);
 							if(publicAddressMatch.Success) {
-								InternetConnectivity connectivity = (InternetConnectivity) Enum.Parse(typeof(InternetConnectivity), publicAddressMatch.Groups[1].Value);
-								string publicIpAddress = publicAddressMatch.Groups[2].Value;
-								string publicPort = publicAddressMatch.Groups[3].Value;
+								string publicIpAddress = publicAddressMatch.Groups[1].Value;
+								string publicPort = publicAddressMatch.Groups[2].Value;
+								string sessionId = publicAddressMatch.Groups[3].Value;
 
-								if(connectivity != InternetConnectivity.Full) {
+								if (sessionId == "?") {
 									FirewallDialog firewallDialog = null;
-									switch(connectivity) {
-										case InternetConnectivity.Unknown:
-											firewallDialog = new FirewallDialog(controller, Connectivity.Limited);
-											break;
-										case InternetConnectivity.None:
-											firewallDialog = new FirewallDialog(controller, Connectivity.NoInternet);
-											break;
-										case InternetConnectivity.NoEgress:
-											firewallDialog = new FirewallDialog(controller, Connectivity.NoEgress);
-											break;
-										case InternetConnectivity.NoIngress:
-											firewallDialog = new FirewallDialog(controller, Connectivity.NoIngress);
-											break;
+									if (publicIpAddress == "?") {
+										firewallDialog = new FirewallDialog(controller, Connectivity.NoInternet);
+									} else {
+										firewallDialog = new FirewallDialog(controller, Connectivity.Limited);
 									}
 									controller.DialogState.Dialog = firewallDialog;
 									controller.State = controller.DialogState;
 									controller.View.ShowDialog(firewallDialog);
 								}
 
-								if(connectivity != InternetConnectivity.None) {
-									view.Prompter.AddTextToHistory(0xFFFF0000,
-										(publicPort != "?" ? Resources.ServerListeningNatTraversalEnabled : Resources.ServerListeningNatTraversalDisabled),
-										publicIpAddress,
-										(publicPort != "?" ? publicPort : port.ToString()));
-
-									if(copyToClipboard) {
-										Clipboard.SetText(string.Format(Resources.ConnectionData, publicIpAddress, (publicPort != "?" ? publicPort : port.ToString())));
-										view.Prompter.AddTextToHistory(0xFFFF0000, Resources.ConnectionDataCopiedToClipboard);
+								if(publicIpAddress != "?") {
+									string message;
+									if (sessionId != "?") {
+										message = string.Format(Resources.ServerListeningNatTraversalEnabled,
+											sessionId);
+									} else {
+										message = string.Format(Resources.ServerListeningNatTraversalDisabled,
+											publicIpAddress,
+											(publicPort != "?" ? publicPort : port.ToString()));
 									}
-								} else {
+									view.Prompter.AddTextToHistory(0xFFFF0000, message);
+
+									if (copyToClipboard) {
+										if (sessionId != "?") { 
+											Clipboard.SetText(sessionId);
+											view.Prompter.AddTextToHistory(0xFFFF0000, Resources.SessionIdCopiedToClipboard);
+										} else {
+											Clipboard.SetText(string.Format(Resources.ConnectionData, publicIpAddress, (publicPort != "?" ? publicPort : port.ToString())));
+											view.Prompter.AddTextToHistory(0xFFFF0000, Resources.ConnectionDataCopiedToClipboard);
+										}
+									}
+
+									controller.DialogState.Dialog = new MessageDialog(SystemIcons.Information, message);
+									controller.State = controller.DialogState;
+									controller.View.ShowDialog(controller.DialogState.Dialog);
+								}
+								else {
 									view.Prompter.AddTextToHistory(0xFFFF0000, Resources.NoInternetConnection);
 								}
 							} else {
@@ -217,6 +224,7 @@ namespace ZunTzu.Control {
 		/// <param name="parameters">Parameters for this command.</param>
 		[ObfuscationAttribute(Exclude = true)]
 		private void parseCommand_connect(string parameters) {
+			// IP address and port
 			Regex parametersRegex = new Regex(@"^(?<1>\S+)\s+(?<2>\d+)\s*$", RegexOptions.Singleline);
 			Match parametersMatch = parametersRegex.Match(parameters);
 			if(parametersMatch.Success) {
@@ -232,7 +240,26 @@ namespace ZunTzu.Control {
 					Settings.Default.ConnectPort = port;
 				}
 			} else {
-				controller.View.Prompter.AddTextToHistory(0xFFFF0000, Resources.InvalidParameters, "connect", "connect <host_address> <port_number>");
+				// Session code
+				parametersRegex = new Regex(@"^(?<1>[A-Z0-9]{5})\s*$", RegexOptions.Singleline);
+				parametersMatch = parametersRegex.Match(parameters);
+				if (parametersMatch.Success)
+				{
+					if (controller.Model.NetworkClient.Status != NetworkStatus.Disconnected)
+					{
+						controller.View.Prompter.AddTextToHistory(0xFFFF0000, Resources.DisconnectFirst);
+					}
+					else
+					{
+						string sessionId = parametersMatch.Groups[1].Value;
+						controller.Model.IsHosting = false;
+						controller.Model.NetworkClient.Connect(sessionId);
+					}
+				}
+				else
+				{
+					controller.View.Prompter.AddTextToHistory(0xFFFF0000, Resources.InvalidParameters, "connect", "connect <session_id> OR connect <host_address> <port_number>");
+				}
 			}
 		}
 

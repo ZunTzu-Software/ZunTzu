@@ -19,7 +19,11 @@ namespace ZunTzu.Control.Dialogs {
 		}
 
 		private void okButton_Click(object sender, EventArgs e) {
-			controller.ExecuteCommand("connect " + hostTextBox.Text + " " + portTextBox.Text);
+			if(sessionTextBox.Text != "") {
+				controller.ExecuteCommand("connect " + sessionTextBox.Text);
+			} else {
+				controller.ExecuteCommand("connect " + hostTextBox.Text + " " + portTextBox.Text);
+			}
 			Close();
 		}
 
@@ -30,6 +34,7 @@ namespace ZunTzu.Control.Dialogs {
 		private readonly Controller controller;
 
 		private void ConnectDialog_Load(object sender, EventArgs e) {
+			sessionTextBox.Text = "";
 			hostTextBox.Text = Settings.Default.ConnectHostNameOrAddress;
 			portTextBox.Text = Settings.Default.ConnectPort.ToString();
 		}

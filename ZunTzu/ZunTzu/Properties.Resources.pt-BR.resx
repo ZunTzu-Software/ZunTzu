@@ -528,10 +528,10 @@
     <value>Igual ao Windows</value>
   </data>
   <data name="ServerListeningNatTraversalDisabled" xml:space="preserve">
-    <value>Jogadores podem se conectar a este jogo pela Internet usando o endereço {0} e a porta {1} (NAT traversal disabled).</value>
+    <value>Jogadores podem se conectar a este jogo pela Internet usando o endereço {0} e a porta {1}.</value>
   </data>
   <data name="ServerListeningNatTraversalEnabled" xml:space="preserve">
-    <value>Jogadores podem se conectar a este jogo pela Internet usando o endereço {0} e a porta {1}.</value>
+    <value>Jogadores podem se conectar a este jogo pela Internet usando o código de sessão {0}.</value>
   </data>
   <data name="ServerModeForwardingAdpcm" xml:space="preserve">
     <value>32 Kbps por stream</value>
@@ -544,6 +544,9 @@
   </data>
   <data name="ServerModeMixingGsm" xml:space="preserve">
     <value>13 Kbps mixado</value>
+  </data>
+  <data name="SessionIdCopiedToClipboard" xml:space="preserve">
+    <value>O código da sessão foi copiado para a area de trabalho.</value>
   </data>
   <data name="TextureFormat16Bits" xml:space="preserve">
     <value>16 bits</value>

@@ -119,20 +119,20 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="hostTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 16</value>
+    <value>150, 101</value>
   </data>
   <data name="portTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 48</value>
+    <value>150, 133</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 46</value>
+    <value>15, 131</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 19</value>
+    <value>15, 104</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 13</value>
@@ -144,7 +144,7 @@
     <value>MiddleCenter</value>
   </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 96</value>
+    <value>144, 181</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Annuler</value>
@@ -154,7 +154,7 @@
     <value>NoControl</value>
   </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 96</value>
+    <value>48, 181</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -162,7 +162,25 @@
   <data name="okButton.Text" xml:space="preserve">
     <value>Se connecter</value>
   </data>
+  <data name="sessionTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 12</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Code de session:</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>117, 60</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>- OU -</value>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>266, 134</value>
+    <value>262, 216</value>
   </data>
 </root>

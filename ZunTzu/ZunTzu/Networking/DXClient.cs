@@ -3,10 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using Microsoft.DirectX.DirectPlay;
-using Microsoft.DirectX.DirectSound;
-using ZunTzu.AudioVideo;
+using Open.Nat;
 using ZunTzu.VideoCompression;
 
 namespace ZunTzu.Networking {
@@ -24,6 +25,81 @@ namespace ZunTzu.Networking {
 		/// <remarks>The first client to connect becomes the hosting player.</remarks>
 		public void Connect(string serverName, int serverPort) {
 			Debug.Assert(status == NetworkStatus.Disconnected);
+			Connect(serverName, serverPort, null);
+		}
+
+		/// <summary>Connect to a server.</summary>
+		/// <param name="sessionId">ID of an existing game session.</param>
+		/// <remarks>The first client to connect becomes the hosting player.</remarks>
+		public void Connect(string sessionId) {
+			Debug.Assert(status == NetworkStatus.Disconnected);
+
+			// NAT traversal using an external server (will not work with 'symmetric' NATs, though)
+			IPAddress serverIp = null;
+			int? serverPort = null;
+			int? clientPort = null;
+			try {
+				using (UdpClient socket = new UdpClient()) {
+					socket.Client.ReceiveTimeout = 2000;
+					socket.Connect("zuntzu.ovh", 1805);
+
+					// Send a REQUEST_JOIN message
+					byte[] sessionIdBytes = Encoding.UTF8.GetBytes(sessionId);
+					byte[] datagram = new[] { (byte)'z', (byte)'t', (byte)1, sessionIdBytes[0], sessionIdBytes[1], sessionIdBytes[2], sessionIdBytes[3], sessionIdBytes[4] };
+					socket.Send(datagram, datagram.Length);
+
+					IPEndPoint localEndPoint = (IPEndPoint)socket.Client.LocalEndPoint;
+					clientPort = localEndPoint.Port;
+
+					// Wait for a response
+					var endPoint = new IPEndPoint(IPAddress.Any, 0);
+					byte[] response = socket.Receive(ref endPoint);
+
+					if (response != null
+						&& response[0] == 'z'
+						&& response[1] == 't'
+						&& response[2] == 1)
+					{
+						string responseSessionId = Encoding.UTF8.GetString(response, 3, 5);
+						if (responseSessionId == sessionId) {
+							serverIp = new IPAddress(new byte[] { response[8], response[9], response[10], response[11] });
+							serverPort = response[12] | ((int)response[13] << 8);
+						}
+					}
+				}
+			} catch { }
+
+			if (serverIp == null) {
+				status = NetworkStatus.Disconnected;
+
+				NetworkMessage message = new NetworkMessage(0, (byte)ReservedMessageType.ConnectionFailed, new byte[1] { (byte)ConnectionFailureCause.NotHost });
+				lock (networkMessages)
+				{
+					networkMessages.Enqueue(message);
+				}
+			} else {
+				// NAT traversal using NAT-PMP or UPnP
+				IPAddress natIp = null;
+				try
+				{
+					var discoverer = new NatDiscoverer();
+					var device = discoverer.DiscoverDeviceAsync().Result;
+					natIp = device.GetExternalIPAsync().Result;
+					device.CreatePortMapAsync(new Mapping(Protocol.Udp, clientPort.Value, clientPort.Value, 3600, "zuntzu")).Wait(3000);
+				}
+				catch { }
+
+				Connect(serverIp.ToString(), serverPort.Value, clientPort.Value);
+			}
+		}
+
+		/// <summary>Connect to a server.</summary>
+		/// <param name="serverName">IP address or hostname of the server.</param>
+		/// <param name="serverPort">IP port on which the server is listening.</param>
+		/// <param name="clientPort">IP port that this client should use.</param>
+		/// <remarks>The first client to connect becomes the hosting player.</remarks>
+		void Connect(string serverName, int serverPort, int? clientPort) {
+			Debug.Assert(status == NetworkStatus.Disconnected);
 
 			serverIsOnSameComputer = (serverName == "localhost");
 			outboundVideoFrameHistory = new OutboundVideoFrameHistory();
@@ -36,20 +112,21 @@ namespace ZunTzu.Networking {
 
 			status = NetworkStatus.Connecting;
 
-			// trigger NAT traversal
-			EnabledAddresses enabledAddresses = NatResolver.TestNatTraversal(serverName, serverPort);
-
 			ApplicationDescription description = new ApplicationDescription();
 			description.GuidApplication = new Guid("{920BAF09-A06C-47d8-BCE0-21B30D0C3586}");
-			// try first using the host's public address
-			using(Address hostAddress = (enabledAddresses == null ? new Address(serverName, serverPort) : new Address(enabledAddresses.HostPublicAddress, enabledAddresses.HostPublicPort))) {
+
+			// try using the host's public address
+			using(Address hostAddress = new Address(serverName, serverPort)) {
 				hostAddress.ServiceProvider = Address.ServiceProviderTcpIp;
 				using(Address device = new Address()) {
 					device.ServiceProvider = Address.ServiceProviderTcpIp;
-					device.AddComponent(Address.KeyTraversalMode, Address.TraversalModeNone);
-					if(enabledAddresses != null)
-						device.AddComponent(Address.KeyPort, enabledAddresses.ClientPrivatePort);
-					using(NetworkPacket packet = new NetworkPacket()) {
+					if (clientPort.HasValue) {
+						device.AddComponent(Address.KeyPort, clientPort.Value);
+						device.AddComponent(Address.KeyTraversalMode, Address.TraversalModePortRecommended);
+					} else {
+						device.AddComponent(Address.KeyTraversalMode, Address.TraversalModeNone);
+					}
+					using (NetworkPacket packet = new NetworkPacket()) {
 						try {
 							client.Connect(description, hostAddress, device, packet, 0);
 						} catch(Exception e) {
@@ -60,26 +137,11 @@ namespace ZunTzu.Networking {
 								(e is SessionFullException ? ConnectionFailureCause.SessionFull :
 								ConnectionFailureCause.Other)));
 
-							// try again using the host's private address
-							if(enabledAddresses != null) {
-								using(Address hostPrivateAddress = new Address(enabledAddresses.HostPrivateAddress, enabledAddresses.HostPrivatePort)) {
-									try {
-										client.Connect(description, hostAddress, device, packet, 0);
-									} catch {
-										NetworkMessage message = new NetworkMessage(0, (byte) ReservedMessageType.ConnectionFailed, new byte[1] { (byte) cause });
-										lock(networkMessages) {
-											networkMessages.Enqueue(message);
-										}
-										return;
-									}
-								}
-							} else {
-								NetworkMessage message = new NetworkMessage(0, (byte) ReservedMessageType.ConnectionFailed, new byte[1] { (byte) cause });
-								lock(networkMessages) {
-									networkMessages.Enqueue(message);
-								}
-								return;
+							NetworkMessage message = new NetworkMessage(0, (byte) ReservedMessageType.ConnectionFailed, new byte[1] { (byte) cause });
+							lock(networkMessages) {
+								networkMessages.Enqueue(message);
 							}
+							return;
 						}
 					}
 				}

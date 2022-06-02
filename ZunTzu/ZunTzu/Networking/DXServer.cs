@@ -4,9 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.DirectX.DirectPlay;
+using Open.Nat;
 using ZunTzu.VideoCompression;
 
 namespace ZunTzu.Networking {
@@ -31,106 +34,97 @@ namespace ZunTzu.Networking {
 			uncompressJobsPending = new ManualResetEvent(false);
 
 			try {
-				ApplicationDescription description = new ApplicationDescription();
+				// NAT traversal using NAT-PMP or UPnP
+				IPAddress natIp = null;
+                try {
+                    var discoverer = new NatDiscoverer();
+                    var device = discoverer.DiscoverDeviceAsync().Result;
+					natIp = device.GetExternalIPAsync().Result;
+                    device.CreatePortMapAsync(new Mapping(Protocol.Udp, port, port, 3600, "zuntzu")).Wait(3000);
+                } catch { }
+
+				// NAT traversal using an external server (will not work with 'symmetric' NATs, though)
+				IPAddress publicIp = null;
+				int? publicPort = null;
+				string sessionId = null;
+                try {
+                	using (UdpClient socket = new UdpClient(port)) {
+                		socket.Client.ReceiveTimeout = 2000;
+                		socket.Connect("zuntzu.ovh", 1805);
+
+                		// Send a START_GAME_SESSION message
+                		byte[] datagram = new[] { (byte)'z', (byte)'t', (byte)0 };
+                		socket.Send(datagram, datagram.Length);
+
+						// Wait for a response
+						var endPoint = new IPEndPoint(IPAddress.Any, 0);
+						byte[] response = socket.Receive(ref endPoint);
+
+						if (response != null
+							&& response[0] == 'z'
+							&& response[1] == 't'
+							&& response[2] == 0)
+						{
+							sessionId = Encoding.UTF8.GetString(response, 3, 5);
+							publicIp = new IPAddress(new byte[] { response[8], response[9], response[10], response[11] });
+							publicPort = response[12] | ((int)response[13] << 8);
+						}
+                	}
+                } catch { }
+
+                ApplicationDescription description = new ApplicationDescription();
 				description.GuidApplication = new Guid("{920BAF09-A06C-47d8-BCE0-21B30D0C3586}");
 				description.MaxPlayers = 0;	// unlimited
 				description.SessionName = "ZunTzu";
 				description.Flags =
-					Microsoft.DirectX.DirectPlay.SessionFlags.ClientServer |
-					Microsoft.DirectX.DirectPlay.SessionFlags.FastSigned |
-					Microsoft.DirectX.DirectPlay.SessionFlags.NoDpnServer |
-					Microsoft.DirectX.DirectPlay.SessionFlags.NoEnumerations;
+					SessionFlags.ClientServer |
+					SessionFlags.FastSigned |
+					SessionFlags.NoDpnServer |
+					SessionFlags.NoEnumerations;
 
 				using(Address address = new Address()) {
 					address.ServiceProvider = Address.ServiceProviderTcpIp;
 					address.AddComponent(Address.KeyPort, port);
 
+					// Allow DirectPlay to try alternate external ports on the NAT device when the matching port is not available.
+					address.AddComponent(Address.KeyTraversalMode, Address.TraversalModePortRecommended);
+
 					server.Host(description, address);
 				}
 
-				// allow NAT traversal (3 trials)
-				InternetConnectivity connectivity = InternetConnectivity.Unknown;
-				for(int trial = 0; (natTraversalSession == null || !natTraversalSession.Enabled) && trial < 3; ++trial)
-					natTraversalSession = NatResolver.EnableNatTraversal(port);
-				string fallbackPublicIpAddress = null;
-				if(natTraversalSession.Enabled) {
-					// notify the parent process via the standard output
-					connectivity = InternetConnectivity.Full;
-				} else {
-					// fallback: discover public IP through HTTP
+				if (publicIp == null) {
+					// fallback: discover public IP through a public website
 					try {
-						// Start a synchronous request.
-						HttpWebRequest request = (HttpWebRequest) WebRequest.Create(@"http://www.zuntzu.com/hostfallback.php");
-						request.UserAgent = "ZunTzu";
+						HttpWebRequest request = (HttpWebRequest) WebRequest.Create(@"https://www.whatismyip-address.com/");
 						request.Timeout = 10000;
-						request.Method = "POST";
-						request.ContentType = "application/x-www-form-urlencoded";
-
-						byte[] bytes = System.Text.ASCIIEncoding.ASCII.GetBytes("id=" + natTraversalSession.SessionId.ToString("N"));
-						request.ContentLength = bytes.Length;
-						using(Stream requestStream = request.GetRequestStream()) {
-							requestStream.Write(bytes, 0, bytes.Length);
-						}
+						request.Method = "GET";
+						request.UserAgent = "ZunTzu";
 
 						using(HttpWebResponse response = (HttpWebResponse) request.GetResponse()) {
 							if(response.StatusCode == HttpStatusCode.OK) {
 								using(Stream stream = response.GetResponseStream()) {
 									using(StreamReader reader = new StreamReader(stream)) {
 										string responseContent = reader.ReadToEnd();
-										Regex ipAddressRegex = new Regex(@"^(?<1>[012])(?<2>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", RegexOptions.Singleline);
+										Regex ipAddressRegex = new Regex(@">(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})<", RegexOptions.Singleline);
 										Match ipAddressMatch = ipAddressRegex.Match(responseContent);
 										if(ipAddressMatch.Success) {
-											switch(ipAddressMatch.Groups[1].Value) {
-												case "0":
-													connectivity = InternetConnectivity.Unknown;
-													break;
-												case "1":
-													connectivity = InternetConnectivity.NoEgress;
-													break;
-												case "2":
-													connectivity = InternetConnectivity.NoIngress;
-													break;
-											}
-											fallbackPublicIpAddress = ipAddressMatch.Groups[2].Value;
+											IPAddress.TryParse(ipAddressMatch.Groups[1].Value, out publicIp);
 										}
 									}
 								}
-							} else {
-								throw new WebException();
 							}
 						}
-					} catch(Exception) {
-						// fallback: query a public web site to check Internet connectivity
-						try {
-							// Start a synchronous request.
-							HttpWebRequest request = (HttpWebRequest) WebRequest.Create(@"http://www.google.com/");
-							request.Timeout = 10000;
-
-							using(HttpWebResponse response = (HttpWebResponse) request.GetResponse()) {
-								if(response.StatusCode != HttpStatusCode.OK)
-									throw new WebException();
-							}
-						} catch(Exception) {
-							connectivity = InternetConnectivity.None;
-						}
+					} catch {
 					}
 				}
 
 				// notify the parent process via the standard output
-				switch(connectivity) {
-					case InternetConnectivity.Unknown:
-					case InternetConnectivity.None:
-						Console.Out.WriteLine("Server started {0}/?/?", (int) connectivity);
-						break;
-					case InternetConnectivity.NoEgress:
-					case InternetConnectivity.NoIngress:
-						Console.Out.WriteLine("Server started {0}/{1}/?", (int) connectivity, fallbackPublicIpAddress);
-						break;
-					case InternetConnectivity.Full:
-						Console.Out.WriteLine("Server started {0}/{1}/{2}", (int) connectivity, natTraversalSession.PublicIpAddress, natTraversalSession.PublicPort);
-						break;
-				}
-			} catch(InvalidDeviceAddressException) {
+				Console.Out.WriteLine("Server started {0}/{1}/{2}", 
+					publicIp?.ToString() ?? "?",
+					publicPort ?? port,
+					sessionId ?? "?");
+
+			} catch (InvalidDeviceAddressException) {
 				// notify the parent process via the standard output
 				Console.Out.WriteLine("Invalid Device Address");
 			} catch(Exception e) {
@@ -169,19 +163,6 @@ namespace ZunTzu.Networking {
 				// add this player to all existing groups of "other players"
 				foreach(int groupId in server.Groups) {
 					server.AddPlayerToGroup(groupId, e.Message.PlayerID, 0);
-				}
-				// send a notification to the NAT traversal server
-				if(natTraversalSession.Enabled) {
-					using(Address playerAddress = server.GetClientAddress(e.Message.PlayerID)) {
-						string playerIpAsString = playerAddress.GetComponentString(Address.KeyHostname);
-						Regex ipAddressRegex = new Regex(@"^(?<1>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", RegexOptions.Singleline);
-						Match ipAddressMatch = ipAddressRegex.Match(playerIpAsString);
-						if(ipAddressMatch.Success) {
-							IPAddress playerIp = IPAddress.Parse(ipAddressMatch.Groups[1].Value);
-							int playerPort = playerAddress.GetComponentInteger(Address.KeyPort);
-							NatResolver.NotifyPlayerHasJoined(natTraversalSession, playerIp, playerPort);
-						}
-					}
 				}
 			}
 
@@ -358,8 +339,6 @@ namespace ZunTzu.Networking {
 						mostRecentUncompressJob = uncompressJobs.First.Value;
 						if(mostRecentUncompressJob.Message == UncompressJob.StopServer.Message) {
 							// hosting player has left -> stop server
-							if(natTraversalSession != null)
-								natTraversalSession.Disable();
 							return;
 						}
 						uncompressJobs.RemoveFirst();
@@ -548,6 +527,5 @@ namespace ZunTzu.Networking {
 		private IVideoCodec videoCodec = new ZtcVideoCodec();
 		private Dictionary<int, InboundVideoFrameHistory> inboundVideoFrameHistories = new Dictionary<int, InboundVideoFrameHistory>();
 		private Dictionary<int, Dictionary<int, OutboundVideoFrameHistory>> outboundVideoFrameHistories = new Dictionary<int, Dictionary<int, OutboundVideoFrameHistory>>();
-		private INatTraversalSession natTraversalSession = null;
 	}
 }

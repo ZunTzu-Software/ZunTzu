@@ -13,7 +13,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ZunTzu Software")]
 [assembly: AssemblyProduct("ZunTzu")]
-[assembly: AssemblyCopyright("Copyright © 2006-2007 ZunTzu Software")]
+[assembly: AssemblyCopyright("Copyright © 2006-2022 ZunTzu Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Resources;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

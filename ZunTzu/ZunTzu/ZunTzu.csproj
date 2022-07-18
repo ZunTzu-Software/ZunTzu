@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D40954A5-D441-476C-B8E9-5A9BF39BC7A6}</ProjectGuid>
@@ -48,12 +48,13 @@
     <MinimumRequiredVersion>1.2.1.14</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>15</ApplicationRevision>
-    <ApplicationVersion>1.2.1.%2a</ApplicationVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -65,13 +66,13 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
@@ -1164,33 +1165,20 @@
       <TargetPath>ZunTzu.ico</TargetPath>
     </_DeploymentManifestIconFile>
   </ItemGroup>
-  <Target Name="BeforePublish">
-    <!-- copy non obfuscated assemblies -->
-    <Copy SourceFiles="obj\Release\ZunTzu.exe" DestinationFiles="obj\Release\ZunTzu.exe.bak" />
-    <Copy SourceFiles="bin\Release\ZunTzu.exe" DestinationFiles="bin\Release\ZunTzu.exe.bak" />
-    <!--	call Dotfuscator -->
-    <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio 8\Application\PreEmptive Solutions\Dotfuscator Community Edition\dotfuscator.exe&quot; -q Dotfuscator.xml" />
-    <Exec Command="updatekey.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
-    <Copy SourceFiles="obj\Release\ZunTzu.exe" DestinationFiles="bin\Release\ZunTzu.exe" />
-    <Copy SourceFiles="obj\Release\fr\ZunTzu.resources.dll" DestinationFiles="bin\Release\fr\ZunTzu.resources.dll" />
+  <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release'">
+    <!-- delete the deployment folder -->
+    <RemoveDir Directories="..\..\ZunTzuWeb" />
+    <!-- copy third-party assemblies to obj folder (required by Dotfuscator) -->
+    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\Release\ICSharpCode.SharpZipLib.dll" />
+    <Copy SourceFiles="Graphics\Microsoft.DirectX.Direct3D.dll" DestinationFiles="obj\Release\Microsoft.DirectX.Direct3D.dll" />
+    <Copy SourceFiles="Networking\Microsoft.DirectX.DirectPlay.dll" DestinationFiles="obj\Release\Microsoft.DirectX.DirectPlay.dll" />
+    <Copy SourceFiles="Networking\Microsoft.DirectX.DirectSound.dll" DestinationFiles="obj\Release\Microsoft.DirectX.DirectSound.dll" />
+    <Copy SourceFiles="Graphics\Microsoft.DirectX.dll" DestinationFiles="obj\Release\Microsoft.DirectX.dll" />
+    <Copy SourceFiles="bin\Release\Open.Nat.dll" DestinationFiles="obj\Release\Open.Nat.dll" />
+    <!-- call Dotfuscator -->
+    <!-- IMPORTANT! The first time you build, make sure to run the Dotfuscator GUI once to activate the user license -->
+    <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscator.exe&quot; -c:en -suppress:on -q Dotfuscator.xml" />
     <!--	patch resource file -->
-    <!--Exec WorkingDirectory="" Command="patchencrypt.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
-		  <Exec WorkingDirectory="" Command="patchencrypt.exe obj\Release\ZunTzu.exe bin\Release\fr\ZunTzu.resources.dll" /-->
-    <CreateProperty Value="true">
-      <Output TaskParameter="Value" PropertyName="GenerateClickOnceManifests" />
-    </CreateProperty>
-    <CreateProperty Value="true">
-      <Output TaskParameter="Value" PropertyName="PublishingZunTzu" />
-    </CreateProperty>
-  </Target>
-  <Target Name="GenerateManifests" Condition="'$(GenerateClickOnceManifests)'=='true' or '@(NativeReference)'!='' or '@(ResolvedIsolatedComModules)'!=''" DependsOnTargets="GenerateApplicationManifest;GenerateDeploymentManifest">
-    <Copy Condition="'$(PublishingZunTzu)'=='true'" SourceFiles="obj\Release\ZunTzu.exe.manifest" DestinationFiles="bin\Release\ZunTzu.exe.manifest" />
-    <Copy Condition="'$(PublishingZunTzu)'=='true'" SourceFiles="obj\Release\ZunTzu.application" DestinationFiles="bin\Release\ZunTzu.application" />
-  </Target>
-  <Target Name="AfterPublish">
-    <!--	restore the non-obsfucated assemblies back to their original location so that
-		  subsequent builds and development within Visual Studio doesn't break -->
-    <Copy SourceFiles="obj\Release\ZunTzu.exe.bak" DestinationFiles="obj\Release\ZunTzu.exe" />
-    <Copy SourceFiles="bin\Release\ZunTzu.exe.bak" DestinationFiles="bin\Release\ZunTzu.exe" />
+    <Exec Command="updatekey.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
   </Target>
 </Project>

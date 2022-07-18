@@ -36,6 +36,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,9 +63,9 @@
             // 
             // okButton
             // 
-            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.CausesValidation = false;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.Name = "okButton";
             this.okButton.TabStop = false;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -104,12 +105,18 @@
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
             // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
             // AboutDialog
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.okButton;
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -144,5 +151,6 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label9;
-	}
+        private System.Windows.Forms.Label label10;
+    }
 }

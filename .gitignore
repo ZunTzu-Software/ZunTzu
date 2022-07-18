@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# publish folders
+ZunTzuWeb/
+ZunTzu/ZunTzu/Dotfuscated/
+ZunTzu/ZunTzu/FileSystem/File.cs
+
 # User-specific files
 *.rsuser
 *.suo

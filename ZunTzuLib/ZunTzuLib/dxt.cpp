@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"

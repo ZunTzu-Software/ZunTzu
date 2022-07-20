@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -7,14 +7,9 @@
 #include "dxt_compressor.h"
 
 extern "C" void * __cdecl CreateImageLoader(
-#ifdef ZTDESIGNER
-	const wchar_t * image_file_name,
-	const wchar_t * mask_file_name,
-#else
 	const wchar_t * archive_name,
 	const char * image_entry_name,
 	const char * mask_entry_name,
-#endif
 	unsigned int skipped_mipmap_levels,
 	int options)
 {
@@ -24,15 +19,9 @@ extern "C" void * __cdecl CreateImageLoader(
 	if(IsProcessorFeaturePresent(PF_XMMI64_INSTRUCTIONS_AVAILABLE))
 		options |= 2;
 
-#ifdef ZTDESIGNER
-	return (mask_file_name == 0 || wcslen(mask_file_name) == 0 ?
-		static_cast<dxt_compressor*>(new dxt1_compressor(image_file_name, skipped_mipmap_levels, options)) :
-		static_cast<dxt_compressor*>(new dxt5_compressor(image_file_name, mask_file_name, skipped_mipmap_levels, options)));
-#else
 	return (mask_entry_name == 0 || strlen(mask_entry_name) == 0 ?
 		static_cast<dxt_compressor*>(new dxt1_compressor(archive_name, image_entry_name, skipped_mipmap_levels, options)) :
 		static_cast<dxt_compressor*>(new dxt5_compressor(archive_name, image_entry_name, mask_entry_name, skipped_mipmap_levels, options)));
-#endif
 }
 
 extern "C" int __cdecl GetImageDimensions(

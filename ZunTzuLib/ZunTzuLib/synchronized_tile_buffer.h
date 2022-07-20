@@ -1,7 +1,7 @@
 #pragma once
 
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 const unsigned int TILE_SLOT_COUNT = 3;

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -11,26 +11,16 @@
 // each scanline is bounded by two zeroed guard bands.
 
 simple_tile_layer::simple_tile_layer(
-#ifdef ZTDESIGNER
-	const wchar_t * file_name,
-#else
 	const wchar_t * archive_name,
 	const char * entry_name,
-#endif
 	unsigned int skipped_mipmap_levels)
 :
 	skipped_mipmap_levels(skipped_mipmap_levels),
 	width(0),
 	height(0),
-#ifdef ZTDESIGNER
-	reader(is_png(file_name) ?
-		static_cast<image_reader*>(new png_reader(file_name)) :
-		static_cast<image_reader*>(new jpeg_reader(file_name))),
-#else
 	reader(is_png(entry_name) ?
 		static_cast<image_reader*>(new png_reader(archive_name, entry_name)) :
 		static_cast<image_reader*>(new jpeg_reader(archive_name, entry_name))),
-#endif
 	mipmaps(0)
 {
 }

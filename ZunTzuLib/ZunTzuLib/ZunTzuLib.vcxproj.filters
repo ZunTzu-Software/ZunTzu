@@ -36,9 +36,6 @@
     <ClCompile Include="dxt_simd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="file_loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="image_loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -1,7 +1,7 @@
 #pragma once
 
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "jpeglib.h"
@@ -26,11 +26,7 @@ struct my_error_mgr {
 
 class jpeg_reader : public image_reader {
 public:
-#ifdef ZTDESIGNER
-	jpeg_reader(const wchar_t * file_name);
-#else
 	jpeg_reader(const wchar_t * archive_name, const char * entry_name);
-#endif
 	virtual ~jpeg_reader();
 	virtual void set_error_handler(const jmp_buf & error_handler);
 	virtual void get_image_dimensions(unsigned int & width, unsigned int & height);
@@ -46,11 +42,7 @@ private:
 
 class png_reader : public image_reader {
 public:
-#ifdef ZTDESIGNER
-	png_reader(const wchar_t * file_name);
-#else
 	png_reader(const wchar_t * archive_name, const char * entry_name);
-#endif
 	virtual ~png_reader();
 	virtual void set_error_handler(const jmp_buf & error_handler);
 	virtual void get_image_dimensions(unsigned int & width, unsigned int & height);

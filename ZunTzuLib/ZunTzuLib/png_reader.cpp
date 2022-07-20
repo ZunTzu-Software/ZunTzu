@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -24,20 +24,12 @@ static void PNGAPI user_read_fn(png_structp png_ptr, png_bytep data, png_size_t 
 }
 
 png_reader::png_reader(
-#ifdef ZTDESIGNER
-	const wchar_t * file_name) :
-#else
 	const wchar_t * archive_name,
 	const char * entry_name) :
-#endif
 	png_ptr(0),
 	info_ptr(0),
 	row_pointer(0),
-#ifdef ZTDESIGNER
-	unzipper(new file_loader(file_name)),
-#else
 	unzipper(new simple_unzipper(archive_name, entry_name)),
-#endif
 	current_scanline(0),
 	height(0)
 {
@@ -45,7 +37,7 @@ png_reader::png_reader(
 
 png_reader::~png_reader() {
 	png_free(png_ptr, row_pointer);
-	png_destroy_read_struct(&png_ptr, &info_ptr, 0);
+	if(info_ptr) png_destroy_read_struct(&png_ptr, &info_ptr, 0);
 	delete unzipper;
 }
 

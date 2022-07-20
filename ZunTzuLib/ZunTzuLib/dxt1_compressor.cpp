@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -9,21 +9,13 @@
 #include "tile_layer.h"
 
 dxt1_compressor::dxt1_compressor(
-#ifdef ZTDESIGNER
-	const wchar_t * file_name,
-#else
 	const wchar_t * archive_name,
 	const char * entry_name,
-#endif
 	unsigned int skipped_mipmap_levels,
 	int options)
 :
 	options(options),
-#ifdef ZTDESIGNER
-	tyler(new simple_tile_layer(file_name, skipped_mipmap_levels)),
-#else
 	tyler(new simple_tile_layer(archive_name, entry_name, skipped_mipmap_levels)),
-#endif
 	compression_thread_count(0),
 	threads(0),
 	tile_buffer(0),

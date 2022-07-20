@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -12,34 +12,20 @@
 // each scanline is bounded by two zeroed guard bands.
 
 masked_tile_layer::masked_tile_layer(
-#ifdef ZTDESIGNER
-	const wchar_t * image_file_name,
-	const wchar_t * mask_file_name,
-#else
 	const wchar_t * archive_name,
 	const char * image_entry_name,
 	const char * mask_entry_name,
-#endif
 	unsigned int skipped_mipmap_levels)
 :
 	skipped_mipmap_levels(skipped_mipmap_levels),
 	width(0),
 	height(0),
-#ifdef ZTDESIGNER
-	main_image_reader(is_png(image_file_name) ?
-		static_cast<image_reader*>(new png_reader(image_file_name)) :
-		static_cast<image_reader*>(new jpeg_reader(image_file_name))),
-	mask_reader(is_png(mask_file_name) ?
-		static_cast<image_reader*>(new png_reader(mask_file_name)) :
-		static_cast<image_reader*>(new jpeg_reader(mask_file_name))),
-#else
 	main_image_reader(is_png(image_entry_name) ?
 		static_cast<image_reader*>(new png_reader(archive_name, image_entry_name)) :
 		static_cast<image_reader*>(new jpeg_reader(archive_name, image_entry_name))),
 	mask_reader(is_png(mask_entry_name) ?
 		static_cast<image_reader*>(new png_reader(archive_name, mask_entry_name)) :
 		static_cast<image_reader*>(new jpeg_reader(archive_name, mask_entry_name))),
-#endif
 	mipmaps(0)
 {
 }

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -19,16 +19,10 @@ METHODDEF(void) my_error_exit(j_common_ptr cinfo) {
 }
 
 jpeg_reader::jpeg_reader(
-#ifdef ZTDESIGNER
-	const wchar_t * file_name) :
-	pBuffer(0),
-	unzipper(new file_loader(file_name))
-#else
 	const wchar_t * archive_name,
 	const char * entry_name) :
 	pBuffer(0),
 	unzipper(new simple_unzipper(archive_name, entry_name))
-#endif
 {
 	cinfo.err = jpeg_std_error(&jerr.pub);
 	jerr.pub.error_exit = my_error_exit;

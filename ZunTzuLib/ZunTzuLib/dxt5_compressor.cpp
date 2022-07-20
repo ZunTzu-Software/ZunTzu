@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
@@ -9,23 +9,14 @@
 #include "tile_layer.h"
 
 dxt5_compressor::dxt5_compressor(
-#ifdef ZTDESIGNER
-	const wchar_t * image_file_name,
-	const wchar_t * mask_file_name,
-#else
 	const wchar_t * archive_name,
 	const char * image_entry_name,
 	const char * mask_entry_name,
-#endif
 	unsigned int skipped_mipmap_levels,
 	int options)
 :
 	options(options),
-#ifdef ZTDESIGNER
-	tyler(new masked_tile_layer(image_file_name, mask_file_name, skipped_mipmap_levels)),
-#else
 	tyler(new masked_tile_layer(archive_name, image_entry_name, mask_entry_name, skipped_mipmap_levels)),
-#endif
 	compression_thread_count(0),
 	threads(0),
 	tile_buffer(0),

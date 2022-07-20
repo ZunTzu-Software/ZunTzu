@@ -1,7 +1,7 @@
 #pragma once
 
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 typedef int error_code;	// no error if 0, otherwise abort
@@ -20,11 +20,7 @@ class synchronized_tile_buffer;
 
 class dxt1_compressor : public dxt_compressor {
 public:
-#ifdef ZTDESIGNER
-	dxt1_compressor(const wchar_t * file_name, unsigned int skipped_mipmap_levels, int options);
-#else
 	dxt1_compressor(const wchar_t * archive_name, const char * entry_name, unsigned int skipped_mipmap_levels, int options);
-#endif
 	virtual ~dxt1_compressor();
 	virtual error_code get_image_dimensions(unsigned int & width, unsigned int & height);
 	virtual error_code get_next_tile(char * tile_data, unsigned int & mipmap_level, unsigned int & x, unsigned int & y);
@@ -42,11 +38,7 @@ private:
 
 class dxt5_compressor : public dxt_compressor {
 public:
-#ifdef ZTDESIGNER
-	dxt5_compressor(const wchar_t * image_file_name, const wchar_t * mask_file_name, unsigned int skipped_mipmap_levels, int options);
-#else
 	dxt5_compressor(const wchar_t * archive_name, const char * image_entry_name, const char * mask_entry_name, unsigned int skipped_mipmap_levels, int options);
-#endif
 	virtual ~dxt5_compressor();
 	virtual error_code get_image_dimensions(unsigned int & width, unsigned int & height);
 	virtual error_code get_next_tile(char * tile_data, unsigned int & mipmap_level, unsigned int & x, unsigned int & y);

@@ -1,11 +1,9 @@
 /* -----------------------------------------------------------------------------
-	  Copyright (c) 2020 ZunTzu Software and contributors
+	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
 #include "unzipper.h"
-
-#ifndef ZTDESIGNER
 
 simple_unzipper::simple_unzipper(
 	const wchar_t * archive_name,
@@ -93,5 +91,3 @@ size_t simple_unzipper::read(char * buffer, size_t bytes_to_read) {
 
 	return zzip_disk_fread(buffer, bytes_to_read, zip_entry);
 }
-
-#endif

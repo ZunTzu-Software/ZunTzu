@@ -48,7 +48,7 @@
     <MinimumRequiredVersion>1.2.1.14</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>10</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -507,8 +507,8 @@
     <EmbeddedResource Include="ResourceFiles\Fist.cur" />
     <EmbeddedResource Include="ResourceFiles\Hand.cur" />
     <None Include="packages.config" />
-    <None Include="Resources\ZunTzuBox.ico" />
-    <None Include="Resources\ZunTzuGame.ico" />
+    <Content Include="Resources\ZunTzuBox.ico" />
+    <Content Include="Resources\ZunTzuGame.ico" />
     <None Include="app.config" />
     <None Include="Dotfuscator.xml" />
     <None Include="FileSystem\ICSharpCode.SharpZipLib.dll">
@@ -1164,6 +1164,26 @@
     <_DeploymentManifestIconFile Include="ZunTzu.ico">
       <TargetPath>ZunTzu.ico</TargetPath>
     </_DeploymentManifestIconFile>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".ztb">
+      <Visible>False</Visible>
+      <Description>ZunTzu Game Box</Description>
+      <Progid>ZunTzu.Box.1</Progid>
+      <DefaultIcon>Resources\ZunTzuBox.ico</DefaultIcon>
+    </FileAssociation>
+    <FileAssociation Include=".ztg">
+      <Visible>False</Visible>
+      <Description>ZunTzu Game</Description>
+      <Progid>ZunTzu.Game.1</Progid>
+      <DefaultIcon>Resources\ZunTzuGame.ico</DefaultIcon>
+    </FileAssociation>
+    <FileAssociation Include=".zts">
+      <Visible>False</Visible>
+      <Description>ZunTzu Scenario</Description>
+      <Progid>ZunTzu.Scenario.1</Progid>
+      <DefaultIcon>Resources\ZunTzuGame.ico</DefaultIcon>
+    </FileAssociation>
   </ItemGroup>
   <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release'">
     <!-- delete the deployment folder -->

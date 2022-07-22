@@ -3,16 +3,11 @@
 using Microsoft.Win32;
 using System;
 using System.Deployment.Application;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
 using ZunTzu.AudioVideo;
 using ZunTzu.Control;
 using ZunTzu.Graphics;
@@ -43,9 +38,6 @@ namespace ZunTzu {
 				}
 
 			} else {
-				// configure ZunTzu to handle .ztb, .ztg and .zts files
-				installFileAssociations();
-
 				// parse command line parameters or URL parameters
 				string fileToOpen = parseParameters(args);
 
@@ -178,48 +170,13 @@ namespace ZunTzu {
 			}
 		}
 
-		private static void installFileAssociations() {
-			try {
-				string applicationExecutablePath = "\"" + Assembly.GetExecutingAssembly().Location + "\"";
-				string openCommand = (ApplicationDeployment.IsNetworkDeployed ?
-					"explorer \"" + ApplicationDeployment.CurrentDeployment.UpdateLocation + "?file=%1#ZunTzu.application, Culture=en, PublicKeyToken=bbfc02ea80687e07, processorArchitecture=msil\"" :
-					applicationExecutablePath + " \"%1\"");
-				RegistryKey key;
-
-				Registry.ClassesRoot.CreateSubKey(".ztb").SetValue("", "ZunTzu.Box.1");
-				key = Registry.ClassesRoot.CreateSubKey("ZunTzu.Box.1");
-				key.SetValue("", "ZunTzu Game Box");
-				key.SetValue("FriendlyTypeName", "@" + applicationExecutablePath + ",1");
-				key.CreateSubKey("CurVer").SetValue("", "ZunTzu.Box.1");
-				key.CreateSubKey("DefaultIcon").SetValue("", applicationExecutablePath + ",2");
-				key.CreateSubKey("Shell\\Open\\Command").SetValue("", openCommand);
-
-				Registry.ClassesRoot.CreateSubKey(".ztg").SetValue("", "ZunTzu.Game.1");
-				key = Registry.ClassesRoot.CreateSubKey("ZunTzu.Game.1");
-				key.SetValue("", "ZunTzu Game");
-				key.SetValue("FriendlyTypeName", "@" + applicationExecutablePath + ",2");
-				key.CreateSubKey("CurVer").SetValue("", "ZunTzu.Game.1");
-				key.CreateSubKey("DefaultIcon").SetValue("", applicationExecutablePath + ",1");
-				key.CreateSubKey("Shell\\Open\\Command").SetValue("", openCommand);
-
-				Registry.ClassesRoot.CreateSubKey(".zts").SetValue("", "ZunTzu.Scenario.1");
-				key = Registry.ClassesRoot.CreateSubKey("ZunTzu.Scenario.1");
-				key.SetValue("", "ZunTzu Scenario");
-				key.SetValue("FriendlyTypeName", "@" + applicationExecutablePath + ",3");
-				key.CreateSubKey("CurVer").SetValue("", "ZunTzu.Scenario.1");
-				key.CreateSubKey("DefaultIcon").SetValue("", applicationExecutablePath + ",1");
-				key.CreateSubKey("Shell\\Open\\Command").SetValue("", openCommand);
-			} catch {}
-		}
-
 		private static string parseParameters(string[] args) {
 			if(ApplicationDeployment.IsNetworkDeployed) {
-				string[] activationData = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData;
-				if(activationData != null) {
-					Uri url = new Uri(activationData[0]);
-					Regex fileRegex = new Regex(@"^\?file=(?<1>[^&]*)$", RegexOptions.Singleline);
-					Match fileMatch = fileRegex.Match(Uri.UnescapeDataString(url.Query));
-					if(fileMatch.Success)
+				string[] activationData = AppDomain.CurrentDomain.SetupInformation.ActivationArguments?.ActivationData;
+				if(activationData != null && activationData.Length > 0) {
+					Regex fileRegex = new Regex(@"^file:///(?<1>.*)$", RegexOptions.Singleline);
+					Match fileMatch = fileRegex.Match(Uri.UnescapeDataString(activationData[0]));
+					if (fileMatch.Success)
 						return fileMatch.Groups[1].Value;
 				}
 			} else {

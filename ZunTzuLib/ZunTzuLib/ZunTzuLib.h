@@ -19,4 +19,17 @@ extern "C" {
 
 	// System info
 	__declspec(dllexport) int __cdecl GetProcessorCoreCount();
+
+	// Networking
+	__declspec(dllexport) void * __cdecl CreateClient();
+	__declspec(dllexport) void __cdecl FreeClient(void * client);
+	__declspec(dllexport) void __cdecl Connect(void * client);
+	__declspec(dllexport) void __cdecl Send(void * client);
+	__declspec(dllexport) void __cdecl Statistics(void * client);
+	__declspec(dllexport) void * __cdecl CreateServer();
+	__declspec(dllexport) void __cdecl FreeServer(void * server);
+	__declspec(dllexport) void __cdecl Host(void * server);
+	__declspec(dllexport) void __cdecl SendToOne(void * server, int player_id);
+	__declspec(dllexport) void __cdecl SendToAllOthers(void * server, int player_id);
+	__declspec(dllexport) void __cdecl SendToAll(void* server);
 }

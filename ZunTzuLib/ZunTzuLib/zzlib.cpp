@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <malloc.h>
+#include "zlib.h"
 #include "zzlib.h"
 
 typedef unsigned short uint16_t;

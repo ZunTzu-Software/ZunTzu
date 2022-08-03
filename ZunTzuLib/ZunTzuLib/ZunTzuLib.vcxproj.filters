@@ -16,6 +16,9 @@
     <Filter Include="Jpg">
       <UniqueIdentifier>{240e2ee4-a34b-47ec-9ea9-fa0f75a64894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\raknet">
+      <UniqueIdentifier>{a1de3d4f-21cc-42d8-9f71-a1409326b133}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpu_count.cpp">
@@ -70,6 +73,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="zzlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="networking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,13 +134,474 @@
     <ClInclude Include="zzlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="raknet\_FindFirst.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\AutopatcherPatchContext.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\AutopatcherRepositoryInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Base64Encoder.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\BitStream.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CCRakNetSlidingWindow.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CCRakNetUDT.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CheckSum.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CloudClient.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CloudCommon.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CloudServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\CommandParserInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ConnectionGraph2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ConsoleServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DataCompressor.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DirectoryDeltaTransfer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DR_SHA1.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_BinarySearchTree.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_BPlusTree.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_BytePool.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_ByteQueue.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Hash.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Heap.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_HuffmanEncodingTree.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_HuffmanEncodingTreeFactory.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_HuffmanEncodingTreeNode.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_LinkedList.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_List.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Map.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_MemoryPool.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Multilist.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_OrderedChannelHeap.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_OrderedList.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Queue.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_QueueLinkedList.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_RangeList.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Table.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_ThreadsafeAllocatingQueue.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_Tree.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DS_WeightedGraph.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\DynDNS.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\EmailSender.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\EmptyHeader.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\EpochTimeToString.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Export.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FileList.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FileListNodeContext.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FileListTransfer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FileListTransferCBInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FileOperations.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FormatString.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\FullyConnectedMesh2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Getche.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Gets.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\GetTime.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\gettimeofday.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\GridSectorizer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\HTTPConnection.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\HTTPConnection2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\IncrementalReadInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\InternalPacket.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Itoa.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Kbhit.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\LinuxStrings.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\LocklessTypes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\LogCommandParser.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\MessageFilter.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\MessageIdentifiers.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\MTUSize.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NativeFeatureIncludes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NativeFeatureIncludesOverrides.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NativeTypes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NatPunchthroughClient.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NatPunchthroughServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NatTypeDetectionClient.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NatTypeDetectionCommon.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NatTypeDetectionServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NetworkIDManager.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\NetworkIDObject.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketConsoleLogger.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketFileLogger.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketizedTCP.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketLogger.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketOutputWindowLogger.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketPool.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PacketPriority.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PluginInterface2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PS3Includes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\PS4Includes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Rackspace.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakAlloca.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakAssert.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakMemoryOverride.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetCommandParser.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetDefines.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetDefinesOverrides.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetSmartPtr.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetSocket.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetSocket2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetStatistics.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetTime.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetTransport2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetTypes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakNetVersion.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakPeer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakPeerInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakSleep.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakString.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakThread.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RakWString.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Rand.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RandSync.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ReadyEvent.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RefCountedObj.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RelayPlugin.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ReliabilityLayer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ReplicaEnums.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ReplicaManager3.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\Router2.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\RPC4Plugin.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SecureHandshake.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SendToThread.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SignaledEvent.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SimpleMutex.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SimpleTCPServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SingleProducerConsumer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SocketDefines.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SocketIncludes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SocketLayer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\StatisticsHistory.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\StringCompressor.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\StringTable.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\SuperFastHash.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TableSerializer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TCPInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TeamBalancer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TeamManager.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TelnetTransport.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ThreadPool.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\ThreadsafePacketLogger.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TransportInterface.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\TwoWayAuthentication.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\UDPForwarder.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\UDPProxyClient.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\UDPProxyCommon.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\UDPProxyCoordinator.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\UDPProxyServer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\VariableDeltaSerializer.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\VariableListDeltaTracker.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\VariadicSQLParser.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\VitaIncludes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\WindowsIncludes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\WSAStartupSingleton.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="raknet\XBox360Includes.h">
+      <Filter>Header Files\raknet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\libcmt.lib" />
     <Library Include="..\libjpeg.lib" />
     <Library Include="..\libpng.lib" />
     <Library Include="..\zlib.lib" />
-    <Library Include="..\msvcrt.lib" />
+    <Library Include="..\raknet.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

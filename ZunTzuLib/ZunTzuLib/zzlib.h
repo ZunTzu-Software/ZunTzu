@@ -1,5 +1,7 @@
 #pragma once
 
+#include "zlib.h"
+
 typedef unsigned char zzip_byte_t; // especially zlib decoding data
 typedef size_t zzip_size_t;
 typedef long zzip_off_t;

@@ -12,6 +12,10 @@
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 #endif
 
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers (such as winsock.h, which is not compatible with ws2def.h)
+#endif
+
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows XP or later.
@@ -33,7 +37,4 @@
 #include <windows.h>
 #include <setjmp.h>
 #include <stdio.h>
-//#include <tchar.h>
-#include "zlib.h"
-
 #include <math.h>

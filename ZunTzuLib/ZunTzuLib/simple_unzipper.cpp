@@ -3,6 +3,8 @@
 ----------------------------------------------------------------------------- */
 
 #include "stdafx.h"
+#include <malloc.h>
+#include "zlib.h"
 #include "unzipper.h"
 
 simple_unzipper::simple_unzipper(

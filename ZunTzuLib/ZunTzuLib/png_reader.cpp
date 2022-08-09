@@ -9,10 +9,10 @@
 
 // here are the routines that will replace the standard png_error and png_warning methods:
 
-static void PNGAPI user_error_fn(png_structp png_ptr, png_int_32 error_code) {
+static void PNGAPI user_error_fn(png_structp png_ptr, png_const_charp error_code) {
 	// return control to the setjmp point
 	int * error_handler = static_cast<int*>(png_get_error_ptr(png_ptr));
-	longjmp(error_handler, PNG_ERRORS + error_code);
+	longjmp(error_handler, PNG_ERRORS + reinterpret_cast<int>(error_code));
 }
 
 // replacement function for png_read
@@ -20,7 +20,7 @@ static void PNGAPI user_read_fn(png_structp png_ptr, png_bytep data, png_size_t 
 	unzipper * reader_unzipper = static_cast<unzipper*>(png_get_io_ptr(png_ptr));
 	size_t bytes_read = reader_unzipper->read(reinterpret_cast<char*>(data), length);
 	if(bytes_read != length)
-		png_error(png_ptr, IMAGE_READ_ERROR - PNG_ERRORS);
+		png_error(png_ptr, reinterpret_cast<png_const_charp>(IMAGE_READ_ERROR - PNG_ERRORS));
 }
 
 png_reader::png_reader(
@@ -33,6 +33,7 @@ png_reader::png_reader(
 	current_scanline(0),
 	height(0)
 {
+	ZeroMemory(&this->error_handler, sizeof(jmp_buf));
 }
 
 png_reader::~png_reader() {
@@ -49,7 +50,7 @@ void png_reader::set_error_handler(const jmp_buf & error_handler) {
 void png_reader::init_png() {
 	png_ptr = png_create_read_struct(
 		PNG_LIBPNG_VER_STRING,
-		static_cast<int*>(error_handler),
+		static_cast<png_voidp>(error_handler),
 		user_error_fn,
 		0);
 	if(png_ptr == NULL)
@@ -79,7 +80,7 @@ void png_reader::init_png() {
 	int bit_depth;
 	int color_type;
 	int interlace_type;
-	png_get_IHDR(png_ptr, info_ptr, reinterpret_cast<png_uint_32*>(&width), reinterpret_cast<png_uint_32*>(&height), &bit_depth, &color_type, &interlace_type, int_p_NULL, int_p_NULL);
+	png_get_IHDR(png_ptr, info_ptr, reinterpret_cast<png_uint_32*>(&width), reinterpret_cast<png_uint_32*>(&height), &bit_depth, &color_type, &interlace_type, nullptr, nullptr);
 
 	// throw exception in case of progressive PNG
 	if(interlace_type != PNG_INTERLACE_NONE)
@@ -91,7 +92,6 @@ void png_reader::init_png() {
 	png_set_gray_to_rgb(png_ptr);
 	png_set_strip_16(png_ptr);
 	png_set_bgr(png_ptr);
-	png_ptr->transformations &= ~0x2000000L;	// ~PNG_EXPAND_tRNS
 
 	// allocate a buffer to hold one row
 	row_pointer = (png_bytep) png_malloc(png_ptr, 3 * width);

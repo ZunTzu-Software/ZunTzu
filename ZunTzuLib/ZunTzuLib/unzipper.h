@@ -4,7 +4,9 @@
 	  Copyright (c) 2006-2022 ZunTzu Software and contributors
 ----------------------------------------------------------------------------- */
 
-#include "zzlib.h"
+#define _ZZIP_DISK_FILE_STRUCT 1
+#include "zzip/mmapped.h"
+
 #include "image_loader_error.h"
 
 class unzipper {

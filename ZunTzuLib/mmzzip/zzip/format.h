@@ -1,36 +1,42 @@
-#pragma once
+/*
+ * Author:
+ *     Guido Draheim <guidod@gmx.de>
+ *
+ * Copyright (c) Guido Draheim, use under copyleft (LGPL,MPL)
+ *
+ *  The information was taken from appnote-981119-iz.zip
+ *  at http://www.freesoftware.com/pub/infozip/doc/
+ *  which in turn is based on PKWARE's appnote.txt
+ *  (newer link: ftp://ftp.info-zip.org/pub/infozip/doc/)
+ */
+#ifndef _ZZIP_FORMAT_H /* zzipformat.h */
+#define _ZZIP_FORMAT_H
 
-#include "zlib.h"
+#include <zzip/types.h>
+#include <zzip/__hints.h>
+/* we have ICO C 9X types defined */
 
-typedef unsigned char zzip_byte_t; // especially zlib decoding data
-typedef size_t zzip_size_t;
-typedef long zzip_off_t;
-
-typedef struct zzip_disk_file  ZZIP_DISK_FILE;
-typedef struct zzip_disk       ZZIP_DISK;
-typedef struct zzip_disk_entry  ZZIP_DISK_ENTRY;
-
-/* 
- * Overall zipfile format 
- *  [local file header + file data stream + checksum descriptor] ... 
+/*
+ * Overall zipfile format
+ *  [local file header + file data stream + checksum descriptor] ...
  *   ...  [disk central directory] [disk trailer record]
  */
- 
+
 # ifdef _MSC_VER
 # pragma pack(push, 1)
 # endif
 
-struct zzip_version 
-{ 
-    zzip_byte_t   version[1]; 
-    zzip_byte_t   ostype[1]; 
-};
+struct zzip_version
+{
+    zzip_byte_t   version[1];
+    zzip_byte_t   ostype[1];
+} ZZIP_GNUC_PACKED;
 
-struct zzip_dostime 
-{ 
-    zzip_byte_t   time[2]; 
-    zzip_byte_t   date[2]; 
-}; 
+struct zzip_dostime
+{
+    zzip_byte_t   time[2];
+    zzip_byte_t   date[2];
+} ZZIP_GNUC_PACKED;
 
 #ifdef ZZIP_NEED_PACKED
 /* if your compiler does interesting things about struct packing... */
@@ -46,6 +52,9 @@ typedef struct zzip_dostime zzip_dostime_t;
       (((zzip_byte_t*)(__p))[1]==(__B)) && \
       (((zzip_byte_t*)(__p))[2]==(__C)) && \
       (((zzip_byte_t*)(__p))[3]==(__D)) )
+#define ZZIP_CHECK(__p,__A,__B) \
+    ( (((zzip_byte_t*)(__p))[0]==(__A)) && \
+      (((zzip_byte_t*)(__p))[1]==(__B)) )
 
 /* A. Local file header */
 struct zzip_file_header
@@ -64,10 +73,10 @@ struct zzip_file_header
     zzip_byte_t   z_extras[2]; /* extra field length */
     /* followed by filename (of variable size) */
     /* followed by extra field (of variable size) */
-};
-#define zzip_file_header_headerlength (4+2+2+2+4+4+4+4+2+2)
+} ZZIP_GNUC_PACKED;
+#define zzip_file_header_headerlength (4U+2U+2U+2U+4U+4U+4U+4U+2U+2U)
 
-/* B. data descriptor 
+/* B. data descriptor
  * the data descriptor exists only if bit 3 of z_flags is set. It is byte aligned
  * and immediately follows the last byte of compressed data. It is only used if
  * the output media of the compressor was not seekable, eg. standard output.
@@ -80,14 +89,14 @@ struct zzip_file_trailer
     zzip_byte_t   z_crc32[4]; /* crc-32 */
     zzip_byte_t   z_csize[4]; /* compressed size */
     zzip_byte_t   z_usize[4]; /* uncompressed size */
-};
-#define zzip_file_trailer_headerlength (4+4+4+4)
+} ZZIP_GNUC_PACKED;
+#define zzip_file_trailer_headerlength (4U+4U+4U+4U)
 
 /* C. central directory structure:
-    [file header] . . . end of central dir record  
+    [file header] . . . end of central dir record
 */
 
-/* directory file header 
+/* directory file header
  * - a single entry including filename, extras and comment may not exceed 64k.
  */
 
@@ -114,8 +123,8 @@ struct zzip_disk_entry
     /* followed by filename (of variable size) */
     /* followed by extra field (of variable size) */
     /* followed by file comment (of variable size) */
-}; 
-#define zzip_disk_entry_headerlength (4+2+2+2+2+4+4+4+4+2+2+2+2+2+4+4)
+} ZZIP_GNUC_PACKED;
+#define zzip_disk_entry_headerlength (4U+2U+2U+2U+2U+4U+4U+4U+4U+2U+2U+2U+2U+2U+4U+4U)
 
 
 struct zzip_root_dirent
@@ -123,22 +132,22 @@ struct zzip_root_dirent
 #   define ZZIP_ROOT_DIRENT_MAGIC 0x02014b50
 #   define ZZIP_ROOT_DIRENT_CHECKMAGIC(__p) ZZIP_DISK_ENTRY_CHECKMAGIC(__p)
     zzip_byte_t    z_magic[4];
-    zzip_version_t z_encoder;                     
+    zzip_version_t z_encoder;
     zzip_version_t z_extract;
-    zzip_byte_t    z_flags[2];      
-    zzip_byte_t    z_compr[2];      
+    zzip_byte_t    z_flags[2];
+    zzip_byte_t    z_compr[2];
     zzip_dostime_t z_dostime;
-    zzip_byte_t    z_crc32[4];      
-    zzip_byte_t    z_csize[4];      
+    zzip_byte_t    z_crc32[4];
+    zzip_byte_t    z_csize[4];
     zzip_byte_t    z_usize[4];
-    zzip_byte_t    z_namlen[2];     
-    zzip_byte_t    z_extras[2];     
-    zzip_byte_t    z_comment[2];    
-    zzip_byte_t    z_diskstart[2];  
-    zzip_byte_t    z_filetype[2];   
+    zzip_byte_t    z_namlen[2];
+    zzip_byte_t    z_extras[2];
+    zzip_byte_t    z_comment[2];
+    zzip_byte_t    z_diskstart[2];
+    zzip_byte_t    z_filetype[2];
     zzip_byte_t    z_filemode[4];
     zzip_byte_t    z_off[4];
-}; 
+} ZZIP_GNUC_PACKED;
 
 
 /* end of central dir record */
@@ -156,16 +165,41 @@ struct zzip_disk_trailer
                           * the starting disk number */
     zzip_byte_t  z_comment[2];  /* zipfile comment length */
     /* followed by zipfile comment (of variable size) */
-};
-#define zzip_disk_trailer_headerlength (4+2+2+2+2+4+4+2)
+} ZZIP_GNUC_PACKED;
+#define zzip_disk_trailer_headerlength (4U+2U+2U+2U+2U+4U+4U+2U)
 
 /* extra field should be type + size + data + type + size + data ... */
 struct zzip_extra_block
 {                              /* fetch.h macros do not need this struct */
     zzip_byte_t  z_datatype[2];       /* as input type - a mere <char*> is okay */
     zzip_byte_t  z_datasize[2];       /* being returned by xx_to_extras usually */
-};
-#define zzip_extra_block_headerlength (2+2)
+} ZZIP_GNUC_PACKED;
+#define zzip_extra_block_headerlength (2U+2U)
+
+/* Zip64 extras block */
+struct zzip_extra_zip64
+{
+#   define ZZIP_EXTRA_ZIP64_MAGIC 0x0001
+#   define ZZIP_EXTRA_ZIP64_CHECK(__p) ZZIP_CHECK(__p,'\0','\1')
+    zzip_byte_t  z_datatype[2];       /* extras signature 0x0001 */
+    zzip_byte_t  z_datasize[2];       /* structure length 0x0010 */
+    zzip_byte_t  z_usize[8];          /* original size */
+    zzip_byte_t  z_csize[8];          /* compressed size */
+    zzip_byte_t  z_offset[8];         /* offset from file header */
+    zzip_byte_t  z_diskstart[4];      /* disk where the file starts */
+} ZZIP_GNUC_PACKED;
+
+/* Zip64 end of central dir locator */
+struct zzip_disk64_locator
+{
+#   define ZZIP_DISK64_LOCATOR_MAGIC 0x07064b50
+#   define ZZIP_DISK64_LOCATOR_CHECKMAGIC(__p) ZZIP_CHECKMAGIC(__p,'P','K','\6','\7')
+    zzip_byte_t  z_magic[4]; /* end of central dir signature (0x06054b50) */
+    zzip_byte_t  z_rootdisk[4]; /* number of disk with the zip64 directory */
+    zzip_byte_t  z_rootseek[8]; /* relative offset of the zip64 directory */
+    zzip_byte_t  z_numdisks[4];    /* total numer of disks */
+    /* followed by zip64 extensible data sector (of variable size) */
+} ZZIP_GNUC_PACKED;
 
 /* Zip64 end of central dir record */
 struct zzip_disk64_trailer
@@ -184,8 +218,8 @@ struct zzip_disk64_trailer
     zzip_byte_t  z_rootseek[8]; /* offset of start of central directory with respect to *
                           * the starting disk number */
     /* followed by zip64 extensible data sector (of variable size) */
-};
-#define zzip_disk64_trailer_headerlength (4+8+2+2+4+4+8+8+8+8)
+} ZZIP_GNUC_PACKED;
+#define zzip_disk64_trailer_headerlength (4U+8U+2U+2U+4U+4U+8U+8U+8U+8U)
 
 /* z_flags */
 #define ZZIP_IS_ENCRYPTED(p)    ((*(zzip_byte_t*)p)&1)
@@ -216,35 +250,8 @@ struct zzip_disk64_trailer
 # pragma pack(pop)
 # endif
 
-typedef struct zzip_disk_file  ZZIP_DISK_FILE;
+#endif /* _ZZIPFORMAT_H */
 
-/* we expose this structure so third party applications can augment
- * on them. The mmapped zip access usually just needs the two pointers
- * specifying the mmapped area, whereever you have that from.
- */
-struct zzip_disk
-{
-    zzip_byte_t* buffer; /* start of mmapped area, the base of all seekvals */
-    zzip_byte_t* endbuf; /* end of mmapped area, i.e. buffer + buflen */
-    void* reserved;    /* - for later extensions (might be renamed) */
-    void* user;        /* - free for applications (use this!) */
-    long  flags;       /* bit 0: findfile searches case-insensitive */
-    long  mapped;      /* used for mmap() wrappers of zzip/__mmap.h */
-    long  unused;      /* - for later extensions (might be renamed) */
-    long  code;        /* - free for applications (use this!) */
-};
 
-typedef int (*zzip_strcmp_fn_t)(char*, char*);
 
-ZZIP_DISK_FILE * zzip_disk_fopen(ZZIP_DISK * disk, char * filename);
-void zzip_disk_fclose(ZZIP_DISK_FILE * file);
-zzip_size_t zzip_disk_fread(void* ptr, zzip_size_t size, ZZIP_DISK_FILE* file);
 
-struct zzip_disk_file
-{
-    zzip_byte_t* buffer;               /* fopen disk->buffer */
-    zzip_byte_t* endbuf;               /* fopen disk->endbuf */
-    zzip_size_t avail;                 /* memorized for checks on EOF */
-    z_stream zlib;                     /* for inflated blocks */
-    zzip_byte_t* stored;               /* for stored blocks */
-};

@@ -17,6 +17,7 @@ simple_unzipper::simple_unzipper(
 	mapping(0),
 	zip_entry(0)
 {
+	ZeroMemory(& this->error_handler, sizeof(jmp_buf));
 }
 
 simple_unzipper::~simple_unzipper() {
@@ -79,7 +80,7 @@ size_t simple_unzipper::read(char * buffer, size_t bytes_to_read) {
 		disk.flags = 0;
 		disk.mapped = 0;
 
-		zip_entry = zzip_disk_fopen(&disk, const_cast<LPSTR>(entry_name));
+		zip_entry = zzip_disk_fopen(&disk, entry_name);
 		if(!zip_entry) {
 			//_tprintf(_T("Error: zzip_disk_fopen()\n"));
 			if(!UnmapViewOfFile(mapping)) {
@@ -91,5 +92,5 @@ size_t simple_unzipper::read(char * buffer, size_t bytes_to_read) {
 		}
 	}
 
-	return zzip_disk_fread(buffer, bytes_to_read, zip_entry);
+	return zzip_disk_fread(buffer, sizeof(char), bytes_to_read, zip_entry);
 }

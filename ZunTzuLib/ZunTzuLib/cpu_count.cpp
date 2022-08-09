@@ -202,8 +202,8 @@ unsigned int CpuIDSupported(void)
 		return(0);                   // cpuid instruction is unavailable
 	}
 #else //Win32
-	try
-	{
+	//try
+	//{
 		MaxInputValue = 0;
 		// call cpuid with eax = 0
 		__asm
@@ -212,11 +212,11 @@ unsigned int CpuIDSupported(void)
 			cpuid
 			mov MaxInputValue, eax
 		}
-	}
-	catch (...)
-	{
-		return(0);                   // cpuid instruction is unavailable
-	}
+	//}
+	//catch (...)
+	//{
+	//	return(0);                   // cpuid instruction is unavailable
+	//}
 #endif
 
 	return MaxInputValue;
@@ -261,8 +261,8 @@ unsigned int GenuineIntel(void)
 	
 #else
 	unsigned int VendorID[3] = {0, 0, 0};
-	try    // If CPUID instruction is supported
-	{
+	//try    // If CPUID instruction is supported
+	//{
 		__asm		
 		{
 			xor eax, eax			// call cpuid with eax = 0
@@ -271,12 +271,12 @@ unsigned int GenuineIntel(void)
 			mov VendorID + 4, edx
 			mov VendorID + 8, ecx
 		}
-	}		
-	catch (...)
-	{
-		return(0);      		unsigned int MaxInputValue =0;
-		             // cpuid instruction is unavailable
-	}
+	//}		
+	//catch (...)
+	//{
+	//	return(0);      		unsigned int MaxInputValue =0;
+	//	             // cpuid instruction is unavailable
+	//}
 	return ( (VendorID[0] == 'uneG') &&
 			 (VendorID[1] == 'Ieni') &&
 			 (VendorID[2] == 'letn')); 

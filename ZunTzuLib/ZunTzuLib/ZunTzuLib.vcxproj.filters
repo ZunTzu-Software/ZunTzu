@@ -19,6 +19,9 @@
     <Filter Include="Header Files\raknet">
       <UniqueIdentifier>{a1de3d4f-21cc-42d8-9f71-a1409326b133}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\zzip">
+      <UniqueIdentifier>{1e161c1a-0d60-46eb-86aa-2f64b2dc9596}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpu_count.cpp">
@@ -70,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZunTzuLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zzlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="networking.cpp">
@@ -129,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZunTzuLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zzlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="raknet\_FindFirst.h">
@@ -596,12 +593,28 @@
     <ClInclude Include="raknet\XBox360Includes.h">
       <Filter>Header Files\raknet</Filter>
     </ClInclude>
+    <ClInclude Include="zzip\_msvc.h">
+      <Filter>Header Files\zzip</Filter>
+    </ClInclude>
+    <ClInclude Include="zzip\conf.h">
+      <Filter>Header Files\zzip</Filter>
+    </ClInclude>
+    <ClInclude Include="zzip\mmapped.h">
+      <Filter>Header Files\zzip</Filter>
+    </ClInclude>
+    <ClInclude Include="zzip\types.h">
+      <Filter>Header Files\zzip</Filter>
+    </ClInclude>
+    <ClInclude Include="pnglibconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\libjpeg.lib" />
     <Library Include="..\libpng.lib" />
     <Library Include="..\zlib.lib" />
     <Library Include="..\raknet.lib" />
+    <Library Include="..\zziplib.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

@@ -29,7 +29,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -128,7 +128,7 @@
       <DebugInformationFormat />
       <CallingConvention>FastCall</CallingConvention>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>raknet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>raknet;.</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -168,7 +168,8 @@
       <DebugInformationFormat />
       <CallingConvention>Cdecl</CallingConvention>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>raknet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>raknet;zzip;.</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -176,7 +177,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;zziplib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <Version>1.3</Version>
       <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -223,7 +224,6 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
     <ClCompile Include="synchronized_tile_buffer.cpp" />
     <ClCompile Include="system_info.cpp" />
     <ClCompile Include="ZunTzuLib.cpp" />
-    <ClCompile Include="zzlib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dxt_compressor.h" />
@@ -235,6 +235,7 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
     <ClInclude Include="jpeglib.h" />
     <ClInclude Include="png.h" />
     <ClInclude Include="pngconf.h" />
+    <ClInclude Include="pnglibconf.h" />
     <ClInclude Include="raknet\AutopatcherPatchContext.h" />
     <ClInclude Include="raknet\AutopatcherRepositoryInterface.h" />
     <ClInclude Include="raknet\Base64Encoder.h" />
@@ -397,16 +398,25 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
     <ClInclude Include="zconf.h" />
     <ClInclude Include="zlib.h" />
     <ClInclude Include="ZunTzuLib.h" />
-    <ClInclude Include="zzlib.h" />
+    <ClInclude Include="zzip\conf.h" />
+    <ClInclude Include="zzip\mmapped.h" />
+    <ClInclude Include="zzip\types.h" />
+    <ClInclude Include="zzip\_msvc.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\libjpeg.lib" />
     <Library Include="..\libpng.lib" />
     <Library Include="..\raknet.lib" />
     <Library Include="..\zlib.lib" />
+    <Library Include="..\zziplib.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mmzzip\mmzzip.vcxproj">
+      <Project>{3e05a782-a9c1-4d4b-8f06-28ce37e68a7a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

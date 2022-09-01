@@ -91,10 +91,7 @@ namespace ZunTzu.Networking
 					(byte)ConnectionFailureCause.NotHost,
 				});
 
-				lock (_networkMessages)
-				{
-					_networkMessages.Enqueue(message);
-				}
+				_networkMessages.Enqueue(message);
 			}
 			else
 			{
@@ -137,13 +134,8 @@ namespace ZunTzu.Networking
 				connectionResult = _client.Connect(serverName, (ushort)serverPort);
 			}
 
-			if (startupResult == StartupResult.RAKNET_STARTED
-				&& connectionResult == ConnectionAttemptResult.CONNECTION_ATTEMPT_STARTED)
-			{
-				// launch a timer to monitor timeout
-				_timeoutTimer = new System.Threading.Timer(onTimeout, null, 4000, 0);
-			}
-			else
+			if (startupResult != StartupResult.RAKNET_STARTED
+				|| connectionResult != ConnectionAttemptResult.CONNECTION_ATTEMPT_STARTED)
 			{
 				// failure
 				_status = NetworkStatus.Disconnected;
@@ -157,10 +149,7 @@ namespace ZunTzu.Networking
 					(byte)cause,
 				});
 
-				lock (_networkMessages)
-				{
-					_networkMessages.Enqueue(message);
-				}
+				_networkMessages.Enqueue(message);
 			}
 		}
 
@@ -230,10 +219,7 @@ namespace ZunTzu.Networking
 					messageData[9] = (byte)((_playerId & 0xff00000000000000) >> 56);
 
 					var message = new NetworkMessage(messageData);
-					lock (_networkMessages)
-					{
-						_networkMessages.Enqueue(message);
-					}
+					_networkMessages.Enqueue(message);
 				}
 			}
 		}
@@ -261,10 +247,7 @@ namespace ZunTzu.Networking
 			{
 				// loopback so that he receives the message
 				var message = new NetworkMessage(messageData);
-				lock (_networkMessages)
-				{
-					_networkMessages.Enqueue(message);
-				}
+				_networkMessages.Enqueue(message);
 			}
 			else if (_status == NetworkStatus.Connected)
 			{
@@ -281,15 +264,9 @@ namespace ZunTzu.Networking
 		{
 			if (_status != NetworkStatus.Connected) return;
 
-			byte frameId;
-			byte oldestFrameId;
-			byte[] oldestFrameData;
-			lock (_outboundVideoFrameHistory)
-			{
-				oldestFrameData = _outboundVideoFrameHistory.OldestFrameData;
-				oldestFrameId = (oldestFrameData != null ? _outboundVideoFrameHistory.OldestFrameId : (byte)0);
-				frameId = _outboundVideoFrameHistory.AddFrame(frameBuffer);
-			}
+			byte[] oldestFrameData = _outboundVideoFrameHistory.OldestFrameData;
+			byte oldestFrameId = (oldestFrameData != null ? _outboundVideoFrameHistory.OldestFrameId : (byte)0);
+			byte frameId = _outboundVideoFrameHistory.AddFrame(frameBuffer);
 
 			byte[] data;
 			if (_serverIsOnSameComputer)
@@ -349,12 +326,8 @@ namespace ZunTzu.Networking
 		/// <returns>A list of NetworkMessage instances.</returns>
 		public List<NetworkMessage> RetrieveNetworkMessages()
 		{
-			var messageList = new List<NetworkMessage>();
-			lock (_networkMessages)
-			{
-				messageList.AddRange(_networkMessages); // shallow copy
-				_networkMessages.Clear();
-			}
+			var messageList = new List<NetworkMessage>(_networkMessages); // shallow copy
+			_networkMessages.Clear();
 
 			var videoFrameList = new List<VideoFrame>();
 
@@ -429,8 +402,6 @@ namespace ZunTzu.Networking
         {
 			using (packet)
 			{
-				_timeoutTimer.Dispose();
-
 				if (_status == NetworkStatus.Connecting)
 				{
 					_serverAddress = new AddressOrGuid
@@ -456,8 +427,6 @@ namespace ZunTzu.Networking
 		{
 			using (packet)
 			{
-				_timeoutTimer.Dispose();
-
 				if (_status == NetworkStatus.Connecting)
 				{
 					_status = NetworkStatus.Disconnected;
@@ -653,10 +622,7 @@ namespace ZunTzu.Networking
 				frameId = *(ptr + 1);
 			}
 
-			lock (_outboundVideoFrameHistory)
-			{
-				_outboundVideoFrameHistory.ClearHistoryUntilThisFrame(frameId);
-			}
+			_outboundVideoFrameHistory.ClearHistoryUntilThisFrame(frameId);
 		}
 
 		void onVideoCaptureDisabled(List<NetworkMessage> messageList, Packet packet)
@@ -704,9 +670,6 @@ namespace ZunTzu.Networking
 
 		void onTimeout(object state)
 		{
-			// TODO: rely on RakNet timeout instead -> get rid of locks
-			_timeoutTimer.Dispose();
-
 			if (_status == NetworkStatus.Connecting)
 			{
 				_status = NetworkStatus.Disconnected;
@@ -718,20 +681,16 @@ namespace ZunTzu.Networking
 					(byte)ConnectionFailureCause.TimeOut,
 				});
 
-				lock (_networkMessages)
-				{
-					_networkMessages.Enqueue(message);
-				}
+				_networkMessages.Enqueue(message);
 			}
 		}
 
 		Peer _client = null;
 		volatile bool _isRecording = false;
 		volatile NetworkStatus _status = NetworkStatus.Disconnected;
-		UInt64 _playerId = 0; // should be volatile (TODO: fix that by removing timeout timer)
+		UInt64 _playerId = 0;
 		AddressOrGuid _serverAddress = AddressOrGuid.UNASSIGNED;
-		Queue<NetworkMessage> _networkMessages = new Queue<NetworkMessage>();    // watch out for thread safety (only because of the timeout timer)
-		System.Threading.Timer _timeoutTimer = null;
+		Queue<NetworkMessage> _networkMessages = new Queue<NetworkMessage>();
 		IVideoCodec _videoCodec = new ZtcVideoCodec();
 		OutboundVideoFrameHistory _outboundVideoFrameHistory = null;
 		Dictionary<UInt64, InboundVideoFrameHistory> _inboundVideoFrameHistories = null;

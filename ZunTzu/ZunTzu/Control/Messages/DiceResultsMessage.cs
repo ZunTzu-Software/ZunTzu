@@ -7,7 +7,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>DiceResultsMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class DiceResultsMessage : Message {
+	public sealed class DiceResultsMessage : ReliableMessageFromClientToAll
+	{
 
 		internal DiceResultsMessage() {}
 

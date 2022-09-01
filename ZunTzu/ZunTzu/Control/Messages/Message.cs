@@ -52,14 +52,6 @@ using ZunTzu.Networking;
 
 namespace ZunTzu.Control {
 
-	// structure of the message byte code:
-	// bits 0-1: transmission mode
-	//    00: a reliable message from host to a single client (recipient defined using bytes 1-4)
-	//    01: a reliable message from client to host
-	//    10: a reliable message from client to all
-	//    11: an unreliable message from client to all others
-	// bits 2-7: unique application-defined message code (64 combinations for each category)
-
 	[ObfuscationAttribute(Exclude = true)]
 	public enum NetworkMessageType : byte {
 
@@ -79,13 +71,13 @@ namespace ZunTzu.Control {
 
 		// reliable messages from host to single client
 
-		ConnectionAccepted,	// binary: 00 ......
+		ConnectionAccepted,
 		ChangeRejected,
 		ContinueRotation,
 
 		// reliable messages from client to host
 
-		Undo = 0x40,	// binary: 01 000000
+		Undo,
 		Redo,
 		VisibleBoardChanged,
 		SelectionChanged,
@@ -128,7 +120,7 @@ namespace ZunTzu.Control {
 
 		// reliable messages from client to all
 
-		ChangeAccepted = 0x80,	// binary: 10 000000
+		ChangeAccepted,
 		PlayerColorChanged,
 		PlayerHasJoined,
 		PlayerNameChanged,
@@ -149,7 +141,7 @@ namespace ZunTzu.Control {
 
 		// unreliable messages from client to all others
 
-		MouseMoved = 0xC0,	// binary: 11 000000
+		MouseMoved,
 		VisibleAreaChanged
 	}
 
@@ -160,22 +152,55 @@ namespace ZunTzu.Control {
 		/// <param name="type">Type of the message to create.</param>
 		/// <returns>A new Message instance.</returns>
 		public static Message CreateInstance(NetworkMessage networkMessage) {
-			Message message = Message.CreateInstance(networkMessage.Type);
-			message.Deserialize(networkMessage.Data);
-			message.SenderId = networkMessage.SenderId;
+			unsafe
+            {
+				if (networkMessage.Packet != null)
+				{
+					using (var packet = networkMessage.Packet)
+					{
+						byte* ptr = (byte*)packet.Data.ToPointer();
+						return CreateInstance(ptr, packet.Length);
+					}
+				}
+				else if(networkMessage.Data.Length > 2 && 
+					networkMessage.Data[1] == (byte)ReservedMessageType.VideoFrameReceived)
+                {
+					return new VideoFrameReceivedMessage(networkMessage.Data);
+                }
+				else
+				{
+					fixed(byte* ptr = networkMessage.Data)
+                    {
+						return CreateInstance(ptr, networkMessage.Data.Length);
+					}
+				}
+			}
+		}
+
+		static unsafe Message CreateInstance(byte* data, int length)
+		{
+			byte messageType = *(data + 1);
+			Message message = Message.CreateInstance(messageType);
+			message.Deserialize((IntPtr)(data + 2), length - 2);
+
 			return message;
 		}
 
+		/// <summary>RakNet Type of this message.</summary>
+		internal abstract MessageId MessageId { get; }
+
 		/// <summary>Type of this message.</summary>
 		public abstract NetworkMessageType Type { get; }
-
-		/// <summary>Id of the player who sent this message.</summary>
-		public int SenderId { get { return senderId; } set { senderId = value; } }
 
 		/// <summary>Serializes this message as a byte array.</summary>
 		/// <returns>Serialized data.</returns>
 		public byte[] Serialize() {
 			using(Serializer serializer = new Serializer(serializationEncoding)) {
+				byte messageId = (byte)MessageId;
+				serializer.Serialize(ref messageId);
+				byte messageType = (byte)Type;
+				serializer.Serialize(ref messageType);
+				SerializeDeserializeSenderId(serializer);
 				SerializeDeserialize(serializer);
 				return serializer.Bytes;
 			}
@@ -193,16 +218,18 @@ namespace ZunTzu.Control {
 
 		/// <summary>Deserializes the data for this message.</summary>
 		/// <param name="serializedMessage">The serialized data of the message.</param>
-		internal virtual void Deserialize(byte[] serializedMessage) {
-			if(serializedMessage != null) {
-				using(Deserializer deserializer = new Deserializer(serializationEncoding, serializedMessage)) {
+		/// <param name="length">The number of bytes in the serialized data.</param>
+		internal virtual void Deserialize(IntPtr serializedMessage, int length) {
+			if(serializedMessage != IntPtr.Zero && length > 0) {
+				using(Deserializer deserializer = new Deserializer(serializationEncoding, serializedMessage, length)) {
+					SerializeDeserializeSenderId(deserializer);
 					SerializeDeserialize(deserializer);
 				}
 			}
 		}
 
 		/// <summary>Encoding used to serialize and deserialize all messages.</summary>
-		protected static readonly Encoding serializationEncoding = Encoding.GetEncoding(1252);
+		protected static readonly Encoding serializationEncoding = Encoding.UTF8;
 
 		/// <summary>Interface shared by the serializer and deserializer classes.</summary>
 		protected interface ISerializer {
@@ -217,7 +244,11 @@ namespace ZunTzu.Control {
 			void Serialize(ref RectangleF data);
 			void Serialize(ref byte[] data);
 			void Serialize(ref Guid data);
+			void Serialize(ref UInt64 data);
 		}
+
+		/// <summary>Implements the serialization or deserialization of the sender ID of this message.</summary>
+		protected abstract void SerializeDeserializeSenderId(ISerializer deserializer);
 
 		/// <summary>Implements the serialization or deserialization of the content of this message.</summary>
 		protected abstract void SerializeDeserialize(ISerializer serializer);
@@ -244,13 +275,17 @@ namespace ZunTzu.Control {
 			public void Serialize(ref RectangleF data) { writer.Write(data.X); writer.Write(data.Y); writer.Write(data.Width); writer.Write(data.Height); }
 			public void Serialize(ref byte[] data) { writer.Write(data.Length); writer.Write(data); }
 			public void Serialize(ref Guid data) { writer.Write(data.ToByteArray()); }
+			public void Serialize(ref UInt64 data) { writer.Write(data); }
 
 			private BinaryWriter writer;
 		}
 
 		private sealed class Deserializer : ISerializer, IDisposable {
-			public Deserializer(Encoding encoding, byte[] serializedData) {
-				reader = new BinaryReader(new MemoryStream(serializedData), encoding);
+			public Deserializer(Encoding encoding, IntPtr serializedData, int length) {
+				unsafe
+				{
+					reader = new BinaryReader(new UnmanagedMemoryStream((byte*)serializedData.ToPointer(), length), encoding);
+				}
 			}
 			public void Dispose() { reader.Close(); }
 			public bool IsSerializing { get { return false; } }
@@ -264,21 +299,66 @@ namespace ZunTzu.Control {
 			public void Serialize(ref RectangleF data) { data.X = reader.ReadSingle(); data.Y = reader.ReadSingle(); data.Width = reader.ReadSingle(); data.Height = reader.ReadSingle(); }
 			public void Serialize(ref byte[] data) { int byteCount = reader.ReadInt32(); data = reader.ReadBytes(byteCount); }
 			public void Serialize(ref Guid data) { data = new Guid(reader.ReadBytes(16)); }
+			public void Serialize(ref UInt64 data) { data = reader.ReadUInt64(); }
 
 			private BinaryReader reader;
 		}
-
-		/// <summary>Id of the player who sent this message.</summary>
-		protected int senderId;
 	}
 
 	/// <summary>Abstract class for all system messages.</summary>
 	public abstract class SystemMessage : Message {
+		internal override MessageId MessageId => Networking.MessageId.SystemMessage;
+		protected override void SerializeDeserializeSenderId(ISerializer serializer) {}
 		protected override void SerializeDeserialize(ISerializer serializer) {}
 	}
 
+	/// <summary>Abstract class for all reliable messages from host to single client.</summary>
+	public abstract class ReliableMessageFromHostToSingleClient : Message
+	{
+		internal override MessageId MessageId => Networking.MessageId.ReliableMessageFromHostToSingleClient;
+		
+		protected override void SerializeDeserializeSenderId(ISerializer serializer)
+		{
+			UInt64 placeholderForRecipientId = 0;
+			serializer.Serialize(ref placeholderForRecipientId);
+		}
+	}
+
+	/// <summary>Abstract class for all messages from client (instead of host).</summary>
+	public abstract class MessageFromClient : Message
+	{
+		/// <summary>Id of the player who sent this message.</summary>
+		public UInt64 SenderId => senderId;
+
+		protected override void SerializeDeserializeSenderId(ISerializer serializer)
+		{
+			serializer.Serialize(ref senderId);
+		}
+
+		/// <summary>Id of the player who sent this message.</summary>
+		protected UInt64 senderId = 0;
+	}
+
+	/// <summary>Abstract class for all reliable messages from client to host.</summary>
+	public abstract class ReliableMessageFromClientToHost : MessageFromClient
+	{
+		internal override MessageId MessageId => Networking.MessageId.ReliableMessageFromClientToHost;
+	}
+
+	/// <summary>Abstract class for all reliable messages from client to all.</summary>
+	public abstract class ReliableMessageFromClientToAll : MessageFromClient
+	{
+		internal override MessageId MessageId => Networking.MessageId.ReliableMessageFromClientToAll;
+	}
+
+	/// <summary>Abstract class for all unreliable message from client to all others.</summary>
+	public abstract class UnreliableMessageFromClientToAllOthers : MessageFromClient
+	{
+		internal override MessageId MessageId => Networking.MessageId.UnreliableMessageFromClientToAllOthers;
+	}
+
 	/// <summary>Abstract class for all messages sent only to the host, asking for a change of the game state.</summary>
-	public abstract class StateChangeRequestMessage : Message {
+	public abstract class StateChangeRequestMessage : ReliableMessageFromClientToHost {
 		/// <summary>Handles a network message.</summary>
 		public sealed override void Handle(Controller controller) {
 			// Handle state change request
@@ -304,7 +384,7 @@ namespace ZunTzu.Control {
 	}
 
 	/// <summary>Abstract class for all messages that indicate a change of the game state.</summary>
-	public abstract class StateChangeMessage : Message {
+	public abstract class StateChangeMessage : ReliableMessageFromClientToAll {
 		/// <summary>Indicates the new game state after this message is applied.</summary>
 		/// <notes>This is used to prevent collisions of two conflicting state changes.</notes>
 		protected int stateChangeSequenceNumber;

@@ -142,7 +142,7 @@ namespace ZunTzu.Visualization {
 		/// <summary>Displays a new video frame from a player's webcam.</summary>
 		/// <param name="playerId">The player's id.</param>
 		/// <param name="videoFrame">A 64x64 frame buffer in R8G8B8 format.</param>
-		public unsafe void UpdateVideoFrame(int playerId, byte[] videoFrame) {
+		public unsafe void UpdateVideoFrame(UInt64 playerId, byte[] videoFrame) {
 			// crop in a circular shape using alpha transparency
 			byte* alphaFrame = stackalloc byte[64 * 64 * 4];
 			fixed(byte* videoFramePtr = videoFrame) {

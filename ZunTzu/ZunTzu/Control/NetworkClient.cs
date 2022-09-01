@@ -20,13 +20,13 @@ namespace ZunTzu.Control {
 		/// <summary>Send a message to other players.</summary>
 		/// <param name="message">Message to send.</param>
 		public void Send(Message message) {
-			client.Send((byte)message.Type, message.Serialize());
+			client.Send(message.Serialize());
 		}
 
 		/// <summary>Send a message to a single player.</summary>
 		/// <param name="message">Message to send.</param>
-		public void Send(int recipientId, Message message) {
-			client.Send(recipientId, (byte)message.Type, message.Serialize());
+		public void Send(UInt64 recipientId, Message message) {
+			client.Send(recipientId, message.Serialize());
 		}
 
 		public IEnumerable<Message> RetrieveNetworkMessages() {

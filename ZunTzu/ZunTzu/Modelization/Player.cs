@@ -15,7 +15,7 @@ namespace ZunTzu.Modelization {
 		/// <param name="color">Color of this player</param>
 		/// <param name="cursorPosition">Position of the cursor of this player in screen coordinates</param>
 		/// <param name="isCursorVisible">True if the cursor is not above a private frame</param>
-		public Player(int id, string firstName, string lastName, Guid guid, uint color, Point cursorScreenPosition, bool isCursorVisible) {
+		public Player(UInt64 id, string firstName, string lastName, Guid guid, uint color, Point cursorScreenPosition, bool isCursorVisible) {
 			this.id = id;
 			this.firstName = firstName;
 			this.lastName = lastName;
@@ -39,8 +39,8 @@ namespace ZunTzu.Modelization {
 		}
 
 		/// <summary>Network id of this player.</summary>
-		public int Id { get { return id; } set { id = value; } }
-		private int id;
+		public UInt64 Id { get { return id; } set { id = value; } }
+		private UInt64 id;
 
 		/// <summary>First name of this player.</summary>
 		public string FirstName { get { return firstName; } set { firstName = value; } }

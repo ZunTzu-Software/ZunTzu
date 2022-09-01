@@ -17,6 +17,12 @@ namespace ZunTzu.Control.Messages {
 
 		public sealed override NetworkMessageType Type { get { return NetworkMessageType.PlayerWantsToJoin; } }
 
+		protected sealed override void SerializeDeserialize(ISerializer serializer)
+		{
+			Debug.Assert(!serializer.IsSerializing);
+			serializer.Serialize(ref _senderId);
+		}
+
 		public sealed override void Handle(Controller controller) {
 			Debug.Assert(controller.Model.IsHosting);
 
@@ -57,7 +63,9 @@ namespace ZunTzu.Control.Messages {
 				gameData = stream.ToArray();
 			}
 
-			controller.NetworkClient.Send(senderId, new ConnectionAcceptedMessage((controller.View.DisplayProperties.GameAspectRatio == AspectRatioType.SixteenToTen), model.StateChangeSequenceNumber, currentPlayers, selectionInfo, gameData));
+			controller.NetworkClient.Send(_senderId, new ConnectionAcceptedMessage((controller.View.DisplayProperties.GameAspectRatio == AspectRatioType.SixteenToTen), model.StateChangeSequenceNumber, currentPlayers, selectionInfo, gameData));
 		}
+
+		UInt64 _senderId = 0;
 	}
 }

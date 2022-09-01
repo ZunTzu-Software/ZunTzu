@@ -21,15 +21,14 @@ extern "C" {
 	__declspec(dllexport) int __cdecl GetProcessorCoreCount();
 
 	// Networking
-	__declspec(dllexport) void * __cdecl CreateClient();
-	__declspec(dllexport) void __cdecl FreeClient(void * client);
-	__declspec(dllexport) void __cdecl Connect(void * client);
-	__declspec(dllexport) void __cdecl Send(void * client);
-	__declspec(dllexport) void __cdecl Statistics(void * client);
-	__declspec(dllexport) void * __cdecl CreateServer();
-	__declspec(dllexport) void __cdecl FreeServer(void * server);
-	__declspec(dllexport) void __cdecl Host(void * server);
-	__declspec(dllexport) void __cdecl SendToOne(void * server, int player_id);
-	__declspec(dllexport) void __cdecl SendToAllOthers(void * server, int player_id);
-	__declspec(dllexport) void __cdecl SendToAll(void* server);
+	__declspec(dllexport) void* __cdecl CreatePeer();
+	__declspec(dllexport) void __cdecl FreePeer(void* client_or_server);
+	__declspec(dllexport) int __cdecl StartupClient(void* client, unsigned short port);
+	__declspec(dllexport) int __cdecl StartupServer(void* server, unsigned short port);
+	__declspec(dllexport) void __cdecl Shutdown(void* client_or_server);
+	__declspec(dllexport) int __cdecl Connect(void* client, const char* host, unsigned short remote_port);
+	__declspec(dllexport) int __cdecl Send(void* client, const char* data, int length, int priority, int reliability, int ordering_channel, void* system_identifier, bool broadcast);
+	__declspec(dllexport) void* __cdecl Receive(void* client_or_server);
+	__declspec(dllexport) void __cdecl DeallocatePacket(void* client_or_server, void* packet);
+	__declspec(dllexport) unsigned long long __cdecl GetGuid(void* client);
 }

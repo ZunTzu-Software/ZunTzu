@@ -8,7 +8,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>DisableDeckAutoInspectMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class DisableDeckAutoInspectMessage : Message {
+	public sealed class DisableDeckAutoInspectMessage : ReliableMessageFromClientToAll
+	{
 
 		internal DisableDeckAutoInspectMessage() { }
 

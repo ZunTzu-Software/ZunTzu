@@ -10,7 +10,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>VisibleAreaChangedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class VisibleAreaChangedMessage : Message {
+	public sealed class VisibleAreaChangedMessage : UnreliableMessageFromClientToAllOthers
+	{
 
 		internal VisibleAreaChangedMessage() {}
 

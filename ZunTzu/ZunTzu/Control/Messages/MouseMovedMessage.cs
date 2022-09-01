@@ -10,7 +10,7 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>MouseMovedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class MouseMovedMessage : Message {
+	public sealed class MouseMovedMessage : UnreliableMessageFromClientToAllOthers {
 
 		internal MouseMovedMessage() {}
 

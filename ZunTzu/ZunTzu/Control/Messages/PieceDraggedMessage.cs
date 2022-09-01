@@ -9,7 +9,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>PieceDraggedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class PieceDraggedMessage : Message {
+	public sealed class PieceDraggedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal PieceDraggedMessage() {}
 

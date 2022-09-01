@@ -8,11 +8,11 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>PlayerColorChangedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class PlayerColorChangedMessage : Message {
+	public sealed class PlayerColorChangedMessage : ReliableMessageFromClientToAll {
 
 		internal PlayerColorChangedMessage() {}
 
-		public PlayerColorChangedMessage(int playerId, uint color) {
+		public PlayerColorChangedMessage(UInt64 playerId, uint color) {
 			this.playerId = playerId;
 			this.color = color;
 		}
@@ -30,7 +30,7 @@ namespace ZunTzu.Control.Messages {
 				player.Color = color;
 		}
 
-		private int playerId;
+		private UInt64 playerId;
 		private uint color;
 	}
 }

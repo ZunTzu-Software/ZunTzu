@@ -427,9 +427,10 @@
     <Compile Include="Modelization\Stack.cs" />
     <Compile Include="Modelization\TerrainClone.cs" />
     <Compile Include="Modelization\TerrainPrototype.cs" />
-    <Compile Include="Networking\DXClient.cs" />
-    <Compile Include="Networking\DXServer.cs" />
     <Compile Include="Networking\Networking.cs" />
+    <Compile Include="Networking\RakClient.cs" />
+    <Compile Include="Networking\Raknet.cs" />
+    <Compile Include="Networking\RakServer.cs" />
     <Compile Include="Networking\VideoFrameHistory.cs" />
     <Compile Include="Properties.Resources.de.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -515,7 +516,6 @@
     </None>
     <None Include="Graphics\Microsoft.DirectX.Direct3D.dll" />
     <None Include="Graphics\Microsoft.DirectX.dll" />
-    <None Include="Networking\Microsoft.DirectX.DirectPlay.dll" />
     <None Include="Networking\Microsoft.DirectX.DirectSound.dll" />
     <None Include="ResourceFiles\ZunTzu.res" />
     <None Include="Resources\ZunTzu.ico" />

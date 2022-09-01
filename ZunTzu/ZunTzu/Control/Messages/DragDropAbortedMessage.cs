@@ -8,7 +8,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>DragDropAbortedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class DragDropAbortedMessage : Message {
+	public sealed class DragDropAbortedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal DragDropAbortedMessage() {}
 

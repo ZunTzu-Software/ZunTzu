@@ -8,7 +8,7 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>ChatMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class ChatMessage : Message {
+	public sealed class ChatMessage : ReliableMessageFromClientToAll {
 
 		internal ChatMessage() {}
 

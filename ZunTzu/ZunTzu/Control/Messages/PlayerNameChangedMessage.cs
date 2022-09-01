@@ -9,7 +9,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>PlayerNameChangedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class PlayerNameChangedMessage : Message {
+	public sealed class PlayerNameChangedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal PlayerNameChangedMessage() {}
 

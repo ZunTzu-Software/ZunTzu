@@ -16,12 +16,12 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>PlayerListMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class ConnectionAcceptedMessage : Message {
+	public sealed class ConnectionAcceptedMessage : ReliableMessageFromHostToSingleClient {
 
 		internal ConnectionAcceptedMessage() {}
 
 		public struct PlayerInfo {
-			public int Id;
+			public UInt64 Id;
 			public string FirstName;
 			public string LastName;
 			public Guid Guid;

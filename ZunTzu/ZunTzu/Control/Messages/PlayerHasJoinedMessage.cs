@@ -11,7 +11,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>PlayerHasJoined.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class PlayerHasJoinedMessage : Message {
+	public sealed class PlayerHasJoinedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal PlayerHasJoinedMessage() {}
 

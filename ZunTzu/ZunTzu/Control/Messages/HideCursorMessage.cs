@@ -8,7 +8,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>HideCursorMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class HideCursorMessage : Message {
+	public sealed class HideCursorMessage : ReliableMessageFromClientToAll
+	{
 
 		internal HideCursorMessage() { }
 

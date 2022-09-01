@@ -9,7 +9,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>TerrainDraggedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class TerrainDraggedMessage : Message {
+	public sealed class TerrainDraggedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal TerrainDraggedMessage() { }
 

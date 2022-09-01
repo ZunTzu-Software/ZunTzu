@@ -70,5 +70,58 @@ namespace ZunTzu {
 		[DllImport("ZunTzuLib.dll")]
 		public static extern void FreeImageLoader(
 			IntPtr imageLoader);
+
+		// Networking
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern IntPtr CreatePeer();
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void FreePeer(
+			IntPtr clientOrServer);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern int StartupClient(
+			IntPtr client,
+			ushort port);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern int StartupServer(
+			IntPtr server, 
+			ushort port);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void Shutdown(
+			IntPtr clientOrServer);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern int Connect(
+			IntPtr client,
+			[MarshalAs(UnmanagedType.LPStr)] string host, 
+			ushort remotePort);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern int Send(
+			IntPtr client,
+			byte* data,
+			int length,
+			int priority,
+			int reliability,
+			int orderingChannel,
+			IntPtr addressOrGuid,
+			bool broadcast);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern IntPtr Receive(
+			IntPtr clientOrServer);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void DeallocatePacket(
+			IntPtr clientOrServer,
+			IntPtr packet);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern UInt64 GetGuid(
+			IntPtr client);
 	}
 }

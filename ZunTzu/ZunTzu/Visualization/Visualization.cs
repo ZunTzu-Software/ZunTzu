@@ -133,7 +133,7 @@ namespace ZunTzu.Visualization {
 		/// <summary>Displays a new video frame from a player's webcam.</summary>
 		/// <param name="playerId">The player's id.</param>
 		/// <param name="videoFrame">A 64x64 frame buffer in R8G8B8 format.</param>
-		void UpdateVideoFrame(int playerId, byte[] videoFrame);
+		void UpdateVideoFrame(UInt64 playerId, byte[] videoFrame);
 	}
 
 	/// <summary>Sub-component in charge of the display of the content of the selected stack.</summary>

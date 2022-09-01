@@ -10,7 +10,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>DiceCastMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class DiceCastMessage : Message {
+	public sealed class DiceCastMessage : ReliableMessageFromClientToHost
+	{
 
 		internal DiceCastMessage() {}
 

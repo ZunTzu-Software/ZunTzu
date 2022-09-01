@@ -83,7 +83,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Returns the player with the given id.</summary>
 		/// <param name="playerId">A player id.</param>
 		/// <returns>A player or null if not found.</returns>
-		IPlayer GetPlayer(int playerId);
+		IPlayer GetPlayer(UInt64 playerId);
 		/// <summary>Returns the player with the given Guid.</summary>
 		/// <param name="playerGuid">A Guid.</param>
 		/// <returns>A player or null if not found.</returns>
@@ -97,10 +97,10 @@ namespace ZunTzu.Modelization {
 		/// <param name="cursorPosition">The current cursor position of this player in screen coordinates.</param>
 		/// <param name="isCursorVisible">False if the cursor is over a private frame.</param>
 		/// <returns>The newly created player.</returns>
-		IPlayer AddPlayer(int id, string firstName, string lastName, Guid guid, uint color, Point cursorPosition, bool isCursorVisible);
+		IPlayer AddPlayer(UInt64 id, string firstName, string lastName, Guid guid, uint color, Point cursorPosition, bool isCursorVisible);
 		/// <summary>Remove a player from the player list.</summary>
 		/// <param name="id">The network id of the player to remove.</param>
-		void RemovePlayer(int id);
+		void RemovePlayer(UInt64 id);
 		/// <summary>Remove all players from the player list.</summary>
 		void RemoveAllPlayers();
 
@@ -125,7 +125,7 @@ namespace ZunTzu.Modelization {
 	/// <summary>Information about a player.</summary>
 	public interface IPlayer {
 		/// <summary>Network id of this player.</summary>
-		int Id { get; }
+		UInt64 Id { get; }
 		/// <summary>Fist name of this player.</summary>
 		string FirstName { get; set; }
 		/// <summary>Last name of this player.</summary>

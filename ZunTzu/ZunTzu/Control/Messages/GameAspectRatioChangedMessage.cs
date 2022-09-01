@@ -9,7 +9,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>GameAspectRatioChangedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class GameAspectRatioChangedMessage : Message {
+	public sealed class GameAspectRatioChangedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal GameAspectRatioChangedMessage() { }
 

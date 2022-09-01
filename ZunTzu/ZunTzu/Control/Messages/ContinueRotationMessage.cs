@@ -7,7 +7,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>ContinueRotationMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class ContinueRotationMessage : Message {
+	public sealed class ContinueRotationMessage : ReliableMessageFromHostToSingleClient
+	{
 
 		internal ContinueRotationMessage() {}
 

@@ -33,7 +33,7 @@ namespace ZunTzu {
 			if(args.Length == 2 && args[0] == "-s") {
 				// launch standalone server
 				int port = int.Parse(args[1]);
-				using(IServer server = new DXServer()) {
+				using(IServer server = new RakServer()) {
 					server.Start(port);
 				}
 

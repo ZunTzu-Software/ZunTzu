@@ -9,7 +9,8 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>StackDraggedMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class StackDraggedMessage : Message {
+	public sealed class StackDraggedMessage : ReliableMessageFromClientToAll
+	{
 
 		internal StackDraggedMessage() {}
 

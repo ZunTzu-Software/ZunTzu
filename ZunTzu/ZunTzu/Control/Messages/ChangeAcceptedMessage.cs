@@ -19,25 +19,17 @@ namespace ZunTzu.Control.Messages {
 		public override NetworkMessageType Type { get { return NetworkMessageType.ChangeAccepted; } }
 
 		protected sealed override void SerializeDeserialize(ISerializer serializer) {
-			byte requestType = 0;
-			int requestSenderId = 0;
 			byte[] serializedRequestMessage = null;
 
 			if(serializer.IsSerializing) {
-				requestType = (byte)requestMessage.Type;
-				requestSenderId = requestMessage.SenderId;
 				serializedRequestMessage = requestMessage.Serialize();
 			}
 
 			serializer.Serialize(ref stateChangeSequenceNumber);
-			serializer.Serialize(ref requestType);
-			serializer.Serialize(ref requestSenderId);
 			serializer.Serialize(ref serializedRequestMessage);
 
 			if(!serializer.IsSerializing) {
-				requestMessage = (StateChangeRequestMessage) Message.CreateInstance(requestType);
-				requestMessage.Deserialize(serializedRequestMessage);
-				requestMessage.SenderId = requestSenderId;
+				requestMessage = (StateChangeRequestMessage) Message.CreateInstance(new Networking.NetworkMessage(serializedRequestMessage));
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace ZunTzu.Control.Messages {
 
 	/// <summary>BeginRotationMessage.</summary>
 	[ObfuscationAttribute(Exclude = true, ApplyToMembers = false)]
-	public sealed class BeginRotationMessage : Message {
+	public sealed class BeginRotationMessage : ReliableMessageFromClientToHost {
 
 		public BeginRotationMessage() {}
 

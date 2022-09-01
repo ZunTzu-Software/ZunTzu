@@ -16,7 +16,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Constructor.</summary>
 		public Model(Form mainForm, AudioProperties audioProperties, string playerFirstName, string playerLastName, Guid playerGuid) {
 			audioManager = new AudioManager(mainForm, audioProperties);
-			networkClient = new DXClient();
+			networkClient = new RakClient();
 			commandManager = new CommandManager(this);
 			animationManager = new AnimationManager(this);
 			gameLibrary = new GameLibrary();
@@ -130,7 +130,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Returns the player with the given id.</summary>
 		/// <param name="playerId">A player id.</param>
 		/// <returns>A player or null if not found.</returns>
-		public IPlayer GetPlayer(int playerId) {
+		public IPlayer GetPlayer(UInt64 playerId) {
 			for(int i = 0; i < players.Length; ++i)
 				if(players[i].Id == playerId)
 					return players[i];
@@ -156,7 +156,7 @@ namespace ZunTzu.Modelization {
 		/// <param name="cursorPosition">The current cursor position of this player in screen coordinates.</param>
 		/// <param name="isCursorVisible">False if the cursor is over a private frame.</param>
 		/// <returns>The newly created player.</returns>
-		public IPlayer AddPlayer(int id, string firstName, string lastName, Guid guid, uint color, Point cursorPosition, bool isCursorVisible) {
+		public IPlayer AddPlayer(UInt64 id, string firstName, string lastName, Guid guid, uint color, Point cursorPosition, bool isCursorVisible) {
 			if(id == networkClient.PlayerId) {
 				thisPlayer.Id = id;
 				thisPlayer.Color = color;
@@ -178,7 +178,7 @@ namespace ZunTzu.Modelization {
 		}
 
 		/// <summary>Remove a player from the player list.</summary>
-		public void RemovePlayer(int id) {
+		public void RemovePlayer(UInt64 id) {
 			for(int i = 0; i < players.Length; ++i)
 				if(players[i].Id == id) {
 					Player[] oldArray = players;
@@ -233,7 +233,7 @@ namespace ZunTzu.Modelization {
 
 		private GameLibrary gameLibrary;
 		private AudioManager audioManager;
-		private DXClient networkClient;
+		private RakClient networkClient;
 		private CommandManager commandManager;
 		private AnimationManager animationManager;
 		private RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();

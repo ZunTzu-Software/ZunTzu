@@ -49,42 +49,6 @@ namespace ZunTzu.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int DisplayTextureFormat {
-            get {
-                return ((int)(this["DisplayTextureFormat"]));
-            }
-            set {
-                this["DisplayTextureFormat"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int DisplayMapAndCounterDetail {
-            get {
-                return ((int)(this["DisplayMapAndCounterDetail"]));
-            }
-            set {
-                this["DisplayMapAndCounterDetail"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DisplayDiceModelComplexity {
-            get {
-                return ((int)(this["DisplayDiceModelComplexity"]));
-            }
-            set {
-                this["DisplayDiceModelComplexity"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DisplayWaitForVerticalBlank {
             get {

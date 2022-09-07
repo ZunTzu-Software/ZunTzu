@@ -44,29 +44,11 @@ namespace ZunTzu.Control.Dialogs {
 			DisplayProperties properties;
 			properties.GameAspectRatio = (widescreenCheckBox.Checked ? AspectRatioType.SixteenToTen : AspectRatioType.FourToThree);
 			properties.PreferredFullscreenMode = fullscreenModeComboBox.SelectedIndex;
-			properties.TextureQuality = eligibleTextureFormats[texturesFormatTrackBar.Value];
-			properties.MapsAndCountersDetailLevel = (DetailLevelType) (2 - mapsAndCounterDetailTrackBar.Value);
-			properties.DiceModelsDetailLevel = (ModelDetailType) (1 - diceModelsTrackBar.Value);
 			properties.WaitForVerticalBlank = waitForVerticalBlankCheckBox.Checked;
 			controller.View.DisplayProperties = properties;
 		}
 
 		private readonly Controller controller;
-		private List<TextureQualityType> eligibleTextureFormats = new List<TextureQualityType>();
-
-		private readonly string[] textureFormatDescriptions = {
-			Resources.TextureFormat32Bits,
-			Resources.TextureFormat16Bits,
-			Resources.TextureFormat8BitsCompressedQuality,
-			null,
-			Resources.TextureFormat8BitsCompressedFast
-		};
-		private readonly string[] mapsAndCounterDetailDescriptions = {
-			Resources.MapDetail600Dpi, Resources.MapDetail300Dpi, Resources.MapDetail150Dpi
-		};
-		private readonly string[] diceModelsDescriptions = {
-			Resources.DiceModelsComplex, Resources.DiceModelsSimple
-		};
 
 		private void DisplayDialog_Load(object sender, EventArgs e) {
 			IView view = controller.View;
@@ -84,32 +66,8 @@ namespace ZunTzu.Control.Dialogs {
 			fullscreenModeComboBox.EndUpdate();
 			fullscreenModeComboBox.SelectedIndex = (properties.PreferredFullscreenMode >= 0 && properties.PreferredFullscreenMode < fullscreenModeComboBox.Items.Count ? properties.PreferredFullscreenMode : 0);
 
-			// textures format
-			foreach(TextureQualityType textureQuality in new TextureQualityType[] { TextureQualityType.CompressedEightBitsFast, TextureQualityType.CompressedEightBitsQuality, TextureQualityType.SixteenBits, TextureQualityType.ThirtyTwoBits }) {
-				if(textureQuality == TextureQualityType.SixteenBits || view.SupportsTextureQuality(textureQuality)) {
-					eligibleTextureFormats.Add(textureQuality);
-					if(properties.TextureQuality == textureQuality)
-						texturesFormatTrackBar.Value = eligibleTextureFormats.Count - 1;
-				}
-			}
-			texturesFormatTrackBar.Maximum = eligibleTextureFormats.Count - 1;
-
-			// maps and counters detail
-			mapsAndCounterDetailTrackBar.Value = 2 - (int) properties.MapsAndCountersDetailLevel;
-
-			// dice models
-			diceModelsTrackBar.Value = 1 - (int) properties.DiceModelsDetailLevel;
-
 			// wait for vertical blank
 			waitForVerticalBlankCheckBox.Checked = properties.WaitForVerticalBlank;
-
-			anyTrackBar_Scroll(null, null);
-		}
-
-		private void anyTrackBar_Scroll(object sender, EventArgs e) {
-			texturesFormatTextBox.Text = textureFormatDescriptions[(int) eligibleTextureFormats[texturesFormatTrackBar.Value]];
-			mapsAndCounterDetailTextBox.Text = mapsAndCounterDetailDescriptions[2 - mapsAndCounterDetailTrackBar.Value];
-			diceModelsTextBox.Text = diceModelsDescriptions[1 - diceModelsTrackBar.Value];
 		}
 	}
 }

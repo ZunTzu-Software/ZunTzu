@@ -8,15 +8,6 @@
     <Setting Name="DisplayWidescreen" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DisplayTextureFormat" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
-    </Setting>
-    <Setting Name="DisplayMapAndCounterDetail" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="DisplayDiceModelComplexity" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="DisplayWaitForVerticalBlank" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

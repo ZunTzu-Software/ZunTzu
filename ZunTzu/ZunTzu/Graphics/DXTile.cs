@@ -29,51 +29,12 @@ namespace ZunTzu.Graphics {
 		internal void Initialize(
 			IntPtr bitmapBits, int stride, PixelFormat pixelFormat,
 			Point sourceUpperLeftCorner,
-			Point sourceLowerRightCorner,
-			bool avoid16bits)
+			Point sourceLowerRightCorner)
 		{
-			switch(tileSet.Graphics.Properties.TextureQuality) {
-				case TextureQualityType.SixteenBits:
-					if(avoid16bits && tileSet.Graphics.SupportsTextureQuality(TextureQualityType.ThirtyTwoBits))
-						goto case TextureQualityType.ThirtyTwoBits;
-					if(pixelFormat == PixelFormat.Format24bppRgb) {
-						Initialize16bitsFrom24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner);
-					} else {
-						Initialize16bitsFrom32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner);
-					}
-					break;
-
-				case TextureQualityType.ThirtyTwoBits:
-					if(pixelFormat == PixelFormat.Format24bppRgb) {
-						Initialize32bitsFrom24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner);
-					} else {
-						Initialize32bitsFrom32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner);
-					}
-					break;
-
-				case TextureQualityType.CompressedEightBitsQuality:
-					if(pixelFormat == PixelFormat.Format24bppRgb) {
-						InitializeDxt1From24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 1);
-					} else {
-						InitializeDxt5From32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 1);
-					}
-					break;
-
-				case TextureQualityType.CompressedEightBitsFast:
-					if(pixelFormat == PixelFormat.Format24bppRgb) {
-						InitializeDxt1From24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 0);
-					} else {
-						InitializeDxt5From32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 0);
-					}
-					break;
-
-				case TextureQualityType.CompressedFourBits:
-					if(pixelFormat == PixelFormat.Format24bppRgb) {
-						InitializeDxt1From24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 0);
-					} else {
-						InitializeDxt1From32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 0);
-					}
-					break;
+			if(pixelFormat == PixelFormat.Format24bppRgb) {
+				InitializeDxt1From24bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 1);
+			} else {
+				InitializeDxt5From32bits(bitmapBits, stride, sourceUpperLeftCorner, sourceLowerRightCorner, 1);
 			}
 		}
 

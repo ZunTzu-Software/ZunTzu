@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="diceModelsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 163</value>
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 23</value>
   </data>
@@ -131,79 +128,13 @@
     <value>Pressione Alt+Enter durante o jogo para mudar entre modo de tela cheia e modo de janela.</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 430</value>
+    <value>40, 217</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>301, 24</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Text" xml:space="preserve">
-    <value>Espera branqueamento vertical (não recomendado)</value>
-  </data>
-  <data name="diceModelsTrackBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 155</value>
-  </data>
-  <data name="diceModelsTrackBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 45</value>
-  </data>
-  <data name="mapsAndCounterDetailTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 131</value>
-  </data>
-  <data name="mapsAndCounterDetailTrackBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 123</value>
-  </data>
-  <data name="mapsAndCounterDetailTrackBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 45</value>
-  </data>
-  <data name="texturesFormatTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 99</value>
-  </data>
-  <data name="texturesFormatTrackBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 91</value>
-  </data>
-  <data name="texturesFormatTrackBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 45</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Modelos dos dados:</value>
-  </data>
-  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 127</value>
-  </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 32</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Detalhes das peças e mapas:</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Formato das texturas:</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>410, 67</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 23</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Melhor qualidade</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>334, 60</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 31</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Melhor performance</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Jogos com mapas muito grandes podem usar muita memória, o que pode afetar a performance do jogo. Estes ajustes permitem que você reduza a qualidade para melhorar a performance.</value>
-  </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 222</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Qualidade</value>
+    <value>Espera branqueamento vertical (recomendado)</value>
   </data>
   <data name="fullscreenModeComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 51</value>

@@ -404,24 +404,6 @@ namespace ZunTzu.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Complex (recommended).
-        /// </summary>
-        internal static string DiceModelsComplex {
-            get {
-                return ResourceManager.GetString("DiceModelsComplex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Simple.
-        /// </summary>
-        internal static string DiceModelsSimple {
-            get {
-                return ResourceManager.GetString("DiceModelsSimple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Command ignored. You need to disconnect first..
         /// </summary>
         internal static string DisconnectFirst {
@@ -980,33 +962,6 @@ namespace ZunTzu.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 150 dpi.
-        /// </summary>
-        internal static string MapDetail150Dpi {
-            get {
-                return ResourceManager.GetString("MapDetail150Dpi", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 150 or 300 dpi (recommended).
-        /// </summary>
-        internal static string MapDetail300Dpi {
-            get {
-                return ResourceManager.GetString("MapDetail300Dpi", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 150, 300 or 600 dpi.
-        /// </summary>
-        internal static string MapDetail600Dpi {
-            get {
-                return ResourceManager.GetString("MapDetail600Dpi", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to About ZunTzu....
         /// </summary>
         internal static string MenuAboutZunTzu {
@@ -1336,42 +1291,6 @@ namespace ZunTzu.Properties {
         internal static string SessionIdCopiedToClipboard {
             get {
                 return ResourceManager.GetString("SessionIdCopiedToClipboard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 16 bits.
-        /// </summary>
-        internal static string TextureFormat16Bits {
-            get {
-                return ResourceManager.GetString("TextureFormat16Bits", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 32 bits.
-        /// </summary>
-        internal static string TextureFormat32Bits {
-            get {
-                return ResourceManager.GetString("TextureFormat32Bits", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Compressed, fast loading.
-        /// </summary>
-        internal static string TextureFormat8BitsCompressedFast {
-            get {
-                return ResourceManager.GetString("TextureFormat8BitsCompressedFast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Compressed, quality (recommended).
-        /// </summary>
-        internal static string TextureFormat8BitsCompressedQuality {
-            get {
-                return ResourceManager.GetString("TextureFormat8BitsCompressedQuality", resourceCulture);
             }
         }
         

@@ -231,12 +231,6 @@
   <data name="ConnectivityTextPortInUse" xml:space="preserve">
     <value>Ce port Internet est réservé par un autre programme. Réessayez avec un numéro de port différent.</value>
   </data>
-  <data name="DiceModelsComplex" xml:space="preserve">
-    <value>Complexes (recommandé)</value>
-  </data>
-  <data name="DiceModelsSimple" xml:space="preserve">
-    <value>Simples</value>
-  </data>
   <data name="DisconnectFirst" xml:space="preserve">
     <value>Command ignorée. Vous devez d'abord vous déconnecter.</value>
   </data>
@@ -423,15 +417,6 @@
   <data name="LoadingGraphics" xml:space="preserve">
     <value>Chargement en cours...</value>
   </data>
-  <data name="MapDetail150Dpi" xml:space="preserve">
-    <value>150 dpi</value>
-  </data>
-  <data name="MapDetail300Dpi" xml:space="preserve">
-    <value>150 ou 300 dpi (recommandé)</value>
-  </data>
-  <data name="MapDetail600Dpi" xml:space="preserve">
-    <value>150, 300 ou 600 dpi</value>
-  </data>
   <data name="MenuAboutZunTzu" xml:space="preserve">
     <value>À propos de...</value>
   </data>
@@ -539,18 +524,6 @@
   </data>
   <data name="ServerModeMixingGsm" xml:space="preserve">
     <value>13 Kb/s mixé</value>
-  </data>
-  <data name="TextureFormat16Bits" xml:space="preserve">
-    <value>16 bits</value>
-  </data>
-  <data name="TextureFormat32Bits" xml:space="preserve">
-    <value>32 bits</value>
-  </data>
-  <data name="TextureFormat8BitsCompressedFast" xml:space="preserve">
-    <value>Compressées, chargement rapide</value>
-  </data>
-  <data name="TextureFormat8BitsCompressedQuality" xml:space="preserve">
-    <value>Compressées, qualité (recommandé)</value>
   </data>
   <data name="ToolTipClose" xml:space="preserve">
     <value>Fermer (Échap)</value>

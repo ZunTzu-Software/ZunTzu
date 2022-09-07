@@ -78,8 +78,7 @@ namespace ZunTzu.Graphics {
 				tiles[mipMapLevel][0, 0].Initialize(
 					image.BitmapData.Scan0, image.BitmapData.Stride, image.BitmapData.PixelFormat,
 					new Point(0 * 254 - 1, 0 * 254 - 1),
-					new Point(Math.Min(0 * 254 + 255, image.BitmapData.Width), Math.Min(0 * 254 + 255, image.BitmapData.Height)),
-					true);
+					new Point(Math.Min(0 * 254 + 255, image.BitmapData.Width), Math.Min(0 * 254 + 255, image.BitmapData.Height)));
 			}
 		}
 
@@ -94,7 +93,7 @@ namespace ZunTzu.Graphics {
 			// optimized native code simd-ed multithreaded pipeline
 			{
 				int error;
-				uint skippedMipMapLevels = (uint) Math.Max(0, (int) graphics.Properties.MapsAndCountersDetailLevel - (int) detailLevel);
+				uint skippedMipMapLevels = 0;
 
 				IntPtr imageLoader = ZunTzuLib.CreateImageLoader(imageFile.Archive.FileName, imageFile.FileName, (maskFile != null ? maskFile.FileName : ""), skippedMipMapLevels, 1);
 				try {
@@ -119,12 +118,10 @@ namespace ZunTzu.Graphics {
 
 					uint tileCount = 0;
 					for(int mipMapLevel = (int) detailLevel; mipMapLevel < mipMapLevelCount + (int) detailLevel; ++mipMapLevel) {
-						if(mipMapLevel >= (int) graphics.Properties.MapsAndCountersDetailLevel) {
-							uint columnCount = (width + 253) / 254;
-							uint rowCount = (height + 253) / 254;
-							tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
-							tileCount += columnCount * rowCount;
-						}
+						uint columnCount = (width + 253) / 254;
+						uint rowCount = (height + 253) / 254;
+						tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
+						tileCount += columnCount * rowCount;
 						width = (width + 1) / 2;
 						height = (height + 1) / 2;
 					}
@@ -218,13 +215,11 @@ namespace ZunTzu.Graphics {
 					totalProgress += nextProgressIncrement;
 					nextProgressIncrement *= 0.25f;
 				}
-				if(mipMapLevel >= (int)graphics.Properties.MapsAndCountersDetailLevel) {
-					int columnCount = (width + 253) / 254;
-					int rowCount = (height + 253) / 254;
-					tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
-					foreach(float progress in createSingleMipMapTilesIncrements(tiles[mipMapLevel], currentMipMapBitmap, width, height, stride, pixelFormat))
-						yield return totalProgress + progress * nextProgressIncrement;
-				}
+				int columnCount = (width + 253) / 254;
+				int rowCount = (height + 253) / 254;
+				tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
+				foreach(float progress in createSingleMipMapTilesIncrements(tiles[mipMapLevel], currentMipMapBitmap, width, height, stride, pixelFormat))
+					yield return totalProgress + progress * nextProgressIncrement;
 			}
 		}
 
@@ -241,8 +236,7 @@ namespace ZunTzu.Graphics {
 					tiles[c, r].Initialize(
 						bitmapBits, stride, pixelFormat,
 						new Point(c * 254 - 1, r * 254 - 1),
-						new Point(Math.Min(c * 254 + 255, width), Math.Min(r * 254 + 255, height)),
-						false);
+						new Point(Math.Min(c * 254 + 255, width), Math.Min(r * 254 + 255, height)));
 					progress += progressIncrement;
 					yield return progress;
 				}
@@ -466,7 +460,7 @@ namespace ZunTzu.Graphics {
 		private IFile maskFile;
 		internal bool SupportsTransparency { get { return maskFile != null; } }
 		private DetailLevelType detailLevel;
-		internal DetailLevelType DetailLevel { get { return (DetailLevelType) Math.Max((int)detailLevel, (int)graphics.Properties.MapsAndCountersDetailLevel); } }
+		internal DetailLevelType DetailLevel => detailLevel;
 		private DXTile[][,] tiles;
 		internal int MipMapLevelCount { get { return tiles.Length; } }
 		internal DXTile[][,] Tiles { get { return tiles; } }

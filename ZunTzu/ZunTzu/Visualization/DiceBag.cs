@@ -139,7 +139,7 @@ namespace ZunTzu.Visualization {
 			if(model.CurrentGameBox.Reference == model.GameLibrary.DefaultGameBox) {
 				// load ZunTzu logo 3D model
 				IFile diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.ZunTzuDiceTexture.png");
-				logoMesh = graphics.LoadDieMesh(Dice.D6ComplexModel.Vertice, Dice.D6ComplexModel.Triangles, Dice.D6ComplexModel.Inradius, diceTextureFile, false);
+				logoMesh = graphics.LoadDieMesh(Dice.D6Model.Vertice, Dice.D6Model.Triangles, Dice.D6Model.Inradius, diceTextureFile, false);
 			} else {
 				logoMesh = null;
 
@@ -176,49 +176,37 @@ namespace ZunTzu.Visualization {
 							case DiceType.D4:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D4Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D4ComplexModel.Vertice, Dice.D4ComplexModel.Triangles, Dice.D4ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D4SimpleModel.Vertice, Dice.D4SimpleModel.Triangles, Dice.D4SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D4Model.Vertice, Dice.D4Model.Triangles, Dice.D4Model.Inradius, diceTextureFile, custom);
 								break;
 
 							case DiceType.D6:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D6Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D6ComplexModel.Vertice, Dice.D6ComplexModel.Triangles, Dice.D6ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D6SimpleModel.Vertice, Dice.D6SimpleModel.Triangles, Dice.D6SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D6Model.Vertice, Dice.D6Model.Triangles, Dice.D6Model.Inradius, diceTextureFile, custom);
 								break;
 
 							case DiceType.D8:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D8Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D8ComplexModel.Vertice, Dice.D8ComplexModel.Triangles, Dice.D8ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D8SimpleModel.Vertice, Dice.D8SimpleModel.Triangles, Dice.D8SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D8Model.Vertice, Dice.D8Model.Triangles, Dice.D8Model.Inradius, diceTextureFile, custom);
 								break;
 
 							case DiceType.D10:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D10Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D10ComplexModel.Vertice, Dice.D10ComplexModel.Triangles, Dice.D10ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D10SimpleModel.Vertice, Dice.D10SimpleModel.Triangles, Dice.D10SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D10Model.Vertice, Dice.D10Model.Triangles, Dice.D10Model.Inradius, diceTextureFile, custom);
 								break;
 
 							case DiceType.D12:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D12Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D12ComplexModel.Vertice, Dice.D12ComplexModel.Triangles, Dice.D12ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D12SimpleModel.Vertice, Dice.D12SimpleModel.Triangles, Dice.D12SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D12Model.Vertice, Dice.D12Model.Triangles, Dice.D12Model.Inradius, diceTextureFile, custom);
 								break;
 
 							case DiceType.D20:
 								if(!custom)
 									diceTextureFile = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles.D20Texture.png");
-								dice[j].DieMesh = (view.DisplayProperties.DiceModelsDetailLevel == ModelDetailType.Complex ?
-									graphics.LoadDieMesh(Dice.D20ComplexModel.Vertice, Dice.D20ComplexModel.Triangles, Dice.D20ComplexModel.Inradius, diceTextureFile, custom) :
-									graphics.LoadDieMesh(Dice.D20SimpleModel.Vertice, Dice.D20SimpleModel.Triangles, Dice.D20SimpleModel.Inradius, diceTextureFile, custom));
+								dice[j].DieMesh = graphics.LoadDieMesh(Dice.D20Model.Vertice, Dice.D20Model.Triangles, Dice.D20Model.Inradius, diceTextureFile, custom);
 								break;
 						}
 

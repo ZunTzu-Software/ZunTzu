@@ -7,7 +7,7 @@ using System.Text;
 namespace ZunTzu.Visualization.Dice {
 
 	/// <summary>A model of a twelve-sided die.</summary>
-	public static class D12ComplexModel {
+	public static class D12Model {
 
 		/// <summary>Distance from the center of a die to the table surface.</summary>
 		public static float Inradius = 0.846055964155777f;

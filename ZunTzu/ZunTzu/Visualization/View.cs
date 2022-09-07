@@ -54,11 +54,8 @@ namespace ZunTzu.Visualization {
 		public View(IModel model, Form mainForm, DisplayProperties displayProperties) {
 			this.mainForm = mainForm;
 			this.model = model;
-			diceModelsDetailLevel = displayProperties.DiceModelsDetailLevel;
 
 			GraphicsProperties graphicsProperties;
-			graphicsProperties.TextureQuality = displayProperties.TextureQuality;
-			graphicsProperties.MapsAndCountersDetailLevel = displayProperties.MapsAndCountersDetailLevel;
 			graphicsProperties.WaitForVerticalBlank = displayProperties.WaitForVerticalBlank;
 			graphicsProperties.PreferredFullscreenMode = displayProperties.PreferredFullscreenMode;
 			graphics = new DXGraphics(mainForm, graphicsProperties, displayProperties.GameAspectRatio);
@@ -198,42 +195,23 @@ namespace ZunTzu.Visualization {
 			dialog.Closed += new EventHandler(onDialogClosed);
 		}
 
-		/// <summary>Indicates that the display adapter supports that texture format.</summary>
-		/// <param name="textureQuality">Setting to use for the textures.</param>
-		/// <returns>True if the format is supported.</returns>
-		public bool SupportsTextureQuality(TextureQualityType textureQuality) { return graphics.SupportsTextureQuality(textureQuality); }
-
 		/// <summary>User preferences for the display.</summary>
 		/// <remarks>Setting the properties will deallocate all resources.</remarks>
 		public DisplayProperties DisplayProperties {
 			get {
 				GraphicsProperties graphicsProperties = graphics.Properties;
 				DisplayProperties properties;
-				properties.TextureQuality = graphicsProperties.TextureQuality;
-				properties.MapsAndCountersDetailLevel = graphicsProperties.MapsAndCountersDetailLevel;
 				properties.WaitForVerticalBlank = graphicsProperties.WaitForVerticalBlank;
 				properties.PreferredFullscreenMode = graphicsProperties.PreferredFullscreenMode;
-				properties.DiceModelsDetailLevel = diceModelsDetailLevel;
 				properties.GameAspectRatio = graphics.GameAspectRatio;
 				return properties;
 			}
 			set {
 				GraphicsProperties graphicsProperties = graphics.Properties;
-				bool resetRequired =
-					(graphicsProperties.TextureQuality != value.TextureQuality ||
-					graphicsProperties.MapsAndCountersDetailLevel != value.MapsAndCountersDetailLevel ||
-					diceModelsDetailLevel != value.DiceModelsDetailLevel);
-
 				graphics.GameAspectRatio = value.GameAspectRatio;
-				graphicsProperties.TextureQuality = value.TextureQuality;
-				graphicsProperties.MapsAndCountersDetailLevel = value.MapsAndCountersDetailLevel;
 				graphicsProperties.WaitForVerticalBlank = value.WaitForVerticalBlank;
 				graphicsProperties.PreferredFullscreenMode = value.PreferredFullscreenMode;
 				graphics.Properties = graphicsProperties;
-				diceModelsDetailLevel = value.DiceModelsDetailLevel;
-
-				if(resetRequired)
-					ResetGraphicsElements();
 			}
 		}
 
@@ -1318,7 +1296,6 @@ namespace ZunTzu.Visualization {
 		private string[] hints = new string[4] { "HintScroll", "HintZoom", "HintRotate", "HintFlip" };
 		private Font font = new Font("Arial", 14.0f, FontStyle.Bold, GraphicsUnit.Pixel);
 		private Form currentDialog = null;
-		private ModelDetailType diceModelsDetailLevel;
 		private Rectangle gameDisplayArea;
 		private ViewElement[] viewElements;
 		private bool loadingGraphics = false;

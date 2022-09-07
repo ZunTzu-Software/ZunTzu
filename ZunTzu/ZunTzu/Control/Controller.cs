@@ -173,11 +173,8 @@ namespace ZunTzu.Control {
 
 			// save user settings
 			DisplayProperties displayProperties = view.DisplayProperties;
-			Settings.Default.DisplayTextureFormat = (int) displayProperties.TextureQuality;
-			Settings.Default.DisplayMapAndCounterDetail = (int) displayProperties.MapsAndCountersDetailLevel;
 			Settings.Default.DisplayWaitForVerticalBlank = displayProperties.WaitForVerticalBlank;
 			Settings.Default.DisplayPreferedFullscreenMode = displayProperties.PreferredFullscreenMode;
-			Settings.Default.DisplayDiceModelComplexity = (int) displayProperties.DiceModelsDetailLevel;
 			Settings.Default.DisplayWidescreen = (displayProperties.GameAspectRatio == ZunTzu.Graphics.AspectRatioType.SixteenToTen);
 
 			AudioProperties audioProperties = model.AudioManager.AudioProperties;

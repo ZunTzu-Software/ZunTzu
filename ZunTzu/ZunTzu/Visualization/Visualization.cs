@@ -24,18 +24,11 @@ namespace ZunTzu.Visualization {
 
 	/// <summary>Properties of the display.</summary>
 	public struct DisplayProperties {
-		/// <summary>Defines the quality vs. footprint setting to use for the textures.</summary>
-		public TextureQualityType TextureQuality;
-		/// <summary>Defines with how many dots per inch the maps and pieces will be displayed.</summary>
-		/// <remarks>The maximum is 600 dpi with the "High" setting, but if the element was scanned at a lower resolution then the lower resolution will be applied.</remarks>
-		public DetailLevelType MapsAndCountersDetailLevel;
 		/// <summary>Indicates if the display adapter should wait for the vertical blank between two frames.</summary>
 		public bool WaitForVerticalBlank;
 		/// <summary>Indicates the preferred mode when operating in fullscreen</summary>
 		/// <remarks>If 0, the current desktop mode will be used.</remarks>
 		public int PreferredFullscreenMode;
-		/// <summary>Defines the complexity of the dice 3D models.</summary>
-		public ModelDetailType DiceModelsDetailLevel;
 		/// <summary>Game aspect ratio.</summary>
 		/// <remarks>If the screen physical aspect ratio is different than the game aspect ratio, black bands will appear.</remarks>
 		public AspectRatioType GameAspectRatio;
@@ -46,10 +39,6 @@ namespace ZunTzu.Visualization {
 		/// <summary>Display a dialog box.</summary>
 		/// <param name="dialog">Dialog box.</param>
 		void ShowDialog(Form dialog);
-		/// <summary>Indicates that the display adapter supports that texture format.</summary>
-		/// <param name="textureQuality">Setting to use for the textures.</param>
-		/// <returns>True if the format is supported.</returns>
-		bool SupportsTextureQuality(TextureQualityType textureQuality);
 		/// <summary>User preferences for the display.</summary>
 		/// <remarks>Setting the properties will deallocate all resources.</remarks>
 		DisplayProperties DisplayProperties { get; set; }

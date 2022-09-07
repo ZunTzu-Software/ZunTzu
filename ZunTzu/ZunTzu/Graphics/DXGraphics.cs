@@ -25,26 +25,6 @@ namespace ZunTzu.Graphics {
 			public readonly DisplayMode DisplayMode;
 		}
 
-		/// <summary>Indicates that the display adapter supports that texture format.</summary>
-		/// <param name="textureQuality">Setting to use for the textures.</param>
-		/// <returns>True if the format is supported.</returns>
-		public bool SupportsTextureQuality(TextureQualityType textureQuality) {
-			int adapter = Manager.Adapters.Default.Adapter;
-			Format displayFormat = (presentParams.BackBufferFormat == Format.Unknown ? windowedDisplayMode.Format : presentParams.BackBufferFormat);
-			return
-				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.X8R8G8B8) &&
-				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.A8R8G8B8) &&
-				(textureQuality == TextureQualityType.SixteenBits ?
-					Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.R5G6B5) &&
-					Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.A1R5G5B5) :
-					(textureQuality == TextureQualityType.CompressedFourBits ?
-						Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.Dxt1) :
-						(textureQuality == TextureQualityType.CompressedEightBitsQuality || textureQuality == TextureQualityType.CompressedEightBitsFast ?
-							Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.Dxt1) &&
-							Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.Dxt5) :
-							true)));
-		}
-
 		/// <summary>Game aspect ratio.</summary>
 		/// <remarks>If the screen physical aspect ratio is different than the game aspect ratio, black bands will appear.</remarks>
 		public AspectRatioType GameAspectRatio {
@@ -172,14 +152,13 @@ namespace ZunTzu.Graphics {
 			}
 
 			// check device support
-			if(!SupportsTextureQuality(properties.TextureQuality)) {
-				if(properties.TextureQuality != TextureQualityType.ThirtyTwoBits && SupportsTextureQuality(TextureQualityType.ThirtyTwoBits))
-					properties.TextureQuality = TextureQualityType.ThirtyTwoBits;
-				else if(properties.TextureQuality != TextureQualityType.SixteenBits && SupportsTextureQuality(TextureQualityType.SixteenBits))
-					properties.TextureQuality = TextureQualityType.SixteenBits;
-				else
-					throw new ApplicationException("No compliant display adapter found (texture).");
-			}
+			Format displayFormat = (presentParams.BackBufferFormat == Format.Unknown ? windowedDisplayMode.Format : presentParams.BackBufferFormat);
+			bool isDisplayFormatSupported =
+				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.X8R8G8B8) &&
+				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.A8R8G8B8) &&
+				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.Dxt1) &&
+				Manager.CheckDeviceFormat(adapter, DeviceType.Hardware, displayFormat, 0, ResourceType.Textures, Format.Dxt5);
+			if (!isDisplayFormatSupported) throw new ApplicationException("No compliant display adapter found (texture).");
 		}
 
 		private bool isDeviceCompliant() {
@@ -809,19 +788,9 @@ namespace ZunTzu.Graphics {
 		}
 
 		private unsafe DXTile createMonochromaticTile(uint color) {
-			Texture texture;
-			if(properties.TextureQuality == TextureQualityType.SixteenBits) {
-				texture = new Texture(device, 1, 1, 1, 0, Format.R5G6B5, Pool.Managed);
-				byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
-				*(ushort*)textureBits = (ushort) (
-					((((color & 0x00FF0000) >> 16)*31+127)/255) |
-					((((color & 0x0000FF00) >> 8)*63+127)/255)<<5 |
-					(((color & 0x000000FF)*31+127)/255)<<11);
-			} else {
-				texture = new Texture(device, 1, 1, 1, 0, Format.X8R8G8B8, Pool.Managed);
-				byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
-				*(uint*)textureBits = (color & 0x00FFFFFF);
-			}
+			Texture texture = new Texture(device, 1, 1, 1, 0, Format.X8R8G8B8, Pool.Managed);
+			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
+			*(uint*)textureBits = (color & 0x00FFFFFF);
 			texture.UnlockRectangle(0);
 
 			return new DXTile(texture);

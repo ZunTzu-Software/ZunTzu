@@ -132,40 +132,13 @@
     <value>Pulsa Alt+Enter durante la partida para alternar entre pantalla completa y ventana windows.</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 428</value>
+    <value>40, 215</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>275, 24</value>
   </data>
   <data name="waitForVerticalBlankCheckBox.Text" xml:space="preserve">
-    <value>Esperar al borrado vertical (no recomendado)</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Modelos de dados:</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Detalle de mapas y fichas:</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Formato de texturas:</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Mejor calidad</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>338, 67</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Mejor rendimiento</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Juegos con mapas enormes pueden ocupar mucho espacio en la memoria  y afectar al rendimiento. Estos ajustes te permiten bajar la calidad para un mayor  rendimiento.</value>
-  </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 220</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Calidad</value>
+    <value>Esperar al borrado vertical (recomendado)</value>
   </data>
   <data name="fullscreenModeComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>207, 51</value>

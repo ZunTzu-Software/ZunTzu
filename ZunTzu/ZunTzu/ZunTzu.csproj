@@ -546,18 +546,12 @@
     <Compile Include="VideoCompression\VideoCompression.cs" />
     <Compile Include="VideoCompression\ZtcVideoCodec.cs" />
     <Compile Include="Visualization\DiceBag.cs" />
-    <Compile Include="Visualization\Dice\D10ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D10SimpleModel.cs" />
-    <Compile Include="Visualization\Dice\D12ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D12SimpleModel.cs" />
-    <Compile Include="Visualization\Dice\D20ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D20SimpleModel.cs" />
-    <Compile Include="Visualization\Dice\D4ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D4SimpleModel.cs" />
-    <Compile Include="Visualization\Dice\D6ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D6SimpleModel.cs" />
-    <Compile Include="Visualization\Dice\D8ComplexModel.cs" />
-    <Compile Include="Visualization\Dice\D8SimpleModel.cs" />
+    <Compile Include="Visualization\Dice\D10Model.cs" />
+    <Compile Include="Visualization\Dice\D12Model.cs" />
+    <Compile Include="Visualization\Dice\D20Model.cs" />
+    <Compile Include="Visualization\Dice\D4Model.cs" />
+    <Compile Include="Visualization\Dice\D6Model.cs" />
+    <Compile Include="Visualization\Dice\D8Model.cs" />
     <Compile Include="Visualization\ErrorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -928,9 +922,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Properties.Resources.pt-BR.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties.Resources.ru.resx">
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceFiles\D10Texture.png" />
     <EmbeddedResource Include="ResourceFiles\D6Texture.png" />

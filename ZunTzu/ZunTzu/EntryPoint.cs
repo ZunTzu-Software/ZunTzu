@@ -48,11 +48,8 @@ namespace ZunTzu {
 #endif
 					// retrieve user settings
 					DisplayProperties displayProperties;
-					displayProperties.TextureQuality = (TextureQualityType) Settings.Default.DisplayTextureFormat;
-					displayProperties.MapsAndCountersDetailLevel = (DetailLevelType) Settings.Default.DisplayMapAndCounterDetail;
 					displayProperties.WaitForVerticalBlank = Settings.Default.DisplayWaitForVerticalBlank;
 					displayProperties.PreferredFullscreenMode = Settings.Default.DisplayPreferedFullscreenMode;
-					displayProperties.DiceModelsDetailLevel = (ModelDetailType) Settings.Default.DisplayDiceModelComplexity;
 					displayProperties.GameAspectRatio = (Settings.Default.DisplayWidescreen ? AspectRatioType.SixteenToTen : AspectRatioType.FourToThree);
 
 					AudioProperties audioProperties;

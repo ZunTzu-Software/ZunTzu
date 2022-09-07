@@ -297,26 +297,6 @@
   <data name="AboutZunTzu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AboutZunTzu.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DiceModelsComplex" xml:space="preserve">
-    <value>Complex (recommended)</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="DiceModelsSimple" xml:space="preserve">
-    <value>Simple</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="MapDetail150Dpi" xml:space="preserve">
-    <value>150 dpi</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="MapDetail300Dpi" xml:space="preserve">
-    <value>150 or 300 dpi (recommended)</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="MapDetail600Dpi" xml:space="preserve">
-    <value>150, 300 or 600 dpi</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
   <data name="QuitNoSavingRequiredButton" xml:space="preserve">
     <value>Quit</value>
     <comment>Text for the OK button in the Quit confirmation dialog.</comment>
@@ -328,18 +308,6 @@
   <data name="SameAsDesktop" xml:space="preserve">
     <value>Same as desktop</value>
     <comment>Text for the fullscreen definition in the Display Settings dialog.</comment>
-  </data>
-  <data name="TextureFormat16Bits" xml:space="preserve">
-    <value>16 bits</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="TextureFormat32Bits" xml:space="preserve">
-    <value>32 bits</value>
-    <comment>Text used in the Display Settings dialog.</comment>
-  </data>
-  <data name="TextureFormat8BitsCompressedQuality" xml:space="preserve">
-    <value>Compressed, quality (recommended)</value>
-    <comment>Text used in the Display Settings dialog.</comment>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome to ZunTzu! Press Esc to begin.</value>
@@ -566,10 +534,6 @@
   <data name="ToolTipRevealBoard" xml:space="preserve">
     <value>Reveal board</value>
     <comment>Text for the Hide/reveal board icon in the bottom right corner.</comment>
-  </data>
-  <data name="TextureFormat8BitsCompressedFast" xml:space="preserve">
-    <value>Compressed, fast loading</value>
-    <comment>Text used in the Display Settings dialog.</comment>
   </data>
   <data name="ConnectivityCancelLimited" xml:space="preserve">
     <value>Abort</value>

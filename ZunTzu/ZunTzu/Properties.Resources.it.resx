@@ -228,12 +228,6 @@
   <data name="ConnectivityTextPortInUse" xml:space="preserve">
     <value>Quella porta internet è riservata ad un altro programma. Prova di nuovo con un altro numero di porta.</value>
   </data>
-  <data name="DiceModelsComplex" xml:space="preserve">
-    <value>Complesso (raccomandato)</value>
-  </data>
-  <data name="DiceModelsSimple" xml:space="preserve">
-    <value>Semplice</value>
-  </data>
   <data name="DisconnectFirst" xml:space="preserve">
     <value>Command ignored. You need to disconnect first.</value>
   </data>
@@ -420,15 +414,6 @@
   <data name="LoadingGraphics" xml:space="preserve">
     <value>Caricamento grafica...</value>
   </data>
-  <data name="MapDetail150Dpi" xml:space="preserve">
-    <value>150 dpi</value>
-  </data>
-  <data name="MapDetail300Dpi" xml:space="preserve">
-    <value>150 o 300 dpi (raccomandato)</value>
-  </data>
-  <data name="MapDetail600Dpi" xml:space="preserve">
-    <value>150, 300 o 600 dpi</value>
-  </data>
   <data name="MenuAboutZunTzu" xml:space="preserve">
     <value>Info su ZunTzu...</value>
   </data>
@@ -539,18 +524,6 @@
   </data>
   <data name="SessionIdCopiedToClipboard" xml:space="preserve">
     <value>Il codice della sessione è stato copiato negli appunti.</value>
-  </data>
-  <data name="TextureFormat16Bits" xml:space="preserve">
-    <value>16 bits</value>
-  </data>
-  <data name="TextureFormat32Bits" xml:space="preserve">
-    <value>32 bits</value>
-  </data>
-  <data name="TextureFormat8BitsCompressedFast" xml:space="preserve">
-    <value>Compresso, caricamento veloce</value>
-  </data>
-  <data name="TextureFormat8BitsCompressedQuality" xml:space="preserve">
-    <value>Compresso, di qualità (raccomandato)</value>
   </data>
   <data name="ToolTipClose" xml:space="preserve">
     <value>Chiudi (Esc)</value>

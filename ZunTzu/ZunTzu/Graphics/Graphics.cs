@@ -40,11 +40,6 @@ namespace ZunTzu.Graphics {
 
 	/// <summary>Properties of the display.</summary>
 	public struct GraphicsProperties {
-		/// <summary>Defines the quality vs. footprint setting to use for the textures.</summary>
-		public TextureQualityType TextureQuality;
-		/// <summary>Defines with how many dots per inch the maps and pieces will be displayed.</summary>
-		/// <remarks>The maximum is 600 dpi with the "High" setting, but if the element was scanned at a lower resolution then the lower resolution will be applied.</remarks>
-		public DetailLevelType MapsAndCountersDetailLevel;
 		/// <summary>Indicates if the display adapter should wait for the vertical blank between two frames.</summary>
 		public bool WaitForVerticalBlank;
 		/// <summary>Indicates the preferred mode when operating in fullscreen</summary>
@@ -54,10 +49,6 @@ namespace ZunTzu.Graphics {
 
 	/// <summary>Component in charge of the rendering of 2D and 3D graphics on screen.</summary>
 	public interface IGraphics {
-		/// <summary>Indicates that the display adapter supports that texture format.</summary>
-		/// <param name="textureQuality">Setting to use for the textures.</param>
-		/// <returns>True if the format is supported.</returns>
-		bool SupportsTextureQuality(TextureQualityType textureQuality);
 		/// <summary>Game aspect ratio.</summary>
 		/// <remarks>If the screen physical aspect ratio is different than the game aspect ratio, black bands will appear.</remarks>
 		AspectRatioType GameAspectRatio { get; set; }

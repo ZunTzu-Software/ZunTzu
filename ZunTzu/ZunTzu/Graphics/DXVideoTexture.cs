@@ -1,20 +1,18 @@
 // Copyright (c) 2022 ZunTzu Software and contributors
 
-using Microsoft.DirectX.Direct3D;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 
-namespace ZunTzu.Graphics {
+namespace ZunTzu.Graphics
+{
 
-	/// <summary>A texture that can be used to render video frames.</summary>
-	internal sealed class DXVideoTexture : IVideoTexture {
+    /// <summary>A texture that can be used to render video frames.</summary>
+    internal sealed class DXVideoTexture : IVideoTexture {
 
 		/// <summary>Constructor.</summary>
-		public DXVideoTexture(DXGraphics graphics, Size size) {
-			this.graphics = graphics;
-			this.size = size;
-			this.texture = new Texture(graphics.Device, size.Width, size.Height, 1, 0, Format.A8R8G8B8, Pool.Managed);
+		public DXVideoTexture(Size size) {
+			_size = size;
+			_texture = D3DTexture.Create(size.Width, size.Height, D3DTextureFormat.A8R8G8B8);
 		}
 
 		/// <summary>Update part of the texture with a new image.</summary>
@@ -22,9 +20,8 @@ namespace ZunTzu.Graphics {
 		/// <param name="bitmapBits">An image in A8R8G8B8 format.</param>
 		/// <remarks>The size of the image must be identical to the size of the location.</remarks>
 		public unsafe void Update(Rectangle location, IntPtr bitmapBits) {
-			if(!texture.Disposed) {
-				int texturePitch;
-				byte* textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+			if(!_texture.Disposed) {
+				_texture.Lock(out int texturePitch, out byte* textureBits);
 
 				byte* source = (byte*) bitmapBits;
 				byte* dest = textureBits + texturePitch * location.Y + 4 * location.X;
@@ -40,7 +37,7 @@ namespace ZunTzu.Graphics {
 					dest += texturePitch - location.Width * 4;
 				}
 
-				texture.UnlockRectangle(0);
+				_texture.Unlock();
 			}
 		}
 
@@ -49,15 +46,13 @@ namespace ZunTzu.Graphics {
 		}
 
 		public void Dispose() {
-			texture.Dispose();
+			_texture.Dispose();
 		}
 
-		public DXGraphics Graphics { get { return graphics; } }
-		public Size Size { get { return size; } }
-		public Texture Texture { get { return texture; } }
+		public Size Size => _size;
+		public D3DTexture Texture => _texture;
 
-		private DXGraphics graphics;
-		private Size size = new Size(0, 0);
-		private Texture texture;
+		Size _size = new Size(0, 0);
+		D3DTexture _texture;
 	}
 }

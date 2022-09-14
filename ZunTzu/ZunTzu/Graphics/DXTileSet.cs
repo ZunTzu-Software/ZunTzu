@@ -1,6 +1,5 @@
 // Copyright (c) 2022 ZunTzu Software and contributors
 
-using Microsoft.DirectX.Direct3D;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,23 +7,23 @@ using System.Drawing.Imaging;
 using System.IO;
 using ZunTzu.FileSystem;
 
-namespace ZunTzu.Graphics {
-	/// <summary>
-	/// Summary description for DXTileSet.
-	/// </summary>
-	public sealed class DXTileSet : ITileSet {
+namespace ZunTzu.Graphics
+{
+    /// <summary>
+    /// Summary description for DXTileSet.
+    /// </summary>
+    public sealed class DXTileSet : ITileSet {
 
-		internal DXTileSet(DXGraphics graphics, IFile imageFile, DetailLevelType detailLevel)
-			: this(graphics, imageFile, null, detailLevel) {}
+		internal DXTileSet(IFile imageFile, DetailLevelType detailLevel)
+			: this(imageFile, null, detailLevel) {}
 
-		internal DXTileSet(DXGraphics graphics, IFile imageFile, IFile maskFile, DetailLevelType detailLevel) {
-			this.graphics = graphics;
-			this.imageFile = imageFile;
-			this.maskFile = maskFile;
-			this.detailLevel = detailLevel;
+		internal DXTileSet(IFile imageFile, IFile maskFile, DetailLevelType detailLevel) {
+			_imageFile = imageFile;
+			_maskFile = maskFile;
+			_detailLevel = detailLevel;
 		}
 
-		private sealed class BitmapResource : IDisposable {
+		sealed class BitmapResource : IDisposable {
 			public BitmapResource(IFile imageFile, PixelFormat pixelFormat) {
 				stream = imageFile.Open();
 				bitmap = new Bitmap(stream);
@@ -50,32 +49,32 @@ namespace ZunTzu.Graphics {
 				}
 			}
 
-			private Stream stream = null;
-			private Bitmap bitmap = null;
-			private BitmapData bitmapData = null;
+			Stream stream = null;
+			Bitmap bitmap = null;
+			BitmapData bitmapData = null;
 		}
 
 		/// <summary>Must be called for the icons tile.</summary>
 		public void LoadIcons() {
-			using(BitmapResource image = new BitmapResource(imageFile, (maskFile != null ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb))) {
-				if(maskFile != null) {
-					using(BitmapResource mask = new BitmapResource(maskFile, PixelFormat.Format24bppRgb)) {
+			using(BitmapResource image = new BitmapResource(_imageFile, (_maskFile != null ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb))) {
+				if(_maskFile != null) {
+					using(BitmapResource mask = new BitmapResource(_maskFile, PixelFormat.Format24bppRgb)) {
 						applyMask(image, mask);
 					}
 				}
 
-				size = new SizeF((float) image.BitmapData.Width, (float) image.BitmapData.Height);
-				for(int i = (int) detailLevel; i > 0; --i)
-					size = new SizeF(size.Width * 2, size.Height * 2);
+				_size = new SizeF((float) image.BitmapData.Width, (float) image.BitmapData.Height);
+				for(int i = (int) _detailLevel; i > 0; --i)
+					_size = new SizeF(_size.Width * 2, _size.Height * 2);
 
 				int mipMapLevelCount = 1;
-				tiles = new DXTile[mipMapLevelCount + (int) detailLevel][,];
+				_tiles = new DXTile[mipMapLevelCount + (int) _detailLevel][,];
 
-				int mipMapLevel = (int) detailLevel;
-				tiles[mipMapLevel] = new DXTile[1, 1];
-				tiles[mipMapLevel][0, 0] = new DXTile(this);
+				int mipMapLevel = (int) _detailLevel;
+				_tiles[mipMapLevel] = new DXTile[1, 1];
+				_tiles[mipMapLevel][0, 0] = new DXTile();
 
-				tiles[mipMapLevel][0, 0].Initialize(
+				_tiles[mipMapLevel][0, 0].Initialize(
 					image.BitmapData.Scan0, image.BitmapData.Stride, image.BitmapData.PixelFormat,
 					new Point(0 * 254 - 1, 0 * 254 - 1),
 					new Point(Math.Min(0 * 254 + 255, image.BitmapData.Width), Math.Min(0 * 254 + 255, image.BitmapData.Height)));
@@ -85,9 +84,9 @@ namespace ZunTzu.Graphics {
 		/// <summary>Must be called in a loop for the tile set to be fully loaded.</summary>
 		/// <returns>Progress between 0 and 1.</returns>
 		public IEnumerable<float> LoadIncrementally() {
-			if(imageFile.Archive == null ||
-				(!imageFile.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !imageFile.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) ||
-				(maskFile != null && !maskFile.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !maskFile.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
+			if(_imageFile.Archive == null ||
+				(!_imageFile.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !_imageFile.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) ||
+				(_maskFile != null && !_maskFile.FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !_maskFile.FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)))
 				goto fallBack;
 
 			// optimized native code simd-ed multithreaded pipeline
@@ -95,7 +94,7 @@ namespace ZunTzu.Graphics {
 				int error;
 				uint skippedMipMapLevels = 0;
 
-				IntPtr imageLoader = ZunTzuLib.CreateImageLoader(imageFile.Archive.FileName, imageFile.FileName, (maskFile != null ? maskFile.FileName : ""), skippedMipMapLevels, 1);
+				IntPtr imageLoader = ZunTzuLib.CreateImageLoader(_imageFile.Archive.FileName, _imageFile.FileName, (_maskFile != null ? _maskFile.FileName : ""), skippedMipMapLevels, 1);
 				try {
 					uint width;
 					uint height;
@@ -104,9 +103,9 @@ namespace ZunTzu.Graphics {
 						goto fallBack;
 					}
 
-					size = new SizeF((float) width, (float) height);
-					for(int i = (int) detailLevel; i > 0; --i)
-						size = new SizeF(size.Width * 2, size.Height * 2);
+					_size = new SizeF((float) width, (float) height);
+					for(int i = (int) _detailLevel; i > 0; --i)
+						_size = new SizeF(_size.Width * 2, _size.Height * 2);
 
 					int mipMapLevelCount =
 						Math.Max(
@@ -114,13 +113,13 @@ namespace ZunTzu.Graphics {
 							Math.Max(
 								(int) Math.Ceiling(Math.Log(width / 254, 2) + 1),
 								(int) Math.Ceiling(Math.Log(height / 254, 2) + 1)));
-					tiles = new DXTile[mipMapLevelCount + (int) detailLevel][,];
+					_tiles = new DXTile[mipMapLevelCount + (int) _detailLevel][,];
 
 					uint tileCount = 0;
-					for(int mipMapLevel = (int) detailLevel; mipMapLevel < mipMapLevelCount + (int) detailLevel; ++mipMapLevel) {
+					for(int mipMapLevel = (int) _detailLevel; mipMapLevel < mipMapLevelCount + (int) _detailLevel; ++mipMapLevel) {
 						uint columnCount = (width + 253) / 254;
 						uint rowCount = (height + 253) / 254;
-						tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
+						_tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
 						tileCount += columnCount * rowCount;
 						width = (width + 1) / 2;
 						height = (height + 1) / 2;
@@ -130,17 +129,17 @@ namespace ZunTzu.Graphics {
 					uint x;
 					uint y;
 					for(uint i = 0; i < tileCount; ++i) {
-						Texture texture = new Texture(graphics.Device, 256, 256, 1, 0, (maskFile == null ? Format.Dxt1 : Format.Dxt5), Pool.Managed);
+						var texture = D3DTexture.Create(256, 256, (_maskFile == null ? D3DTextureFormat.DXT1 : D3DTextureFormat.DXT5));
 						if(0 != (error = loadNextTexture(imageLoader, texture, out mipmapLevel, out x, out y))) {
-							texture.UnlockRectangle(0);
+							texture.Unlock();
 							//throw new ApplicationException(string.Format("Error while loading image: code {0}", error));
 							goto fallBack;
 						}
-						texture.UnlockRectangle(0);
+						texture.Unlock();
 
-						DXTile tile = new DXTile(this);
-						tiles[mipmapLevel + (int) detailLevel][x, y] = tile;
-						tile.Initialize(maskFile == null ? Format.Dxt1 : Format.Dxt5, texture);
+						DXTile tile = new DXTile();
+						_tiles[mipmapLevel + (int) _detailLevel][x, y] = tile;
+						tile.Initialize(_maskFile == null ? D3DTextureFormat.DXT1 : D3DTextureFormat.DXT5, texture);
 
 						yield return (float) (i + 1) / (float) tileCount;
 					}
@@ -154,25 +153,25 @@ namespace ZunTzu.Graphics {
 			{
 				BitmapResource image = null;
 				try {
-					if(maskFile != null) {
-						image = new BitmapResource(imageFile, PixelFormat.Format32bppArgb);
+					if(_maskFile != null) {
+						image = new BitmapResource(_imageFile, PixelFormat.Format32bppArgb);
 						BitmapResource mask = null;
 						try {
-							mask = new BitmapResource(maskFile, PixelFormat.Format24bppRgb);
+							mask = new BitmapResource(_maskFile, PixelFormat.Format24bppRgb);
 							applyMask(image, mask);
 						} finally {
 							if(mask != null) mask.Dispose();
 						}
 					} else {
-						image = new BitmapResource(imageFile, PixelFormat.Format24bppRgb);
+						image = new BitmapResource(_imageFile, PixelFormat.Format24bppRgb);
 					}
 
 					// TODO: find the correct progress for loading the bitmaps
 					yield return 0.0f;
 
-					size = new SizeF((float) image.BitmapData.Width, (float) image.BitmapData.Height);
-					for(int i = (int) detailLevel; i > 0; --i)
-						size = new SizeF(size.Width * 2, size.Height * 2);
+					_size = new SizeF((float) image.BitmapData.Width, (float) image.BitmapData.Height);
+					for(int i = (int) _detailLevel; i > 0; --i)
+						_size = new SizeF(_size.Width * 2, _size.Height * 2);
 
 					foreach(float progress in createMipMappedTilesIncrements(image))
 						yield return progress;
@@ -182,8 +181,8 @@ namespace ZunTzu.Graphics {
 			}
 		}
 
-		private static unsafe int loadNextTexture(IntPtr imageLoader, Texture texture, out uint mipmapLevel, out uint x, out uint y) {
-			byte* textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
+		private static unsafe int loadNextTexture(IntPtr imageLoader, D3DTexture texture, out uint mipmapLevel, out uint x, out uint y) {
+			texture.Lock(out _, out byte* textureBits);
 			return ZunTzuLib.LoadNextTile(imageLoader, (IntPtr) textureBits, out mipmapLevel, out x, out y);
 		}
 
@@ -199,14 +198,14 @@ namespace ZunTzu.Graphics {
 					Math.Max(
 						(int)Math.Ceiling(Math.Log(width / 254, 2) + 1),
 						(int)Math.Ceiling(Math.Log(height / 254, 2) + 1)));
-			tiles = new DXTile[mipMapLevelCount + (int)detailLevel][,];
+			_tiles = new DXTile[mipMapLevelCount + (int)_detailLevel][,];
 
 			IntPtr currentMipMapBitmap = image.BitmapData.Scan0;
 
 			float totalProgress = 0.0f;	// between 0 and 1
 			float nextProgressIncrement = 3.0f / 4.0f;
-			for(int mipMapLevel = (int)detailLevel; mipMapLevel < mipMapLevelCount + (int)detailLevel; ++mipMapLevel) {
-				if(mipMapLevel > (int)detailLevel) {
+			for(int mipMapLevel = (int)_detailLevel; mipMapLevel < mipMapLevelCount + (int)_detailLevel; ++mipMapLevel) {
+				if(mipMapLevel > (int)_detailLevel) {
 					createNextLowerMipMap(currentMipMapBitmap, width, height, stride, pixelFormat);
 					width = (width + 1) / 2;
 					height = (height + 1) / 2;
@@ -217,8 +216,8 @@ namespace ZunTzu.Graphics {
 				}
 				int columnCount = (width + 253) / 254;
 				int rowCount = (height + 253) / 254;
-				tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
-				foreach(float progress in createSingleMipMapTilesIncrements(tiles[mipMapLevel], currentMipMapBitmap, width, height, stride, pixelFormat))
+				_tiles[mipMapLevel] = new DXTile[columnCount, rowCount];
+				foreach(float progress in createSingleMipMapTilesIncrements(_tiles[mipMapLevel], currentMipMapBitmap, width, height, stride, pixelFormat))
 					yield return totalProgress + progress * nextProgressIncrement;
 			}
 		}
@@ -232,7 +231,7 @@ namespace ZunTzu.Graphics {
 
 			for(int r = 0; r < rowCount; ++r) {
 				for(int c = 0; c < columnCount; ++c) {
-					tiles[c, r] = new DXTile(this);
+					tiles[c, r] = new DXTile();
 					tiles[c, r].Initialize(
 						bitmapBits, stride, pixelFormat,
 						new Point(c * 254 - 1, r * 254 - 1),
@@ -446,24 +445,23 @@ namespace ZunTzu.Graphics {
 		}
 
 		public void Dispose() {
-			foreach(DXTile[,] tileArray in tiles)
+			foreach(DXTile[,] tileArray in _tiles)
 				if(tileArray != null)
 					foreach(DXTile tile in tileArray)
 						tile.Dispose();
 		}
 
-		public SizeF Size { get { return size; } }
+		public SizeF Size => _size;
 
-		private DXGraphics graphics;
-		internal DXGraphics Graphics { get { return graphics; } }
-		private IFile imageFile;
-		private IFile maskFile;
-		internal bool SupportsTransparency { get { return maskFile != null; } }
-		private DetailLevelType detailLevel;
-		internal DetailLevelType DetailLevel => detailLevel;
-		private DXTile[][,] tiles;
-		internal int MipMapLevelCount { get { return tiles.Length; } }
-		internal DXTile[][,] Tiles { get { return tiles; } }
-		private SizeF size = new SizeF(0.0f, 0.0f);
+		internal bool SupportsTransparency => _maskFile != null;
+		internal DetailLevelType DetailLevel => _detailLevel;
+		internal int MipMapLevelCount => _tiles.Length;
+		internal DXTile[][,] Tiles => _tiles;
+
+		IFile _imageFile;
+		IFile _maskFile;
+		DetailLevelType _detailLevel;
+		DXTile[][,] _tiles;
+		SizeF _size = new SizeF(0.0f, 0.0f);
 	}
 }

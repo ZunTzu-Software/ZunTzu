@@ -297,10 +297,10 @@
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="FileSystem\Resource.cs" />
+    <Compile Include="Graphics\D3D.cs" />
     <Compile Include="Graphics\DXGraphics.cs" />
     <Compile Include="Graphics\DXDieMesh.cs" />
     <Compile Include="Graphics\DXMonochromaticImage.cs" />
-    <Compile Include="Graphics\DXQuad.cs" />
     <Compile Include="Graphics\Dxtc\Decoder.cs" />
     <Compile Include="Graphics\Dxtc\Encoder.cs" />
     <Compile Include="Graphics\DXTextCache.cs" />
@@ -514,7 +514,6 @@
     <None Include="Dotfuscator.xml" />
     <None Include="FileSystem\ICSharpCode.SharpZipLib.dll">
     </None>
-    <None Include="Graphics\Microsoft.DirectX.Direct3D.dll" />
     <None Include="Graphics\Microsoft.DirectX.dll" />
     <None Include="Networking\Microsoft.DirectX.DirectSound.dll" />
     <None Include="ResourceFiles\ZunTzu.res" />

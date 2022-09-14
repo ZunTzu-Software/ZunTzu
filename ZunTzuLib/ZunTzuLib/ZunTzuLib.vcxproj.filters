@@ -78,6 +78,9 @@
     <ClCompile Include="networking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="direct3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dxt_compressor.h">

@@ -1,29 +1,26 @@
-//using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-//using Direct3D = Microsoft.DirectX.Direct3D;
+// Copyright (c) 2022 ZunTzu Software and contributors
+
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 
-namespace ZunTzu.Graphics {
-	/// <summary>
-	/// Summary description for Tile.
-	/// </summary>
-	public sealed class DXTile : IDisposable {
-		internal DXTile(DXTileSet tileSet) {
-			this.tileSet = tileSet;
-			this.texture = null;
+namespace ZunTzu.Graphics
+{
+    /// <summary>
+    /// Summary description for Tile.
+    /// </summary>
+    public sealed class DXTile : IDisposable {
+		internal DXTile() {
+			_texture = null;
 		}
 
-		internal DXTile(Texture texture) {
-			this.tileSet = null;
-			this.texture = texture;
+		internal DXTile(D3DTexture texture) {
+			_texture = texture;
 		}
 
-		internal unsafe void Initialize(Format textureFormat, Texture texture) {
-			this.textureFormat = textureFormat;
-			this.texture = texture;
+		internal unsafe void Initialize(D3DTextureFormat textureFormat, D3DTexture texture) {
+			_textureFormat = textureFormat;
+			_texture = texture;
 		}
 
 		internal void Initialize(
@@ -42,30 +39,30 @@ namespace ZunTzu.Graphics {
 		/// <param name="textureAddress">An address in the rectangle [0,0,1,1].</param>
 		/// <returns>A color value.</returns>
 		internal uint GetTexelColorAtAddress(PointF textureAddress) {
-			if(texture.Disposed)
+			if(_texture.Disposed)
 				return 0x00000000;
 			Point position = new Point((int)(textureAddress.X * 256.0f), (int)(textureAddress.Y * 256.0f));
 			uint color;
-			switch(textureFormat) {
-				case Format.R5G6B5:
+			switch(_textureFormat) {
+				case D3DTextureFormat.R5G6B5:
 					color = (uint) get16bitsTexel(position);
 					return (((color & 0x0000001F)*255+15)/31) |
 						((((color & 0x000007E0)>>5)*255+31)/63)<<8 |
 						((((color & 0x0000F800)>>11)*255+15)/31)<<16 |
 						0xFF000000;
-				case Format.A1R5G5B5:
+				case D3DTextureFormat.A1R5G5B5:
 					color = (uint) get16bitsTexel(position);
 					return (((color & 0x0000001F)*255+15)/31) |
 						((((color & 0x000003E0)>>5)*255+15)/31)<<8 |
 						((((color & 0x00007C00)>>10)*255+15)/31)<<16 |
 						((color & 0x00008000) == 0x00008000 ? 0xFF000000 : 0x00000000);
-				case Format.X8R8G8B8:
+				case D3DTextureFormat.X8R8G8B8:
 					return get32bitsTexel(position) | 0xFF000000;
-				case Format.A8R8G8B8:
+				case D3DTextureFormat.A8R8G8B8:
 					return get32bitsTexel(position);
-				case Format.Dxt1:
+				case D3DTextureFormat.DXT1:
 					return getDxt1Texel(position);
-				case Format.Dxt5:
+				case D3DTextureFormat.DXT5:
 					return getDxt5Texel(position);
 				default:
 					return 0x00000000;
@@ -89,10 +86,9 @@ namespace ZunTzu.Graphics {
 			Point sourceUpperLeftCorner,
 			Point sourceLowerRightCorner)
 		{
-			textureFormat = Format.R5G6B5;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.R5G6B5;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out int texturePitch, out byte* textureBits);
 
 			byte* source = (byte*)bitmapBits + sourceUpperLeftCorner.Y * stride + sourceUpperLeftCorner.X * 3;
 			int sourceWidth = sourceLowerRightCorner.X - sourceUpperLeftCorner.X;
@@ -116,7 +112,7 @@ namespace ZunTzu.Graphics {
 				source += stride - 256 * 3;
 			}
 
-			texture.UnlockRectangle(0);
+			_texture.Unlock();
 		}
 
 		/// <summary>
@@ -136,10 +132,9 @@ namespace ZunTzu.Graphics {
 			Point sourceUpperLeftCorner,
 			Point sourceLowerRightCorner)
 		{
-			textureFormat = Format.A1R5G5B5;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.A1R5G5B5;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out int texturePitch, out byte* textureBits);
 
 			byte* source = (byte*)bitmapBits + sourceUpperLeftCorner.Y * stride + sourceUpperLeftCorner.X * 4;
 			int sourceWidth = sourceLowerRightCorner.X - sourceUpperLeftCorner.X;
@@ -164,7 +159,7 @@ namespace ZunTzu.Graphics {
 				source += stride - 256 * 4;
 			}
 
-			texture.UnlockRectangle(0);
+			_texture.Unlock();
 		}
 
 		/// <summary>
@@ -175,10 +170,9 @@ namespace ZunTzu.Graphics {
 			Point sourceUpperLeftCorner,
 			Point sourceLowerRightCorner)
 		{
-			textureFormat = Format.X8R8G8B8;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.X8R8G8B8;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out int texturePitch, out byte* textureBits);
 
 			byte* source = (byte*)bitmapBits + sourceUpperLeftCorner.Y * stride + sourceUpperLeftCorner.X * 3;
 			int sourceWidth = sourceLowerRightCorner.X - sourceUpperLeftCorner.X;
@@ -205,7 +199,7 @@ namespace ZunTzu.Graphics {
 				source += stride - 256 * 3;
 			}
 
-			texture.UnlockRectangle(0);
+			_texture.Unlock();
 		}
 
 		/// <summary>
@@ -216,10 +210,9 @@ namespace ZunTzu.Graphics {
 			Point sourceUpperLeftCorner,
 			Point sourceLowerRightCorner)
 		{
-			textureFormat = Format.A8R8G8B8;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.A8R8G8B8;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out int texturePitch, out byte* textureBits);
 
 			byte* source = (byte*)bitmapBits + sourceUpperLeftCorner.Y * stride + sourceUpperLeftCorner.X * 4;
 			int sourceWidth = sourceLowerRightCorner.X - sourceUpperLeftCorner.X;
@@ -241,7 +234,7 @@ namespace ZunTzu.Graphics {
 				source += stride - 256 * 4;
 			}
 
-			texture.UnlockRectangle(0);
+			_texture.Unlock();
 		}
 
 		/// <remarks>
@@ -254,11 +247,13 @@ namespace ZunTzu.Graphics {
 			Point sourceLowerRightCorner,
 			int qualityOption)
 		{
-			textureFormat = Format.Dxt1;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			byte* textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.DXT1;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out _, out byte* textureBits);
+
 			ZunTzu.Graphics.Dxtc.Encoder.CompressDxt1((byte*) bitmapBits, sourceUpperLeftCorner.Y, sourceUpperLeftCorner.X, sourceLowerRightCorner.Y, sourceLowerRightCorner.X, stride, textureBits, qualityOption);
-			texture.UnlockRectangle(0);
+			
+			_texture.Unlock();
 		}
 
 		/// <remarks>
@@ -271,12 +266,13 @@ namespace ZunTzu.Graphics {
 			Point sourceLowerRightCorner,
 			int qualityOption)
 		{
-			textureFormat = Format.Dxt1;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
-			byte* source = (byte*)bitmapBits + sourceUpperLeftCorner.Y * stride + sourceUpperLeftCorner.X * 4;
+			_textureFormat = D3DTextureFormat.DXT1;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out _, out byte* textureBits);
+
 			ZunTzu.Graphics.Dxtc.Encoder.CompressDxt1FromRgba((byte*) bitmapBits, sourceUpperLeftCorner.Y, sourceUpperLeftCorner.X, sourceLowerRightCorner.Y, sourceLowerRightCorner.X, stride, textureBits, qualityOption);
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 		}
 
 		/// <remarks>
@@ -289,38 +285,44 @@ namespace ZunTzu.Graphics {
 			Point sourceLowerRightCorner,
 			int qualityOption)
 		{
-			textureFormat = Format.Dxt5;
-			texture = new Texture(tileSet.Graphics.Device, 256, 256, 1, 0, textureFormat, Pool.Managed);
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None).InternalData.ToPointer();
+			_textureFormat = D3DTextureFormat.DXT5;
+			_texture = D3DTexture.Create(256, 256, _textureFormat);
+			_texture.Lock(out _, out byte* textureBits);
+
 			ZunTzu.Graphics.Dxtc.Encoder.CompressDxt5((byte*) bitmapBits, sourceUpperLeftCorner.Y, sourceUpperLeftCorner.X, sourceLowerRightCorner.Y, sourceLowerRightCorner.X, stride, textureBits, qualityOption);
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 		}
 
 		private unsafe ushort get16bitsTexel(Point position) {
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.ReadOnly, out texturePitch).InternalData.ToPointer();
+			_texture.Lock(out int texturePitch, out byte* textureBits);
+
 			int address = position.Y * texturePitch + position.X * 2;
 			ushort texel = (ushort)((uint)textureBits[address] | (uint)textureBits[address + 1]<<8);
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 			return texel;
 		}
 
 		private unsafe uint get32bitsTexel(Point position) {
-			int texturePitch;
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.ReadOnly, out texturePitch).InternalData.ToPointer();
+			_texture.Lock(out int texturePitch, out byte* textureBits);
+
 			int address = position.Y * texturePitch + position.X * 4;
 			uint texel = (uint)textureBits[address] | (uint)textureBits[address + 1]<<8 | (uint)textureBits[address + 2]<<16 | (uint)textureBits[address + 3]<<24;
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 			return texel;
 		}
 
 		private unsafe uint getDxt1Texel(Point position) {
 			byte* pixels = stackalloc byte[16*4];
 
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.ReadOnly).InternalData.ToPointer();
+			_texture.Lock(out _, out byte* textureBits);
+
 			int blockAddress = (position.Y / 4) * 64 * 8 + (position.X / 4) * 8;
 			Dxtc.Decoder.DecodeDxt1Block(textureBits + blockAddress, pixels);
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 
 			return *(uint*)(pixels + (position.Y % 4) * 4 * 4 + (position.X % 4) * 4);
 		}
@@ -328,22 +330,24 @@ namespace ZunTzu.Graphics {
 		private unsafe uint getDxt5Texel(Point position) {
 			byte* pixels = stackalloc byte[16*4];
 
-			byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.ReadOnly).InternalData.ToPointer();
+			_texture.Lock(out _, out byte* textureBits);
+
 			int blockAddress = (position.Y / 4) * 64 * 16 + (position.X / 4) * 16;
 			Dxtc.Decoder.DecodeDxt5Block(textureBits + blockAddress, pixels);
-			texture.UnlockRectangle(0);
+
+			_texture.Unlock();
 
 			return *(uint*)(pixels + (position.Y % 4) * 4 * 4 + (position.X % 4) * 4);
 		}
 
 		public void Dispose() {
-			texture.Dispose();
+			_texture.Dispose();
 		}
 
-		private DXTileSet tileSet;
-		private Texture texture;
-		internal Texture Texture { get { return texture; } }
-		private Format textureFormat;
+		internal D3DTexture Texture => _texture;
+
+		D3DTexture _texture;
+		D3DTextureFormat _textureFormat;
 	}
 
 }

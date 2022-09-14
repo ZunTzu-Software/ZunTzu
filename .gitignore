@@ -36,6 +36,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+[Dd]ebug_SSE2/
 [Rr]elease_SSE2/
 
 # Visual Studio 2015/2017 cache/options directory

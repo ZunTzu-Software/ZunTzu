@@ -10,9 +10,7 @@ namespace ZunTzu.Graphics {
 	public sealed class DXMonochromaticImage : IImage {
 
 		/// <summary>Constructor.</summary>
-		internal DXMonochromaticImage(DXGraphics graphics) {
-			this.graphics = graphics;
-		}
+		internal DXMonochromaticImage() {}
 
 		/// <summary>Render this image at the given position and size.</summary>
 		/// <param name="positionAndSize">Position and size of the rendered image.</param>
@@ -39,44 +37,57 @@ namespace ZunTzu.Graphics {
 		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this image.</param>
 		/// <param name="modulationColor">Modulation color in A8R8G8B8 format.</param>
 		public void Render(RectangleF positionAndSize, float rotationAngle, uint modulationColor) {
-			DXQuad quad = graphics.Quad;
-
-			quad.ModulationColor = modulationColor;
+			float x0, y0, x1, y1, x2, y2, x3, y3;
 
 			if(rotationAngle == 0.0f) {
-				quad.Coord0 = new PointF(positionAndSize.X - 0.5f, positionAndSize.Y - 0.5f);
-				quad.Coord1 = new PointF(quad.Coord0.X, positionAndSize.Bottom - 0.5f);
-				quad.Coord2 = new PointF(positionAndSize.Right - 0.5f, quad.Coord0.Y);
-				quad.Coord3 = new PointF(quad.Coord2.X, quad.Coord1.Y);
+				x0 = positionAndSize.X - 0.5f;
+				y0 = positionAndSize.Y - 0.5f;
+
+				x1 = x0;
+				y1 = positionAndSize.Bottom - 0.5f;
+
+				x2 = positionAndSize.Right - 0.5f;
+				y2 = y0;
+
+				x3 = x2;
+				y3 = y1;
 			} else {
+				float x = positionAndSize.X - 0.5f;
+				float y = positionAndSize.Y - 0.5f;
+				float hw = positionAndSize.Width * 0.5f;
+				float hh = positionAndSize.Height * 0.5f;
+
 				// rotation:
 				// x <- x * cos - y * sin
 				// y <- x * sin + y * cos
 				float sin = (float) Math.Sin(-rotationAngle);
 				float cos = (float) Math.Cos(-rotationAngle);
-				float wc = (positionAndSize.Width * 0.5f) * cos;
-				float ws = (positionAndSize.Width * 0.5f) * sin;
-				float hc = (positionAndSize.Height * 0.5f) * cos;
-				float hs = (positionAndSize.Height * 0.5f) * sin;
+				float wc = hw * cos;
+				float ws = hw * sin;
+				float hc = hh * cos;
+				float hs = hh * sin;
 
-				PointF rotatedCoord0 = new PointF(hs - wc, -hc - wc);
-				PointF rotatedCoord1 = new PointF(hs + wc, -hc + ws);
+				float rotated_x0 = hs - wc;
+				float rotated_y0 = -hc - wc;
+				float rotated_x2 = hs + wc;
+				float rotated_y2 = -hc + ws;
 
-				quad.Coord0 = new PointF(
-					(rotatedCoord0.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(rotatedCoord0.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord1 = new PointF(
-					(-rotatedCoord1.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(-rotatedCoord1.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord2 = new PointF(
-					(rotatedCoord1.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(rotatedCoord1.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord3 = new PointF(
-					(-rotatedCoord0.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(-rotatedCoord0.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
+				x0 = (hw + x) + rotated_x0;
+				y0 = (hh + y) + rotated_y0;
+
+				x1 = (hw + x) - rotated_x2;
+				y1 = (hh + y) - rotated_y2;
+
+				x2 = (hw + x) + rotated_x2;
+				y2 = (hh + y) + rotated_y2;
+
+				x3 = (hw + x) - rotated_x0;
+				y3 = (hh + y) - rotated_y0;
 			}
 
-			graphics.RenderMonochromaticQuad();
+			D3D.RenderMonochromaticQuad(
+				modulationColor,
+				x0, y0, x1, y1, x2, y2, x3, y3);
 		}
 
 		/// <summary>Render the silhouette for this image at the given position and size.</summary>
@@ -84,44 +95,58 @@ namespace ZunTzu.Graphics {
 		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this image.</param>
 		/// <param name="color">Color of the silhouette in A8R8G8B8 format.</param>
 		public void RenderSilhouette(RectangleF positionAndSize, float rotationAngle, uint color) {
-			DXQuad quad = graphics.Quad;
+			float x0, y0, x1, y1, x2, y2, x3, y3;
 
-			quad.ModulationColor = color;
+			if (rotationAngle == 0.0f)
+			{
+				x0 = positionAndSize.X - 0.5f;
+				y0 = positionAndSize.Y - 0.5f;
 
-			if(rotationAngle == 0.0f) {
-				quad.Coord0 = new PointF(positionAndSize.X - 0.5f, positionAndSize.Y - 0.5f);
-				quad.Coord1 = new PointF(quad.Coord0.X, positionAndSize.Bottom - 0.5f);
-				quad.Coord2 = new PointF(positionAndSize.Right - 0.5f, quad.Coord0.Y);
-				quad.Coord3 = new PointF(quad.Coord2.X, quad.Coord1.Y);
-			} else {
+				x1 = x0;
+				y1 = positionAndSize.Bottom - 0.5f;
+
+				x2 = positionAndSize.Right - 0.5f;
+				y2 = y0;
+
+				x3 = x2;
+				y3 = y1;
+			}
+			else
+			{
+				float x = positionAndSize.X - 0.5f;
+				float y = positionAndSize.Y - 0.5f;
+				float hw = positionAndSize.Width * 0.5f;
+				float hh = positionAndSize.Height * 0.5f;
+
 				// rotation:
 				// x <- x * cos - y * sin
 				// y <- x * sin + y * cos
-				float sin = (float) Math.Sin(-rotationAngle);
-				float cos = (float) Math.Cos(-rotationAngle);
-				float wc = (positionAndSize.Width * 0.5f) * cos;
-				float ws = (positionAndSize.Width * 0.5f) * sin;
-				float hc = (positionAndSize.Height * 0.5f) * cos;
-				float hs = (positionAndSize.Height * 0.5f) * sin;
+				float sin = (float)Math.Sin(-rotationAngle);
+				float cos = (float)Math.Cos(-rotationAngle);
+				float wc = hw * cos;
+				float ws = hw * sin;
+				float hc = hh * cos;
+				float hs = hh * sin;
 
-				PointF rotatedCoord0 = new PointF(hs - wc, -hc - wc);
-				PointF rotatedCoord1 = new PointF(hs + wc, -hc + ws);
+				float rotated_x0 = hs - wc;
+				float rotated_y0 = -hc - wc;
+				float rotated_x2 = hs + wc;
+				float rotated_y2 = -hc + ws;
 
-				quad.Coord0 = new PointF(
-					(rotatedCoord0.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(rotatedCoord0.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord1 = new PointF(
-					(-rotatedCoord1.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(-rotatedCoord1.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord2 = new PointF(
-					(rotatedCoord1.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(rotatedCoord1.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
-				quad.Coord3 = new PointF(
-					(-rotatedCoord0.X + positionAndSize.Width * 0.5f) + (positionAndSize.X - 0.5f),
-					(-rotatedCoord0.Y + positionAndSize.Height * 0.5f) + (positionAndSize.Y - 0.5f));
+				x0 = (hw + x) + rotated_x0;
+				y0 = (hh + y) + rotated_y0;
+
+				x1 = (hw + x) - rotated_x2;
+				y1 = (hh + y) - rotated_y2;
+
+				x2 = (hw + x) + rotated_x2;
+				y2 = (hh + y) + rotated_y2;
+
+				x3 = (hw + x) - rotated_x0;
+				y3 = (hh + y) - rotated_y0;
 			}
 
-			graphics.RenderMonochromaticQuad();
+			D3D.RenderMonochromaticQuad(color, x0, y0, x1, y1, x2, y2, x3, y3);
 		}
 
 		/// <summary>Render this image at the given position and size, ignoring any transparency mask.</summary>
@@ -136,7 +161,5 @@ namespace ZunTzu.Graphics {
 		public uint GetColorAtPosition(PointF position) {
 			return 0xFFFFFFFF;
 		}
-
-		private DXGraphics graphics;
 	}
 }

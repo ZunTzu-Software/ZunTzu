@@ -1,20 +1,20 @@
 // Copyright (c) 2022 ZunTzu Software and contributors
 
-using Microsoft.DirectX.Direct3D;
 using System;
 using System.Drawing;
 
-namespace ZunTzu.Graphics {
+namespace ZunTzu.Graphics
+{
 
-	/// <summary>Image extracted from a video texture.</summary>
-	public sealed class DXVideoImage : IImage {
+    /// <summary>Image extracted from a video texture.</summary>
+    public sealed class DXVideoImage : IImage {
 
 		/// <summary>Constructor for a one-shot only image (no mipmapping).</summary>
 		internal DXVideoImage(DXVideoTexture videoTexture, RectangleF imageLocation) {
-			this.videoTexture = videoTexture;
-			this.imageLocation = imageLocation;
+			_videoTexture = videoTexture;
+			_imageLocation = imageLocation;
 			SizeF videoTextureSize = new SizeF(videoTexture.Size);
-			this.textureCoordinates = new RectangleF(
+			_textureCoordinates = new RectangleF(
 				imageLocation.X / videoTextureSize.Width,
 				imageLocation.Y / videoTextureSize.Height,
 				imageLocation.Width / videoTextureSize.Width,
@@ -46,43 +46,58 @@ namespace ZunTzu.Graphics {
 		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this image.</param>
 		/// <param name="modulationColor">Modulation color in A8R8G8B8 format.</param>
 		public void Render(RectangleF positionAndSize, float rotationAngle, uint modulationColor) {
-			float horizontalScaleFactor = positionAndSize.Width / imageLocation.Width;
-			float verticalScaleFactor = positionAndSize.Height / imageLocation.Height;
+			float horizontalScaleFactor = positionAndSize.Width / _imageLocation.Width;
+			float verticalScaleFactor = positionAndSize.Height / _imageLocation.Height;
 
-			DXQuad q = videoTexture.Graphics.Quad;
-
-			q.Texture = videoTexture.Texture;
-			q.ModulationColor = modulationColor;
-			q.TextureCoordinates = textureCoordinates;
-
-			float right = imageLocation.Width * 0.5f * horizontalScaleFactor;
+			float right = _imageLocation.Width * 0.5f * horizontalScaleFactor;
 			float left = -right;
-			float bottom = imageLocation.Height * 0.5f * verticalScaleFactor;
+			float bottom = _imageLocation.Height * 0.5f * verticalScaleFactor;
 			float top = -bottom;
 
-			PointF offset = new PointF(
-				imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f,
-				imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f);
+			float offset_x = _imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f;
+			float offset_y = _imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f;
 
-			if(rotationAngle != 0.0f) {
+			float x0, y0, x1, y1, x2, y2, x3, y3;
+
+			if (rotationAngle == 0.0f)
+			{
+				x0 = left + offset_x;
+				y0 = top + offset_y;
+
+				x1 = x0;
+				y1 = bottom + offset_y;
+
+				x2 = right + offset_x;
+				y2 = y0;
+
+				x3 = x2;
+				y3 = y1;
+			}
+			else
+			{
 				// rotation:
 				// x <- x * cos - y * sin
 				// y <- x * sin + y * cos
-				float sin = (float) Math.Sin(-rotationAngle);
-				float cos = (float) Math.Cos(-rotationAngle);
+				float sin = (float)Math.Sin(-rotationAngle);
+				float cos = (float)Math.Cos(-rotationAngle);
 
-				q.Coord0 = new PointF(left * cos - top * sin + offset.X, left * sin + top * cos + offset.Y);
-				q.Coord1 = new PointF(left * cos - bottom * sin + offset.X, left * sin + bottom * cos + offset.Y);
-				q.Coord2 = new PointF(right * cos - top * sin + offset.X, right * sin + top * cos + offset.Y);
-				q.Coord3 = new PointF(right * cos - bottom * sin + offset.X, right * sin + bottom * cos + offset.Y);
-			} else {
-				q.Coord0 = new PointF(left + offset.X, top + offset.Y);
-				q.Coord1 = new PointF(left + offset.X, bottom + offset.Y);
-				q.Coord2 = new PointF(right + offset.X, top + offset.Y);
-				q.Coord3 = new PointF(right + offset.X, bottom + offset.Y);
+				x0 = left * cos - top * sin + offset_x;
+				y0 = left * sin + top * cos + offset_y;
+
+				x1 = left * cos - bottom * sin + offset_x;
+				y1 = left * sin + bottom * cos + offset_y;
+
+				x2 = right * cos - top * sin + offset_x;
+				y2 = right * sin + top * cos + offset_y;
+
+				x3 = right * cos - bottom * sin + offset_x;
+				y3 = right * sin + bottom * cos + offset_y;
 			}
 
-			videoTexture.Graphics.RenderTexturedQuad();
+			D3D.RenderTexturedQuad(
+				_videoTexture.Texture, modulationColor,
+				x0, y0, x1, y1, x2, y2, x3, y3,
+				_textureCoordinates.Top, _textureCoordinates.Right, _textureCoordinates.Bottom, _textureCoordinates.Left);
 		}
 
 		/// <summary>Render the silhouette for this image at the given position and size.</summary>
@@ -90,72 +105,90 @@ namespace ZunTzu.Graphics {
 		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this image.</param>
 		/// <param name="color">Color of the silhouette in A8R8G8B8 format.</param>
 		public void RenderSilhouette(RectangleF positionAndSize, float rotationAngle, uint color) {
-			float horizontalScaleFactor = positionAndSize.Width / imageLocation.Width;
-			float verticalScaleFactor = positionAndSize.Height / imageLocation.Height;
+			float horizontalScaleFactor = positionAndSize.Width / _imageLocation.Width;
+			float verticalScaleFactor = positionAndSize.Height / _imageLocation.Height;
 
-			DXQuad q = videoTexture.Graphics.Quad;
-
-			q.Texture = videoTexture.Texture;
-			q.ModulationColor = color;
-			q.TextureCoordinates = textureCoordinates;
-
-			float right = imageLocation.Width * 0.5f * horizontalScaleFactor;
+			float right = _imageLocation.Width * 0.5f * horizontalScaleFactor;
 			float left = -right;
-			float bottom = imageLocation.Height * 0.5f * verticalScaleFactor;
+			float bottom = _imageLocation.Height * 0.5f * verticalScaleFactor;
 			float top = -bottom;
 
-			PointF offset = new PointF(
-				imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f,
-				imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f);
+			float offset_x = _imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f;
+			float offset_y = _imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f;
 
-			if(rotationAngle != 0.0f) {
+			float x0, y0, x1, y1, x2, y2, x3, y3;
+
+			if (rotationAngle == 0.0f)
+			{
+				x0 = left + offset_x;
+				y0 = top + offset_y;
+
+				x1 = x0;
+				y1 = bottom + offset_y;
+
+				x2 = right + offset_x;
+				y2 = y0;
+
+				x3 = x2;
+				y3 = y1;
+			}
+			else
+			{
 				// rotation:
 				// x <- x * cos - y * sin
 				// y <- x * sin + y * cos
-				float sin = (float) Math.Sin(-rotationAngle);
-				float cos = (float) Math.Cos(-rotationAngle);
+				float sin = (float)Math.Sin(-rotationAngle);
+				float cos = (float)Math.Cos(-rotationAngle);
 
-				q.Coord0 = new PointF(left * cos - top * sin + offset.X, left * sin + top * cos + offset.Y);
-				q.Coord1 = new PointF(left * cos - bottom * sin + offset.X, left * sin + bottom * cos + offset.Y);
-				q.Coord2 = new PointF(right * cos - top * sin + offset.X, right * sin + top * cos + offset.Y);
-				q.Coord3 = new PointF(right * cos - bottom * sin + offset.X, right * sin + bottom * cos + offset.Y);
-			} else {
-				q.Coord0 = new PointF(left + offset.X, top + offset.Y);
-				q.Coord1 = new PointF(left + offset.X, bottom + offset.Y);
-				q.Coord2 = new PointF(right + offset.X, top + offset.Y);
-				q.Coord3 = new PointF(right + offset.X, bottom + offset.Y);
+				x0 = left * cos - top * sin + offset_x;
+				y0 = left * sin + top * cos + offset_y;
+
+				x1 = left * cos - bottom * sin + offset_x;
+				y1 = left * sin + bottom * cos + offset_y;
+
+				x2 = right * cos - top * sin + offset_x;
+				y2 = right * sin + top * cos + offset_y;
+
+				x3 = right * cos - bottom * sin + offset_x;
+				y3 = right * sin + bottom * cos + offset_y;
 			}
 
-			videoTexture.Graphics.RenderTexturedQuadSilhouette();
+			D3D.RenderTexturedQuadSilhouette(
+				_videoTexture.Texture, color,
+				x0, y0, x1, y1, x2, y2, x3, y3,
+				_textureCoordinates.Top, _textureCoordinates.Right, _textureCoordinates.Bottom, _textureCoordinates.Left);
 		}
 
 		/// <summary>Render this image at the given position and size, ignoring any transparency mask.</summary>
 		/// <param name="positionAndSize">Position and size of the rendered image.</param>
 		public void RenderIgnoreMask(RectangleF positionAndSize) {
-			float horizontalScaleFactor = positionAndSize.Width / imageLocation.Width;
-			float verticalScaleFactor = positionAndSize.Height / imageLocation.Height;
+			float horizontalScaleFactor = positionAndSize.Width / _imageLocation.Width;
+			float verticalScaleFactor = positionAndSize.Height / _imageLocation.Height;
 
-			DXQuad q = videoTexture.Graphics.Quad;
-
-			q.Texture = videoTexture.Texture;
-			q.ModulationColor = 0xffffffff;
-			q.TextureCoordinates = textureCoordinates;
-
-			float right = imageLocation.Width * 0.5f * horizontalScaleFactor;
+			float right = _imageLocation.Width * 0.5f * horizontalScaleFactor;
 			float left = -right;
-			float bottom = imageLocation.Height * 0.5f * verticalScaleFactor;
+			float bottom = _imageLocation.Height * 0.5f * verticalScaleFactor;
 			float top = -bottom;
 
-			PointF offset = new PointF(
-				imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f,
-				imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f);
+			float offset_x = _imageLocation.Width * 0.5f * horizontalScaleFactor + positionAndSize.X - 0.5f;
+			float offset_y = _imageLocation.Height * 0.5f * verticalScaleFactor + positionAndSize.Y - 0.5f;
 
-			q.Coord0 = new PointF(left + offset.X, top + offset.Y);
-			q.Coord1 = new PointF(left + offset.X, bottom + offset.Y);
-			q.Coord2 = new PointF(right + offset.X, top + offset.Y);
-			q.Coord3 = new PointF(right + offset.X, bottom + offset.Y);
+			float x0 = left + offset_x;
+			float y0 = top + offset_y;
 
-			videoTexture.Graphics.RenderTexturedQuadIgnoreMask();
+			float x1 = x0;
+			float y1 = bottom + offset_y;
+
+			float x2 = right + offset_x;
+			float y2 = y0;
+
+			float x3 = x2;
+			float y3 = y1;
+
+			D3D.RenderTexturedQuadIgnoreMask(
+				_videoTexture.Texture, 0xffffffff,
+				x0, y0, x1, y1, x2, y2, x3, y3,
+				_textureCoordinates.Top, _textureCoordinates.Right, _textureCoordinates.Bottom, _textureCoordinates.Left);
 		}
 
 		/// <summary>Returns the color of the texel at the given position.</summary>
@@ -166,8 +199,8 @@ namespace ZunTzu.Graphics {
 			return 0x00000000;
 		}
 
-		private DXVideoTexture videoTexture;
-		private RectangleF imageLocation;
-		private RectangleF textureCoordinates;
+		DXVideoTexture _videoTexture;
+		RectangleF _imageLocation;
+		RectangleF _textureCoordinates;
 	}
 }

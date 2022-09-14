@@ -1,39 +1,51 @@
 // Copyright (c) 2022 ZunTzu Software and contributors
 
-using Microsoft.DirectX.Direct3D;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Xml;
 using ZunTzu.FileSystem;
 
-namespace ZunTzu.Graphics {
+namespace ZunTzu.Graphics
+{
 
-	/// <summary>3D object.</summary>
-	internal sealed class DXDieMesh : IDieMesh {
+    /// <summary>3D object.</summary>
+    internal sealed class DXDieMesh : IDieMesh {
 
-		public DXDieMesh(DXGraphics graphics, float[,] vertice, Int16[,] triangles, float inradius, IFile textureFile, bool custom) {
-			this.graphics = graphics;
-			this.vertice = vertice;
-			this.triangles = triangles;
-			this.inradius = inradius;
-			this.textureFile = textureFile;
-			this.custom = custom;
+		public DXDieMesh(float[,] vertice, Int16[,] triangles, float inradius, IFile textureFile, bool custom) {
+			_vertice = vertice;
+			_triangles = triangles;
+			_inradius = inradius;
+			_textureFile = textureFile;
+			_custom = custom;
 			Initialize();
 		}
 
 		/// <summary>Render this die.</summary>
 		public void Render(System.Drawing.PointF position, float sizeFactor, float[,] rotationMatrix, uint dieColor, uint pipsColor) {
-			if(custom)
-				graphics.RenderCustomDieMesh(this, position, sizeFactor, rotationMatrix);
+			if (_custom)
+				D3D.RenderCustomDieMesh(
+					_vb, _ib, _texture,
+					VertexCount, TriangleCount,
+					position.X, position.Y,
+					sizeFactor, rotationMatrix);
 			else
-				graphics.RenderDieMesh(this, position, sizeFactor, rotationMatrix, dieColor, pipsColor);
+				D3D.RenderDieMesh(
+					_vb, _ib, _texture,
+					VertexCount, TriangleCount,
+					position.X, position.Y,
+					sizeFactor, rotationMatrix,
+					dieColor, pipsColor);
 		}
 
 		/// <summary>Render the shadow of this die.</summary>
-		public void RenderShadow(System.Drawing.PointF position, float sizeFactor, float[,] projectionMatrix, uint shadowColor) {
-			graphics.RenderDieMeshShadow(this, position, sizeFactor, projectionMatrix, shadowColor);
+		public void RenderShadow(System.Drawing.PointF position, float sizeFactor, float[,] rotationMatrix, uint shadowColor) {
+			D3D.RenderDieMeshShadow(
+				_vb, _ib, _texture,
+				VertexCount, TriangleCount, _inradius,
+				position.X, position.Y,
+				sizeFactor, rotationMatrix,
+				shadowColor);
 		}
 
 		public void Initialize() {
@@ -42,22 +54,21 @@ namespace ZunTzu.Graphics {
 		}
 
 		private unsafe void loadTexture() {
-			using(Stream stream = textureFile.Open()) {
+			using(Stream stream = _textureFile.Open()) {
 				using(Bitmap bitmap = new Bitmap(stream)) {
 					BitmapData bitmapData = bitmap.LockBits(
 						new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 						ImageLockMode.ReadOnly,
 						PixelFormat.Format24bppRgb);
 
-					texture = new Texture(graphics.Device, bitmap.Width, bitmap.Height, 1, 0, Format.A8R8G8B8, Pool.Managed);
-					int texturePitch;
-					byte * textureBits = (byte*) texture.LockRectangle(0, LockFlags.None, out texturePitch).InternalData.ToPointer();
+					_texture = D3DTexture.Create(bitmap.Width, bitmap.Height, D3DTextureFormat.A8R8G8B8);
+					_texture.Lock(out int texturePitch, out byte* textureBits);
 
 					byte* source = (byte*) bitmapData.Scan0;
 					int sourceWidth = bitmapData.Width;
 					int sourceHeight = bitmapData.Height;
 					int stride = bitmapData.Stride;
-					if(custom) {
+					if(_custom) {
 						for(int y = 0; y < sourceHeight; ++y) {
 							for(int x = 0; x < sourceWidth; ++x) {
 								*(textureBits + 0) = *(source + 0);
@@ -85,7 +96,7 @@ namespace ZunTzu.Graphics {
 						}
 					}
 
-					texture.UnlockRectangle(0);
+					_texture.Unlock();
 					bitmap.UnlockBits(bitmapData);
 				}
 			}
@@ -93,53 +104,50 @@ namespace ZunTzu.Graphics {
 
 		private void loadGeometry() {
 		
-			int vertexCount = vertice.GetLength(0);
-			CustomVertex.PositionNormalTextured[] verts = new CustomVertex.PositionNormalTextured[vertexCount];
+			int vertexCount = _vertice.GetLength(0);
+			var verts = new D3DVertexBuffer.PosNormTexVertex[vertexCount];
 			for(int i = 0; i < vertexCount; ++i) {
-				verts[i].X = vertice[i, 0];
-				verts[i].Y = vertice[i, 1];
-				verts[i].Z = vertice[i, 2];
-				verts[i].Nx = vertice[i, 3];
-				verts[i].Ny = vertice[i, 4];
-				verts[i].Nz = vertice[i, 5];
-				verts[i].Tu = vertice[i, 6];
-				verts[i].Tv = vertice[i, 7];
+				verts[i].X = _vertice[i, 0];
+				verts[i].Y = _vertice[i, 1];
+				verts[i].Z = _vertice[i, 2];
+				verts[i].Nx = _vertice[i, 3];
+				verts[i].Ny = _vertice[i, 4];
+				verts[i].Nz = _vertice[i, 5];
+				verts[i].Tu = _vertice[i, 6];
+				verts[i].Tv = _vertice[i, 7];
 			}
-			vb = new VertexBuffer(typeof(CustomVertex.PositionNormalTextured), vertexCount, graphics.Device, Usage.WriteOnly, CustomVertex.PositionNormalTextured.Format, Pool.Managed);
-			vb.SetData(verts, 0, 0);
+			_vb = D3DVertexBuffer.Create(verts);
 		
-			int triangleCount = triangles.GetLength(0);
-			short[] indice = new short[triangleCount * 3];
+			int triangleCount = _triangles.GetLength(0);
+			short[] indices = new short[triangleCount * 3];
 			for(int i = 0; i < triangleCount; ++i) {
-				indice[i * 3 + 0] = triangles[i, 0];
-				indice[i * 3 + 1] = triangles[i, 1];
-				indice[i * 3 + 2] = triangles[i, 2];
+				indices[i * 3 + 0] = _triangles[i, 0];
+				indices[i * 3 + 1] = _triangles[i, 1];
+				indices[i * 3 + 2] = _triangles[i, 2];
 			}
-			ib = new IndexBuffer(typeof(short), triangleCount * 3, graphics.Device, Usage.WriteOnly, Pool.Managed);
-			ib.SetData(indice, 0, 0);
+			_ib = D3DIndexBuffer.Create(indices);
 		}
 
 		public void Dispose() {
-			if(texture != null) texture.Dispose();
-			if(vb != null) vb.Dispose();
-			if(ib != null) ib.Dispose();
+			if(_texture != null) _texture.Dispose();
+			if(_vb != null) _vb.Dispose();
+			if(_ib != null) _ib.Dispose();
 		}
 
-		public Texture Texture { get { return texture; } }
-		public VertexBuffer VertexBuffer { get { return vb; } }
-		public IndexBuffer IndexBuffer { get { return ib; } }
-		public int VertexCount { get { return vertice.GetLength(0); } }
-		public int TriangleCount { get { return triangles.GetLength(0); } }
-		public float Inradius { get { return inradius; } }
+		public D3DTexture Texture => _texture;
+		public D3DVertexBuffer VertexBuffer => _vb;
+		public D3DIndexBuffer IndexBuffer => _ib;
+		public int VertexCount => _vertice.GetLength(0);
+		public int TriangleCount => _triangles.GetLength(0);
+		public float Inradius => _inradius;
 
-		private readonly DXGraphics graphics;
-		private readonly float[,] vertice;
-		private readonly Int16[,] triangles;
-		private readonly float inradius;
-		private readonly bool custom;
-		private readonly IFile textureFile;
-		private Texture texture = null;
-		private VertexBuffer vb = null;
-		private IndexBuffer ib = null;
+		readonly float[,] _vertice;
+		readonly Int16[,] _triangles;
+		readonly float _inradius;
+		readonly bool _custom;
+		readonly IFile _textureFile;
+		D3DTexture _texture = null;
+		D3DVertexBuffer _vb = null;
+		D3DIndexBuffer _ib = null;
 	}
 }

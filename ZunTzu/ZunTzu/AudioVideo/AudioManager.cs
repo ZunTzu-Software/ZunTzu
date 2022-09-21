@@ -6,41 +6,40 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.DirectX.DirectSound;
 
-namespace ZunTzu.AudioVideo {
+namespace ZunTzu.AudioVideo
+{
 
-	/// <summary>An audio device.</summary>
-	public class AudioManager : IAudioManager {
+    /// <summary>An audio device.</summary>
+    public class AudioManager : IAudioManager {
 
 		private static string[] soundBank = { "Shuffle", "Die0", "Die1", "Die2", "Die3", "Die4", "Die5", "Die6" };
 
 		/// <summary>Constructor.</summary>
 		public AudioManager(Form owner, AudioProperties audioProperties) {
-			this.audioProperties = audioProperties;
-			try {
-				device = new Device();
-				device.SetCooperativeLevel(owner, CooperativeLevel.Priority);
-			} catch(ApplicationException) {
-				device = null;
-				System.Windows.Forms.MessageBox.Show(
+			_audioProperties = audioProperties;
+
+			_audioEnabled = DS.CreateAudio(owner.Handle);
+
+			if (!_audioEnabled)
+            {
+				MessageBox.Show(
 					"Sound card doesn't meet ZunTzu's minimum requirements. Are the drivers installed?",
 					"Can't use sound",
-					System.Windows.Forms.MessageBoxButtons.OK,
-					System.Windows.Forms.MessageBoxIcon.Warning);
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning);
 			}
 
-			secondaryBuffers = new SecondaryBuffer[soundBank.Length];
-			buffers3D = new Buffer3D[soundBank.Length];
+			_soundBuffers = new DSBuffer[soundBank.Length];
 
 			restoreSoundBuffers();
 		}
 
 		/// <summary>Settings for audio recording and playback.</summary>
 		public AudioProperties AudioProperties {
-			get { return audioProperties; }
+			get { return _audioProperties; }
 			set {
-				audioProperties = value;
+				_audioProperties = value;
 				if(AudioPropertiesChanged != null)
 					AudioPropertiesChanged();
 			}
@@ -48,17 +47,15 @@ namespace ZunTzu.AudioVideo {
 
 		/// <summary>Occurs when the audio settings have changed.</summary>
 		public event AudioPropertiesChangedHandler AudioPropertiesChanged;
-			
-		public Device DirectSoundDevice { get { return device; } }
 
 		/// <summary>Plays a WMA audio file on disk.</summary>
 		/// <param name="fileName">File name.</param>
 		public void PlayAudioFile(string fileName) {
-			if(device != null && !audioProperties.MuteSoundEffects) {
+			if(_audioEnabled && !_audioProperties.MuteSoundEffects) {
 				string fullPath = Path.Combine(
 					(ApplicationDeployment.IsNetworkDeployed ?
 						ApplicationDeployment.CurrentDeployment.DataDirectory :
-						System.Windows.Forms.Application.StartupPath),
+						Application.StartupPath),
 					fileName);
 				ThreadPool.QueueUserWorkItem(new WaitCallback(playAudioFile), fullPath);
 			}
@@ -67,51 +64,52 @@ namespace ZunTzu.AudioVideo {
 		/// <summary>Plays a sound from the sound bank.</summary>
 		/// <param name="track">Sound to play.</param>
 		public void PlayAudioTrack(AudioTrack track) {
-			if(device != null && !audioProperties.MuteSoundEffects) {
-				SecondaryBuffer buffer = secondaryBuffers[(int) track - 1];
-				try {
-					if(buffer.Status.BufferLost) {
-						restoreSoundBuffers();
-						buffer = secondaryBuffers[(int) track - 1];
-					}
-					buffer.SetCurrentPosition(0);
-					buffer.Play(0, BufferPlayFlags.Default);
-				} catch(Exception) {}
+			if(_audioEnabled && !_audioProperties.MuteSoundEffects) {
+				DSBuffer buffer = _soundBuffers[(int)track - 1];
+				if (!buffer.Play())
+                {
+					restoreSoundBuffers();
+					buffer = _soundBuffers[(int)track - 1];
+					buffer.Play();
+				}
+			}
+		}
+
+		/// <summary>Sets the origin of the sound in 3D space.</summary>
+		/// <param name="track">Sound to play.</param>
+		/// <param name="origin">Position of the origin of the sound.</param>
+		public void SetAudioTrackOrigin(AudioTrack track, PointF origin)
+        {
+			if (_audioEnabled)
+			{
+				float xCoeff = 1.0f;
+				float yCoeff = -1.0f * _gameDisplayArea.Height / _gameDisplayArea.Width;
+				float x = xCoeff * ((2.0f * (origin.X - _gameDisplayArea.Left) / _gameDisplayArea.Width) - 1.0f);
+				float y = yCoeff * ((2.0f * (origin.Y - _gameDisplayArea.Top) / _gameDisplayArea.Height) - 1.0f);
+				float z = 1.0f;
+
+				DSBuffer buffer = _soundBuffers[(int)track - 1];
+				buffer.SetSoundBuffer3DPosition(x, y, z);
 			}
 		}
 
 		/// <summary>Informs the 3D positioning sound system of display area.</summary>
 		/// <param name="gameDisplayArea">The game display area.</param>
 		public void SetGameDisplayArea(RectangleF gameDisplayArea) {
-			this.gameDisplayArea = gameDisplayArea;
-		}
-
-		/// <summary>Sets the origin of the sound in 3D space.</summary>
-		/// <param name="track">Sound to play.</param>
-		/// <param name="origin">Position of the origin of the sound.</param>
-		public void SetAudioTrackOrigin(AudioTrack track, PointF origin) {
-			if(device != null) {
-				Buffer3D buffer = buffers3D[(int) track - 1];
-				float xCoeff = 1.0f;
-				float yCoeff = -1.0f * gameDisplayArea.Height / gameDisplayArea.Width;
-				buffer.Position = new Microsoft.DirectX.Vector3(
-					xCoeff * ((2.0f * (origin.X - gameDisplayArea.Left) / gameDisplayArea.Width) - 1.0f),
-					yCoeff * ((2.0f * (origin.Y - gameDisplayArea.Top) / gameDisplayArea.Height) - 1.0f),
-					1.0f);
-			}
+			_gameDisplayArea = gameDisplayArea;
 		}
 
 		public void Dispose() {
-			if(device != null && !device.Disposed) {
-				for(int i = 0; i < secondaryBuffers.Length; ++i) {
-					buffers3D[i].Dispose();
-					secondaryBuffers[i].Dispose();
+			if(_audioEnabled) {
+				_audioEnabled = false;
+				for (int i = 0; i < _soundBuffers.Length; ++i) {
+					_soundBuffers[i].Dispose();
 				}
-				device.Dispose();
+				DS.FreeAudio();
 			}
 		}
 
-		private static void playAudioFile(object fileName) {
+		static void playAudioFile(object fileName) {
 			try {
 				IFilterGraph2 filterGraph = (IFilterGraph2) new FilterGraph();
 				if(0 == filterGraph.RenderFile(fileName as string, IntPtr.Zero)) {
@@ -125,33 +123,22 @@ namespace ZunTzu.AudioVideo {
 			} catch(Exception) { }
 		}
 
-		private void restoreSoundBuffers() {
-			if(device != null) {
-				BufferDescription bufferDescription = new BufferDescription();
-				bufferDescription.ControlEffects = false;
-				bufferDescription.ControlVolume = false;
-				bufferDescription.ControlFrequency = false;
-				bufferDescription.GlobalFocus = true;
-				bufferDescription.Control3D = true;
-
+		void restoreSoundBuffers() {
+			if(_audioEnabled) {
 				for(int i = 0; i < soundBank.Length; ++i) {
-					if(secondaryBuffers[i] != null) {
-						buffers3D[i].Dispose();
-						secondaryBuffers[i].Dispose();
+					if(_soundBuffers[i] != null) {
+						_soundBuffers[i].Dispose();
 					}
-					using(System.IO.Stream resourceStream = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles." + soundBank[i] + ".wav").Open()) {
-						secondaryBuffers[i] = new SecondaryBuffer(resourceStream, bufferDescription, device);
-						buffers3D[i] = new Buffer3D(secondaryBuffers[i]);
-						buffers3D[i].MinDistance = 2.0f;
+					using(Stream resourceStream = FileSystem.FileSystem.GetResource("ZunTzu.ResourceFiles." + soundBank[i] + ".wav").Open()) {
+						_soundBuffers[i] = DSBuffer.Create(resourceStream);
 					}
 				}
 			}
 		}
 
-		private Device device;
-		private AudioProperties audioProperties;
-		private SecondaryBuffer[] secondaryBuffers;
-		private Buffer3D[] buffers3D;
-		private RectangleF gameDisplayArea = new RectangleF(0.0f, 0.0f, 800.0f, 600.0f);
+		AudioProperties _audioProperties;
+		bool _audioEnabled;
+		DSBuffer[] _soundBuffers;
+		RectangleF _gameDisplayArea = new RectangleF(0.0f, 0.0f, 800.0f, 600.0f);
 	}
 }

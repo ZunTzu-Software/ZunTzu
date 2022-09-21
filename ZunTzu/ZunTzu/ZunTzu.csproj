@@ -81,15 +81,6 @@
     <Reference Include="Microsoft.DirectX, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.DirectX.DirectPlay, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="Open.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f22a6a4582336c76, processorArchitecture=MSIL">
       <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll</HintPath>
@@ -107,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioVideo\AudioManager.cs" />
+    <Compile Include="AudioVideo\DirectSound.cs" />
     <Compile Include="Control\CommandLineParser.cs" />
     <Compile Include="Control\Control.cs" />
     <Compile Include="Control\Controller.cs" />
@@ -514,7 +506,6 @@
     <None Include="Dotfuscator.xml" />
     <None Include="FileSystem\ICSharpCode.SharpZipLib.dll">
     </None>
-    <None Include="Graphics\Microsoft.DirectX.dll" />
     <None Include="Networking\Microsoft.DirectX.DirectSound.dll" />
     <None Include="ResourceFiles\ZunTzu.res" />
     <None Include="Resources\ZunTzu.ico" />

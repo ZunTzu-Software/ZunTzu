@@ -291,5 +291,34 @@ namespace ZunTzu {
 		[DllImport("ZunTzuLib.dll")]
 		public static extern void FreeIndexBuffer(
 			IntPtr ib);
+
+		// Audio
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern bool CreateAudio(
+			IntPtr hMainWnd);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void FreeAudio();
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern IntPtr CreateSoundBuffer(
+			[In] byte* wav_data,
+			int wav_size);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void FreeSoundBuffer(
+			IntPtr sound_buffer);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void SetSoundBuffer3DPosition(
+			IntPtr sound_buffer,
+			float x,
+			float y,
+			float z);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern bool PlaySoundBuffer(
+			IntPtr sound_buffer);
 	}
 }

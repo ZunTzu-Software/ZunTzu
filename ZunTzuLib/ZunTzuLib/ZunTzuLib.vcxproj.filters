@@ -81,6 +81,12 @@
     <ClCompile Include="direct3d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="directsound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="directsoundguids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dxt_compressor.h">

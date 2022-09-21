@@ -30,9 +30,9 @@
             // 
             // okButton
             // 
-            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.CausesValidation = false;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.Name = "okButton";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
@@ -40,6 +40,7 @@
             // 
             resources.ApplyResources(this.muteSoundEffectsCheckBox, "muteSoundEffectsCheckBox");
             this.muteSoundEffectsCheckBox.Name = "muteSoundEffectsCheckBox";
+            this.muteSoundEffectsCheckBox.CheckedChanged += new System.EventHandler(this.muteSoundEffectsCheckBox_CheckedChanged);
             // 
             // VoiceDialog
             // 

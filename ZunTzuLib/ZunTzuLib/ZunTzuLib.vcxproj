@@ -196,7 +196,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;zziplib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;zziplib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;d3d9.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <Version>1.3</Version>
       <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -248,7 +248,7 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;zziplib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;zziplib.lib;libjpeg.lib;libpng.lib;raknet.lib;ws2_32.lib;d3d9.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <Version>1.3</Version>
       <AdditionalLibraryDirectories>..;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -273,6 +273,13 @@ rename ..\release_sse2\ZunTzuLib.dll ZunTzuLib_simd.dll
   <ItemGroup>
     <ClCompile Include="cpu_count.cpp" />
     <ClCompile Include="direct3d.cpp" />
+    <ClCompile Include="directsound.cpp" />
+    <ClCompile Include="directsoundguids.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_SSE2|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="dxt.cpp" />
     <ClCompile Include="dxt1_compressor.cpp" />
     <ClCompile Include="dxt5_compressor.cpp" />

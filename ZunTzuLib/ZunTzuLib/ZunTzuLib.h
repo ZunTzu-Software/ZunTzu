@@ -59,4 +59,12 @@ extern "C" {
 	__declspec(dllexport) void __cdecl FreeVertexBuffer(void* vb);
 	__declspec(dllexport) void* __cdecl CreateIndexBuffer(int triangle_count, short* data);
 	__declspec(dllexport) void __cdecl FreeIndexBuffer(void* ib);
+
+	// Audio
+	__declspec(dllexport) bool __cdecl CreateAudio(void* hMainWnd);
+	__declspec(dllexport) void __cdecl FreeAudio();
+	__declspec(dllexport) void* __cdecl CreateSoundBuffer(byte* wav_data, int wav_size);
+	__declspec(dllexport) void __cdecl FreeSoundBuffer(void* sound_buffer);
+	__declspec(dllexport) void __cdecl SetSoundBuffer3DPosition(void* sound_buffer, float x, float y, float z);
+	__declspec(dllexport) bool __cdecl PlaySoundBuffer(void* sound_buffer);
 }

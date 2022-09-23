@@ -8,6 +8,7 @@ using System.Reflection;
 using ZunTzu.AudioVideo;
 using ZunTzu.Graphics;
 using ZunTzu.Networking;
+using ZunTzu.Numerics;
 
 //
 //  +------------+     +---------------+     +---------+
@@ -106,20 +107,6 @@ namespace ZunTzu.Modelization {
 
 		/// <summary>Sequence number used to resolve conflicting commands received from different players at the same moment.</summary>
 		int StateChangeSequenceNumber { get;  set; }
-
-		/// <summary>Computes a rotation in 3D space, from a rotation axis and an angle.</summary>
-		/// <param name="axisX">X component of the rotation axis vector.</param>
-		/// <param name="axisY">Y component of the rotation axis vector.</param>
-		/// <param name="axisZ">Z component of the rotation axis vector.</param>
-		/// <param name="angle">Rotation angle.</param>
-		/// <returns>A rotation.</returns>
-		IRotation ComputeRotationFromAxis(float axisX, float axisY, float axisZ, float angle);
-		/// <summary>Computes a rotation in 3D space, by composing three rotations along the Z, X and then Y axis.</summary>
-		/// <param name="yaw">Rotation angle along the Y axis.</param>
-		/// <param name="pitch">Rotation angle along the X axis.</param>
-		/// <param name="roll">Rotation angle along the Z axis.</param>
-		/// <returns>A rotation.</returns>
-		IRotation ComputeRotationYawPitchRoll(float yaw, float pitch, float roll);
 	}
 
 	/// <summary>Information about a player.</summary>
@@ -778,22 +765,6 @@ namespace ZunTzu.Modelization {
 	public interface IAnimation {
 	}
 
-	/// <summary>Rotation in 3D space.</summary>
-	public interface IRotation {
-		/// <summary>Computes the composition of two rotations in 3D space.</summary>
-		/// <param name="secondRotation">Another rotation.</param>
-		/// <returns>The composition rotation.</returns>
-		IRotation ComposeWith(IRotation secondRotation);
-		/// <summary>Interpolates between two rotations in 3D space, using spherical linear interpolation.</summary>
-		/// <param name="finalRotation">Another rotation.</param>
-		/// <param name="coefficient">Parameter that indicates how far to interpolate between the rotations.</param>
-		/// <returns>The interpolation rotation.</returns>
-		IRotation InterpolateWith(IRotation finalRotation, float coefficient);
-		/// <summary>Converts to a rotation matrix.</summary>
-		/// <returns>A 3x3 matrix.</returns>
-		float[,] ToRotationMatrix();
-	}
-
 	[ObfuscationAttribute(Exclude = true)]
 	public enum DiceType { D4, D6, D8, D10, D12, D20 };
 
@@ -855,7 +826,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Position in screen coordinates.</summary>
 		public PointF Position;
 		/// <summary>Orientation.</summary>
-		public IRotation Orientation;
+		public Quaternion Orientation;
 	}
 
 	/// <summary>A random number generator.</summary>

@@ -527,9 +527,7 @@ extern "C" void __cdecl RenderDieMesh(
 	int mesh_vertex_count, int mesh_triangle_count,
 	float x, float y,
 	float size_factor,
-	float rot_00, float rot_01, float rot_02,
-	float rot_10, float rot_11, float rot_12,
-	float rot_20, float rot_21, float rot_22,
+	float rot_x, float rot_y, float rot_z, float rot_w,
 	unsigned int die_color, unsigned int pips_color)
 {
 	switch_to_mesh_rendering(mesh_vb, mesh_ib, mesh_texture);
@@ -537,12 +535,7 @@ extern "C" void __cdecl RenderDieMesh(
 	float scaling_factor = 100.0f / (float)present_params.BackBufferWidth;
 	float scaling = size_factor * scaling_factor;
 
-	XMMATRIX rotation = XMMATRIX(
-		rot_00, rot_01, rot_02, 0.0f,
-		rot_10, rot_11, rot_12, 0.0f,
-		rot_20, rot_21, rot_22, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
+	XMMATRIX rotation = XMMatrixRotationQuaternion(DirectX::XMVectorSet(rot_x, rot_y, rot_z, rot_w));
 
 	XMMATRIX world_matrix = XMMatrixMultiply(
 		XMMatrixMultiply(rotation, XMMatrixScaling(scaling, scaling, scaling)),
@@ -594,21 +587,14 @@ extern "C" void __cdecl RenderCustomDieMesh(
 	int mesh_vertex_count, int mesh_triangle_count,
 	float x, float y,
 	float size_factor,
-	float rot_00, float rot_01, float rot_02,
-	float rot_10, float rot_11, float rot_12,
-	float rot_20, float rot_21, float rot_22)
+	float rot_x, float rot_y, float rot_z, float rot_w)
 {
 	switch_to_mesh_rendering(mesh_vb, mesh_ib, mesh_texture);
 
 	float scaling_factor = 100.0f / (float)present_params.BackBufferWidth;
 	float scaling = size_factor * scaling_factor;
 
-	XMMATRIX rotation = XMMATRIX(
-		rot_00, rot_01, rot_02, 0.0f,
-		rot_10, rot_11, rot_12, 0.0f,
-		rot_20, rot_21, rot_22, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
+	XMMATRIX rotation = XMMatrixRotationQuaternion(DirectX::XMVectorSet(rot_x, rot_y, rot_z, rot_w));
 
 	XMMATRIX world_matrix = XMMatrixMultiply(
 		XMMatrixMultiply(rotation, XMMatrixScaling(scaling, scaling, scaling)),
@@ -645,9 +631,7 @@ extern "C" void __cdecl RenderDieMeshShadow(
 	float mesh_inradius,
 	float x, float y,
 	float size_factor,
-	float rot_00, float rot_01, float rot_02,
-	float rot_10, float rot_11, float rot_12,
-	float rot_20, float rot_21, float rot_22,
+	float rot_x, float rot_y, float rot_z, float rot_w,
 	unsigned int shadow_color)
 {
 	switch_to_mesh_rendering(mesh_vb, mesh_ib, mesh_texture);
@@ -655,12 +639,7 @@ extern "C" void __cdecl RenderDieMeshShadow(
 	float scaling_factor = 100.0f / (float)present_params.BackBufferWidth;
 	float scaling = size_factor * scaling_factor;
 
-	XMMATRIX rotation = XMMATRIX(
-		rot_00, rot_01, rot_02, 0.0f,
-		rot_10, rot_11, rot_12, 0.0f,
-		rot_20, rot_21, rot_22, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
+	XMMATRIX rotation = XMMatrixRotationQuaternion(DirectX::XMVectorSet(rot_x, rot_y, rot_z, rot_w));
 
 	XMMATRIX projection_on_table = XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,

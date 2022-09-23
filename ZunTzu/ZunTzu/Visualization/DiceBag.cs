@@ -7,6 +7,7 @@ using ZunTzu.FileSystem;
 using ZunTzu.Graphics;
 using ZunTzu.Modelization;
 using ZunTzu.Modelization.Animations;
+using ZunTzu.Numerics;
 
 namespace ZunTzu.Visualization {
 
@@ -24,78 +25,78 @@ namespace ZunTzu.Visualization {
 			float dihedralAngle = (float) Math.Acos(-Math.Sqrt(5.0) / 5.0);
 			float halfPentagonAngle = (float) (Math.PI / 5.0);
 			float piMinusDihedralAngle = (float) (Math.PI - Math.Acos(-Math.Sqrt(5) / 3.0));
-			faceOrientations = new IRotation[6][] {
-				new IRotation[4] {
-					/*1*/ model.ComputeRotationYawPitchRoll(0.0f, -atanSqrtTwo, pi * 0.25f),
-					/*2*/ model.ComputeRotationYawPitchRoll(0.0f, -atanSqrtTwo, pi * -0.75f),
-					/*3*/ model.ComputeRotationYawPitchRoll(0.0f, pi - atanSqrtTwo, pi * 0.75f),
-					/*4*/ model.ComputeRotationYawPitchRoll(0.0f, pi - atanSqrtTwo, pi * -0.25f)
+			faceOrientations = new Quaternion[6][] {
+				new Quaternion[4] {
+					/*1*/ Quaternion.FromYawPitchRoll(0.0f, -atanSqrtTwo, pi * 0.25f),
+					/*2*/ Quaternion.FromYawPitchRoll(0.0f, -atanSqrtTwo, pi * -0.75f),
+					/*3*/ Quaternion.FromYawPitchRoll(0.0f, pi - atanSqrtTwo, pi * 0.75f),
+					/*4*/ Quaternion.FromYawPitchRoll(0.0f, pi - atanSqrtTwo, pi * -0.25f)
 				},
-				new IRotation[6] {
-					/*1*/ model.ComputeRotationYawPitchRoll(0.0f, 0.0f, 0.0f),
-					/*2*/ model.ComputeRotationYawPitchRoll(pi * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * 0.5f)),
-					/*3*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * -0.5f)),
-					/*4*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi)),
-					/*5*/ model.ComputeRotationYawPitchRoll(pi * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi)),
-					/*6*/ model.ComputeRotationYawPitchRoll(pi, 0.0f, pi * 0.5f)
+				new Quaternion[6] {
+					/*1*/ Quaternion.FromYawPitchRoll(0.0f, 0.0f, 0.0f),
+					/*2*/ Quaternion.FromYawPitchRoll(pi * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * 0.5f)),
+					/*3*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * -0.5f)),
+					/*4*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi)),
+					/*5*/ Quaternion.FromYawPitchRoll(pi * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi)),
+					/*6*/ Quaternion.FromYawPitchRoll(pi, 0.0f, pi * 0.5f)
 				},
-				new IRotation[8] {
-					/*1*/ model.ComputeRotationYawPitchRoll(pi * 0.25f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*2*/ model.ComputeRotationYawPitchRoll(pi * 0.25f, 0.0f, pi).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*3*/ model.ComputeRotationYawPitchRoll(pi * -0.25f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*4*/ model.ComputeRotationYawPitchRoll(pi * -0.25f, 0.0f, pi).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*5*/ model.ComputeRotationYawPitchRoll(pi * -0.75f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*6*/ model.ComputeRotationYawPitchRoll(pi * -0.75f, 0.0f, pi).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*7*/ model.ComputeRotationYawPitchRoll(pi * 0.75f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
-					/*8*/ model.ComputeRotationYawPitchRoll(pi * 0.75f, 0.0f, pi).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f))
+				new Quaternion[8] {
+					/*1*/ Quaternion.FromYawPitchRoll(pi * 0.25f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*2*/ Quaternion.FromYawPitchRoll(pi * 0.25f, 0.0f, pi).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*3*/ Quaternion.FromYawPitchRoll(pi * -0.25f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*4*/ Quaternion.FromYawPitchRoll(pi * -0.25f, 0.0f, pi).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*5*/ Quaternion.FromYawPitchRoll(pi * -0.75f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*6*/ Quaternion.FromYawPitchRoll(pi * -0.75f, 0.0f, pi).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*7*/ Quaternion.FromYawPitchRoll(pi * 0.75f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f)),
+					/*8*/ Quaternion.FromYawPitchRoll(pi * 0.75f, 0.0f, pi).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (acosMinusOneThird - pi) * 0.5f, 0.0f))
 				},
-				new IRotation[10] {
-					/*1*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.75f, pi * 0.5f),
-					/*2*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.25f, pi * 0.1f),
-					/*3*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.75f, pi * -0.3f),
-					/*4*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.25f, pi * -0.7f),
-					/*5*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.75f, pi * -0.7f),
-					/*6*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.25f, pi * -0.3f),
-					/*7*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.75f, pi * 0.1f),
-					/*8*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.25f, pi * 0.5f),
-					/*9*/ model.ComputeRotationYawPitchRoll(0.0f, pi * -0.75f, pi * 0.9f),
-					/*0*/ model.ComputeRotationYawPitchRoll(0.0f, pi * 0.25f, pi * 0.9f)
+				new Quaternion[10] {
+					/*1*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.75f, pi * 0.5f),
+					/*2*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.25f, pi * 0.1f),
+					/*3*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.75f, pi * -0.3f),
+					/*4*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.25f, pi * -0.7f),
+					/*5*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.75f, pi * -0.7f),
+					/*6*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.25f, pi * -0.3f),
+					/*7*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.75f, pi * 0.1f),
+					/*8*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.25f, pi * 0.5f),
+					/*9*/ Quaternion.FromYawPitchRoll(0.0f, pi * -0.75f, pi * 0.9f),
+					/*0*/ Quaternion.FromYawPitchRoll(0.0f, pi * 0.25f, pi * 0.9f)
 				},
-				new IRotation[12] {
-					/*1*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, halfPentagonAngle * -0.5f)),
-					/*2*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, (float)Math.PI * 0.5f)),
-					/*3*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * 0.5f)),
-					/*4*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, (float)Math.PI - halfPentagonAngle * 0.5f)),
-					/*5*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * -1.5f)),
-					/*6*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * -3.5f)),
-					/*7*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * 1.5f + (float)Math.PI)),
-					/*8*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * -1.5f)),
-					/*9*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle, (float)Math.PI - halfPentagonAngle * 0.5f)),
-					/*10*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * 0.5f)),
-					/*11*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, dihedralAngle, (float)Math.PI * 0.5f)),
-					/*12*/ model.ComputeRotationYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, (float)Math.PI, halfPentagonAngle * -0.5f))
+				new Quaternion[12] {
+					/*1*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, halfPentagonAngle * -0.5f)),
+					/*2*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, (float)Math.PI * 0.5f)),
+					/*3*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * 0.5f)),
+					/*4*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, (float)Math.PI - halfPentagonAngle * 0.5f)),
+					/*5*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * -1.5f)),
+					/*6*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * -3.5f)),
+					/*7*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * 1.5f + (float)Math.PI)),
+					/*8*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle, halfPentagonAngle * -1.5f)),
+					/*9*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle, (float)Math.PI - halfPentagonAngle * 0.5f)),
+					/*10*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle + (float)Math.PI, halfPentagonAngle * 0.5f)),
+					/*11*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, dihedralAngle, (float)Math.PI * 0.5f)),
+					/*12*/ Quaternion.FromYawPitchRoll(((float)Math.PI - dihedralAngle) * -0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, (float)Math.PI, halfPentagonAngle * -0.5f))
 				},
-				new IRotation[20] {
-					/*1*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, -pi / 3.0f)),
-					/*2*/ model.ComputeRotationYawPitchRoll(0.0f, pi + piMinusDihedralAngle * -0.5f, 0.0f),
-					/*3*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / -3.0f)),
-					/*4*/ model.ComputeRotationYawPitchRoll(pi * 0.5f + piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
-					/*5*/ model.ComputeRotationYawPitchRoll(piMinusDihedralAngle * 0.5f, pi * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
-					/*6*/ model.ComputeRotationYawPitchRoll(piMinusDihedralAngle * 0.5f, pi * -0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
-					/*7*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * -2.0f / 3.0f)),
-					/*8*/ model.ComputeRotationYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * -2.0f / 3.0f)),
-					/*9*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / 3.0f)),
-					/*10*/ model.ComputeRotationYawPitchRoll(pi * -0.5f - piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
-					/*11*/ model.ComputeRotationYawPitchRoll(pi * 0.5f - piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi / 6.0f)),
-					/*12*/ model.ComputeRotationYawPitchRoll(0.0f, pi - piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / -3.0f)),
-					/*13*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * 2.0f / 3.0f)),
-					/*14*/ model.ComputeRotationYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * 2.0f / 3.0f)),
-					/*15*/ model.ComputeRotationYawPitchRoll(piMinusDihedralAngle * -0.5f, pi * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
-					/*16*/ model.ComputeRotationYawPitchRoll(piMinusDihedralAngle * -0.5f, pi * -0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
-					/*17*/ model.ComputeRotationYawPitchRoll(pi * -0.5f + piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, -pi / 6.0f)),
-					/*18*/ model.ComputeRotationYawPitchRoll(0.0f, pi - piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / 3.0f)),
-					/*19*/ model.ComputeRotationYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f),
-					/*20*/ model.ComputeRotationYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(model.ComputeRotationYawPitchRoll(0.0f, 0.0f, pi / 3.0f))
+				new Quaternion[20] {
+					/*1*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, -pi / 3.0f)),
+					/*2*/ Quaternion.FromYawPitchRoll(0.0f, pi + piMinusDihedralAngle * -0.5f, 0.0f),
+					/*3*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / -3.0f)),
+					/*4*/ Quaternion.FromYawPitchRoll(pi * 0.5f + piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
+					/*5*/ Quaternion.FromYawPitchRoll(piMinusDihedralAngle * 0.5f, pi * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
+					/*6*/ Quaternion.FromYawPitchRoll(piMinusDihedralAngle * 0.5f, pi * -0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * -5.0f / 6.0f)),
+					/*7*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * -2.0f / 3.0f)),
+					/*8*/ Quaternion.FromYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * -2.0f / 3.0f)),
+					/*9*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / 3.0f)),
+					/*10*/ Quaternion.FromYawPitchRoll(pi * -0.5f - piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
+					/*11*/ Quaternion.FromYawPitchRoll(pi * 0.5f - piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi / 6.0f)),
+					/*12*/ Quaternion.FromYawPitchRoll(0.0f, pi - piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / -3.0f)),
+					/*13*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * 2.0f / 3.0f)),
+					/*14*/ Quaternion.FromYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi * 2.0f / 3.0f)),
+					/*15*/ Quaternion.FromYawPitchRoll(piMinusDihedralAngle * -0.5f, pi * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
+					/*16*/ Quaternion.FromYawPitchRoll(piMinusDihedralAngle * -0.5f, pi * -0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi * 5.0f / 6.0f)),
+					/*17*/ Quaternion.FromYawPitchRoll(pi * -0.5f + piMinusDihedralAngle * 0.5f, 0.0f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, -pi / 6.0f)),
+					/*18*/ Quaternion.FromYawPitchRoll(0.0f, pi - piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, -piMinusDihedralAngle, pi / 3.0f)),
+					/*19*/ Quaternion.FromYawPitchRoll(0.0f, piMinusDihedralAngle * -0.5f, 0.0f),
+					/*20*/ Quaternion.FromYawPitchRoll(0.0f, pi + piMinusDihedralAngle * 0.5f, 0.0f).ComposeWith(Quaternion.FromYawPitchRoll(0.0f, 0.0f, pi / 3.0f))
 				}
 			};
 		}
@@ -367,8 +368,8 @@ namespace ZunTzu.Visualization {
 				}
 
 				DiceType diceType = diceHands[diceHandIndex].DiceType;
-				IRotation finalOrientation = faceOrientations[(int)diceType][diceResults[i] - 1].ComposeWith(
-					model.ComputeRotationFromAxis(0.0f, 0.0f, 1.0f,
+				Quaternion finalOrientation = faceOrientations[(int)diceType][diceResults[i] - 1].ComposeWith(
+					Quaternion.FromAxisAndAngle(0.0f, 0.0f, 1.0f,
 						model.RandomNumberGenerator.GenerateSingle((float)-Math.PI, (float)Math.PI)));
 
 				model.AnimationManager.LaunchAnimationSequence(
@@ -382,12 +383,12 @@ namespace ZunTzu.Visualization {
 		public override void Render(IGraphics graphics, long currentTimeInMicroseconds) {
 			if(model.CurrentGameBox.Reference == model.GameLibrary.DefaultGameBox) {
 				// display "dice" logo
-				IRotation rotation1 = model.ComputeRotationYawPitchRoll(
+				Quaternion rotation1 = Quaternion.FromYawPitchRoll(
 					0.750000000f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % (long)7000000) / 7000000.0f),
 					0.521750554f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % (long)5000000) / 5000000.0f),
 					0.339836909f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % (long)9000000) / 9000000.0f));
 
-				IRotation rotation2 = model.ComputeRotationYawPitchRoll(
+				Quaternion rotation2 = Quaternion.FromYawPitchRoll(
 					0.750000000f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % 9000000) / 9000000.0f),
 					2.356194490f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % 7000000) / 7000000.0f),
 					3.141592654f + 0.1f * (float) Math.Cos((float) Math.PI * 2.0f * (currentTimeInMicroseconds % 5000000) / 5000000.0f));
@@ -397,14 +398,14 @@ namespace ZunTzu.Visualization {
 				logoMesh.Render(
 					new PointF(gameDisplayArea.X + gameDisplayArea.Width * 0.43f, gameDisplayArea.Y + gameDisplayArea.Height * 0.35f),
 					gameDisplayArea.Height * 0.1f,
-					rotation1.ToRotationMatrix(),
+					rotation1,
 					(uint)Color.LightGreen.ToArgb(),
 					0xff000000);
 
 				logoMesh.Render(
 					new PointF(gameDisplayArea.X + gameDisplayArea.Width * 0.57f, gameDisplayArea.Y + gameDisplayArea.Height * 0.45f),
 					gameDisplayArea.Height * 0.1f,
-					rotation2.ToRotationMatrix(),
+					rotation2,
 					(uint)Color.Salmon.ToArgb(),
 					0xff000000);
 
@@ -447,7 +448,7 @@ namespace ZunTzu.Visualization {
 								dieMesh.Render(
 									die.Position,
 									size,
-									die.Orientation.ToRotationMatrix(),
+									die.Orientation,
 									die.Color,
 									die.Pips);
 							}
@@ -465,7 +466,7 @@ namespace ZunTzu.Visualization {
 								dieMesh.RenderShadow(
 									die.Position,
 									size,
-									die.Orientation.ToRotationMatrix(),
+									die.Orientation,
 									0x40000000);
 							}
 						}
@@ -482,7 +483,7 @@ namespace ZunTzu.Visualization {
 								dieMesh.Render(
 									die.Position,
 									size,
-									die.Orientation.ToRotationMatrix(),
+									die.Orientation,
 									die.Color,
 									die.Pips);
 							}
@@ -508,6 +509,6 @@ namespace ZunTzu.Visualization {
 		private IDieMesh logoMesh = null;
 
 		/// <summary>Orientation for each of the faces of a die, for each type of die.</summary>
-		private readonly IRotation[][] faceOrientations;
+		private readonly Quaternion[][] faceOrientations;
 	}
 }

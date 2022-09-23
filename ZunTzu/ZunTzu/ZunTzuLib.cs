@@ -212,9 +212,7 @@ namespace ZunTzu {
 			float x,
 			float y,
 			float size_factor,
-			float rot_00, float rot_01, float rot_02,
-			float rot_10, float rot_11, float rot_12,
-			float rot_20, float rot_21, float rot_22,
+			float rot_x, float rot_y, float rot_z, float rot_w,
 			uint die_color,
 			uint pips_color);
 
@@ -228,9 +226,7 @@ namespace ZunTzu {
 			float x,
 			float y,
 			float size_factor,
-			float rot_00, float rot_01, float rot_02,
-			float rot_10, float rot_11, float rot_12,
-			float rot_20, float rot_21, float rot_22);
+			float rot_x, float rot_y, float rot_z, float rot_w);
 
 		[DllImport("ZunTzuLib.dll")]
 		public static extern void RenderDieMeshShadow(
@@ -243,9 +239,7 @@ namespace ZunTzu {
 			float x,
 			float y,
 			float size_factor,
-			float rot_00, float rot_01, float rot_02,
-			float rot_10, float rot_11, float rot_12,
-			float rot_20, float rot_21, float rot_22,
+			float rot_x, float rot_y, float rot_z, float rot_w,
 			uint shadow_color);
 
 		[DllImport("ZunTzuLib.dll")]

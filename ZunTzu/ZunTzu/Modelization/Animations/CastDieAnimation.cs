@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using ZunTzu.AudioVideo;
+using ZunTzu.Numerics;
 
 namespace ZunTzu.Modelization.Animations {
 
@@ -17,8 +18,8 @@ namespace ZunTzu.Modelization.Animations {
 			int dieIndex,
 			PointF initialPosition,
 			PointF finalPosition,
-			IRotation initialOrientation,
-			IRotation finalOrientation,
+			Quaternion initialOrientation,
+			Quaternion finalOrientation,
 			float initialSize,
 			float finalSize,
 			AudioTrack audioTrack)
@@ -57,7 +58,7 @@ namespace ZunTzu.Modelization.Animations {
 				initialPosition.Y + (finalPosition.Y - initialPosition.Y) * progress);
 			int revolutions = 3;
 			float rollingAngle =  -progress * 2.0f * (float)Math.PI * revolutions;
-			IRotation rolling = model.ComputeRotationFromAxis(
+			Quaternion rolling = Quaternion.FromAxisAndAngle(
 				finalPosition.Y - initialPosition.Y,
 				finalPosition.X - initialPosition.X,
 				0.0f,
@@ -86,8 +87,8 @@ namespace ZunTzu.Modelization.Animations {
 		private int dieIndex;
 		private PointF initialPosition;
 		private PointF finalPosition;
-		private IRotation initialOrientation;
-		private IRotation finalOrientation;
+		private Quaternion initialOrientation;
+		private Quaternion finalOrientation;
 		private float initialSize;
 		private float finalSize;
 		private bool soundPlaying;

@@ -187,7 +187,7 @@ namespace ZunTzu.Graphics
 					displayFormat: displayMode.Format,
 					waitForVerticalBlank: properties.WaitForVerticalBlank);
 
-				if (!success) throw new ApplicationException("No compliant display adapter found (caps).");
+				if (!success) throw new ApplicationException("No compliant display adapter found.");
 			}
 
 			updateGameDisplayArea();

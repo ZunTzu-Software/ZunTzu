@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using ZunTzu.FileSystem;
+using ZunTzu.Numerics;
 
 namespace ZunTzu.Graphics
 {
@@ -22,29 +23,32 @@ namespace ZunTzu.Graphics
 		}
 
 		/// <summary>Render this die.</summary>
-		public void Render(System.Drawing.PointF position, float sizeFactor, float[,] rotationMatrix, uint dieColor, uint pipsColor) {
+		public void Render(System.Drawing.PointF position, float sizeFactor, Quaternion rotation, uint dieColor, uint pipsColor) {
 			if (_custom)
 				D3D.RenderCustomDieMesh(
 					_vb, _ib, _texture,
 					VertexCount, TriangleCount,
 					position.X, position.Y,
-					sizeFactor, rotationMatrix);
+					sizeFactor,
+					rotation);
 			else
 				D3D.RenderDieMesh(
 					_vb, _ib, _texture,
 					VertexCount, TriangleCount,
 					position.X, position.Y,
-					sizeFactor, rotationMatrix,
+					sizeFactor,
+					rotation,
 					dieColor, pipsColor);
 		}
 
 		/// <summary>Render the shadow of this die.</summary>
-		public void RenderShadow(System.Drawing.PointF position, float sizeFactor, float[,] rotationMatrix, uint shadowColor) {
+		public void RenderShadow(System.Drawing.PointF position, float sizeFactor, Quaternion rotation, uint shadowColor) {
 			D3D.RenderDieMeshShadow(
 				_vb, _ib, _texture,
 				VertexCount, TriangleCount, _inradius,
 				position.X, position.Y,
-				sizeFactor, rotationMatrix,
+				sizeFactor,
+				rotation,
 				shadowColor);
 		}
 

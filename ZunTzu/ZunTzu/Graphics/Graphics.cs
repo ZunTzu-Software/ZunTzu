@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using ZunTzu.FileSystem;
+using ZunTzu.Numerics;
 
 //
 //  +------------+     +---------------+     +---------+
@@ -179,8 +180,8 @@ namespace ZunTzu.Graphics {
 	/// <summary>A 3D object.</summary>
 	public interface IDieMesh : IDisposable {
 		/// <summary>Render this die.</summary>
-		void Render(PointF position, float sizeFactor, float[,] rotationMatrix, uint dieColor, uint pipsColor);
+		void Render(PointF position, float sizeFactor, Quaternion rotation, uint dieColor, uint pipsColor);
 		/// <summary>Render the shadow of this die.</summary>
-		void RenderShadow(PointF position, float sizeFactor, float[,] projectionMatrix, uint shadowColor);
+		void RenderShadow(PointF position, float sizeFactor, Quaternion rotation, uint shadowColor);
 	}
 }

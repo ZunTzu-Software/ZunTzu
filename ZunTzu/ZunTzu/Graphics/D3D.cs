@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using ZunTzu.Numerics;
 
 namespace ZunTzu.Graphics
 {
@@ -138,18 +139,15 @@ namespace ZunTzu.Graphics
 			float x,
 			float y,
 			float sizeFactor,
-			float[,] rotationMatrix,
+			Quaternion rotation,
 			uint dieColor,
 			uint pipsColor)
 		{
-			var m = rotationMatrix;
 			ZunTzuLib.RenderDieMesh(
 				meshVb._internal, meshIb._internal, meshTexture._internal,
 				meshVertexCount, meshTriangleCount,
 				x, y, sizeFactor,
-				m[0, 0], m[0, 1], m[0, 2],
-				m[1, 0], m[1, 1], m[1, 2],
-				m[2, 0], m[2, 1], m[2, 2],
+				rotation.X, rotation.Y, rotation.Z, rotation.W,
 				dieColor, pipsColor);
 		}
 
@@ -162,16 +160,13 @@ namespace ZunTzu.Graphics
 			float x,
 			float y,
 			float sizeFactor,
-			float[,] rotationMatrix)
+			Quaternion rotation)
 		{
-			var m = rotationMatrix;
 			ZunTzuLib.RenderCustomDieMesh(
 				meshVb._internal, meshIb._internal, meshTexture._internal,
 				meshVertexCount, meshTriangleCount,
 				x, y, sizeFactor,
-				m[0, 0], m[0, 1], m[0, 2],
-				m[1, 0], m[1, 1], m[1, 2],
-				m[2, 0], m[2, 1], m[2, 2]);
+				rotation.X, rotation.Y, rotation.Z, rotation.W);
 		}
 
 		public static void RenderDieMeshShadow(
@@ -184,17 +179,14 @@ namespace ZunTzu.Graphics
 			float x,
 			float y,
 			float sizeFactor,
-			float[,] rotationMatrix,
+			Quaternion rotation,
 			uint shadowColor)
 		{
-			var m = rotationMatrix;
 			ZunTzuLib.RenderDieMeshShadow(
 				meshVb._internal, meshIb._internal, meshTexture._internal,
 				meshVertexCount, meshTriangleCount, meshInradius,
 				x, y, sizeFactor,
-				m[0, 0], m[0, 1], m[0, 2],
-				m[1, 0], m[1, 1], m[1, 2],
-				m[2, 0], m[2, 1], m[2, 2],
+				rotation.X, rotation.Y, rotation.Z, rotation.W,
 				shadowColor);
 		}
 	}

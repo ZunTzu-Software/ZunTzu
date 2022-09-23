@@ -48,7 +48,7 @@
     <MinimumRequiredVersion>1.2.1.14</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -70,7 +70,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -78,9 +79,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.DirectX, Version=1.0.900.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="Open.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f22a6a4582336c76, processorArchitecture=MSIL">
       <HintPath>..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll</HintPath>
@@ -413,7 +411,6 @@
     <Compile Include="Modelization\PlayerHand.cs" />
     <Compile Include="Modelization\RandomNumberGenerator.cs" />
     <Compile Include="Modelization\Counter.cs" />
-    <Compile Include="Modelization\Rotation.cs" />
     <Compile Include="Modelization\ScenarioReference.cs" />
     <Compile Include="Modelization\Selection.cs" />
     <Compile Include="Modelization\Stack.cs" />
@@ -424,6 +421,7 @@
     <Compile Include="Networking\Raknet.cs" />
     <Compile Include="Networking\RakServer.cs" />
     <Compile Include="Networking\VideoFrameHistory.cs" />
+    <Compile Include="Numerics\Quaternion.cs" />
     <Compile Include="Properties.Resources.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -506,7 +504,6 @@
     <None Include="Dotfuscator.xml" />
     <None Include="FileSystem\ICSharpCode.SharpZipLib.dll">
     </None>
-    <None Include="Networking\Microsoft.DirectX.DirectSound.dll" />
     <None Include="ResourceFiles\ZunTzu.res" />
     <None Include="Resources\ZunTzu.ico" />
     <None Include="Resources\AboutZunTzu.ico" />
@@ -1062,46 +1059,6 @@
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Microsoft.DirectX">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.DirectX.Direct3D">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.DirectX.DirectPlay">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.DirectX.DirectSound">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
     <PublishFile Include="pt-BR\ZunTzu.resources">
       <Visible>False</Visible>
       <Group>
@@ -1166,20 +1123,18 @@
       <DefaultIcon>Resources\ZunTzuGame.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
-  <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release'">
+  <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release_REMOVETHIS'">
     <!-- delete the deployment folder -->
     <RemoveDir Directories="..\..\ZunTzuWeb" />
     <!-- copy third-party assemblies to obj folder (required by Dotfuscator) -->
-    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\Release\ICSharpCode.SharpZipLib.dll" />
-    <Copy SourceFiles="Graphics\Microsoft.DirectX.Direct3D.dll" DestinationFiles="obj\Release\Microsoft.DirectX.Direct3D.dll" />
-    <Copy SourceFiles="Networking\Microsoft.DirectX.DirectPlay.dll" DestinationFiles="obj\Release\Microsoft.DirectX.DirectPlay.dll" />
-    <Copy SourceFiles="Networking\Microsoft.DirectX.DirectSound.dll" DestinationFiles="obj\Release\Microsoft.DirectX.DirectSound.dll" />
-    <Copy SourceFiles="Graphics\Microsoft.DirectX.dll" DestinationFiles="obj\Release\Microsoft.DirectX.dll" />
-    <Copy SourceFiles="bin\Release\Open.Nat.dll" DestinationFiles="obj\Release\Open.Nat.dll" />
+    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\x86\Release\ICSharpCode.SharpZipLib.dll" />
+    <Copy SourceFiles="..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll" DestinationFiles="obj\x86\Release\Open.Nat.dll" />
     <!-- call Dotfuscator -->
     <!-- IMPORTANT! The first time you build, make sure to run the Dotfuscator GUI once to activate the user license -->
     <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscator.exe&quot; -c:en -suppress:on -q Dotfuscator.xml" />
     <!--	patch resource file -->
-    <Exec Command="updatekey.exe obj\Release\ZunTzu.exe obj\Release\fr\ZunTzu.resources.dll" />
+    <!--Exec Command="updatekey.exe obj\x86\Release\ZunTzu.exe obj\x86\Release\fr\ZunTzu.resources.dll" /-->
+    <!-- sign again -->
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe&quot; -update &quot;$(TargetPath).manifest&quot; -CertFile &quot;$(ProjectDir)\ZunTzu Software Certificate.pfx&quot;" />
   </Target>
 </Project>

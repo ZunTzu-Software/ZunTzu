@@ -194,25 +194,6 @@ namespace ZunTzu.Modelization {
 			players = new Player[] { thisPlayer };
 		}
 
-		/// <summary>Computes a rotation in 3D space, from a rotation axis and an angle.</summary>
-		/// <param name="axisX">X component of the rotation axis vector.</param>
-		/// <param name="axisY">Y component of the rotation axis vector.</param>
-		/// <param name="axisZ">Z component of the rotation axis vector.</param>
-		/// <param name="angle">Rotation angle.</param>
-		/// <returns>A rotation.</returns>
-		public IRotation ComputeRotationFromAxis(float axisX, float axisY, float axisZ, float angle) {
-			return new Rotation(axisX, axisY, axisZ, angle);
-		}
-
-		/// <summary>Computes a rotation in 3D space, by composing three rotations along the Z, X and then Y axis.</summary>
-		/// <param name="yaw">Rotation angle along the Y axis.</param>
-		/// <param name="pitch">Rotation angle along the X axis.</param>
-		/// <param name="roll">Rotation angle along the Z axis.</param>
-		/// <returns>A rotation.</returns>
-		public IRotation ComputeRotationYawPitchRoll(float yaw, float pitch, float roll) {
-			return new Rotation(yaw, pitch, roll);
-		}
-
 		/// <summary>Zoom factor used in the stack inspector</summary>
 		public float StackInspectorScale { get { return stackInspectorScale; } set { stackInspectorScale = value; } }
 

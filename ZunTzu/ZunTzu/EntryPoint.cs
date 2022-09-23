@@ -5,9 +5,13 @@ using System;
 using System.Deployment.Application;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 using ZunTzu.AudioVideo;
 using ZunTzu.Control;
 using ZunTzu.Graphics;
@@ -124,7 +128,7 @@ namespace ZunTzu {
 						string reportContent = e.ToString();
 
 						// Direct3D drivers?
-						if(reportContent.Contains("-2146232832") && reportContent.Contains("Microsoft.DirectX.Direct3D.Manager.GetDeviceCaps")) {
+						if(reportContent.Contains("display adapter")) {
 							System.Windows.Forms.MessageBox.Show(
 								"Graphics card doesn't meet ZunTzu's minimum requirements. Are the drivers installed?",
 								"Can't start ZunTzu",

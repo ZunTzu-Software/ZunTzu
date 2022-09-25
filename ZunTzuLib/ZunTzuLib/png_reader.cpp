@@ -11,8 +11,8 @@
 
 static void PNGAPI user_error_fn(png_structp png_ptr, png_const_charp error_code) {
 	// return control to the setjmp point
-	int * error_handler = static_cast<int*>(png_get_error_ptr(png_ptr));
-	longjmp(error_handler, PNG_ERRORS + reinterpret_cast<int>(error_code));
+	jmp_buf* error_handler = static_cast<jmp_buf*>(png_get_error_ptr(png_ptr));
+	longjmp(*error_handler, PNG_ERRORS + reinterpret_cast<int>(error_code));
 }
 
 // replacement function for png_read
@@ -50,7 +50,7 @@ void png_reader::set_error_handler(const jmp_buf & error_handler) {
 void png_reader::init_png() {
 	png_ptr = png_create_read_struct(
 		PNG_LIBPNG_VER_STRING,
-		static_cast<png_voidp>(error_handler),
+		static_cast<png_voidp>(&error_handler),
 		user_error_fn,
 		0);
 	if(png_ptr == NULL)

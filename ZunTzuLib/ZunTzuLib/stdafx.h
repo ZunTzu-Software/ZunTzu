@@ -39,4 +39,3 @@
 #include <stdio.h>
 #include <math.h>
 #include <d3d9.h>
-#include <DirectXMath.h>

@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include <vector>
 #include "ZunTzuLib.h"
+#include "DirectXMath.h"
 
 using namespace DirectX;
 

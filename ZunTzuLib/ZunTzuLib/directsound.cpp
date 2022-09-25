@@ -4,10 +4,8 @@
 
 #include "stdafx.h"
 #include "ZunTzuLib.h"
-#include <mmeapi.h>
+#include <mmreg.h>
 #include <DSound.h>
-
-using namespace DirectX;
 
 LPDIRECTSOUND8 direct_sound = nullptr;
 

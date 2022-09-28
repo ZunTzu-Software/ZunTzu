@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D40954A5-D441-476C-B8E9-5A9BF39BC7A6}</ProjectGuid>
@@ -54,7 +54,7 @@
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -64,9 +64,9 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -75,7 +75,27 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
@@ -1127,13 +1147,13 @@
     <!-- delete the deployment folder -->
     <RemoveDir Directories="..\..\ZunTzuWeb" />
     <!-- copy third-party assemblies to obj folder (required by Dotfuscator) -->
-    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\x86\Release\ICSharpCode.SharpZipLib.dll" />
-    <Copy SourceFiles="..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll" DestinationFiles="obj\x86\Release\Open.Nat.dll" />
+    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\x64\Release\ICSharpCode.SharpZipLib.dll" />
+    <Copy SourceFiles="..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll" DestinationFiles="obj\x64\Release\Open.Nat.dll" />
     <!-- call Dotfuscator -->
     <!-- IMPORTANT! The first time you build, make sure to run the Dotfuscator GUI once to activate the user license -->
     <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscator.exe&quot; -c:en -suppress:on -q Dotfuscator.xml" />
     <!--	patch resource file -->
-    <!--Exec Command="updatekey.exe obj\x86\Release\ZunTzu.exe obj\x86\Release\fr\ZunTzu.resources.dll" /-->
+    <!--Exec Command="updatekey.exe obj\x64\Release\ZunTzu.exe obj\x64\Release\fr\ZunTzu.resources.dll" /-->
     <!-- sign again -->
     <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe&quot; -update &quot;$(TargetPath).manifest&quot; -CertFile &quot;$(ProjectDir)\ZunTzu Software Certificate.pfx&quot;" />
   </Target>

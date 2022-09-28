@@ -1466,7 +1466,7 @@ namespace ZunTzu.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.3.
+        ///   Looks up a localized string similar to 1.4.
         /// </summary>
         internal static string Version {
             get {

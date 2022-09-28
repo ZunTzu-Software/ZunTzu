@@ -436,7 +436,7 @@
     <comment>Text used in the Voice Settings dialog.</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>1.3</value>
+    <value>1.4</value>
     <comment>Displayed below the rolling dice in the welcome screen.</comment>
   </data>
   <data name="ToolTipClose" xml:space="preserve">

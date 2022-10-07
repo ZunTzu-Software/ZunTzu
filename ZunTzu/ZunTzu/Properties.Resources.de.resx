@@ -590,7 +590,7 @@
     <value>Benutze saveasquit Befehl.</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>1.2</value>
+    <value>1.4</value>
     <comment>Displayed below the rolling dice in the welcome screen.</comment>
   </data>
   <data name="VistaWarningNoVoice" xml:space="preserve">

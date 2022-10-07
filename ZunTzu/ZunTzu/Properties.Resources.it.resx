@@ -583,7 +583,7 @@
     <value>Usa il comando salva e esci.</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>1.2</value>
+    <value>1.4</value>
   </data>
   <data name="VistaWarningNoVoice" xml:space="preserve">
     <value>This version of ZunTzu doesn't support voice communication when running Windows Vista.</value>

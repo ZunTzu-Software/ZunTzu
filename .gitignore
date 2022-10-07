@@ -5,9 +5,9 @@
 
 # publish folders
 ZunTzuWeb/
-ZunTzu/ZunTzu/Dotfuscated/
 ZunTzu/ZunTzu/FileSystem/File.cs
 ZunTzu/ZunTzu/updatekey.exe
+post_publish.bat
 
 # User-specific files
 *.rsuser

@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<Obfuscator>
+	<Var name="InPath" value="obj\x64\Release" />
+	<Var name="OutPath" value="$(InPath)\obfuscated" />
+	<Var name="KeepPublicApi" value="false" />
+	<Var name="HidePrivateApi" value="true" />
+	<Var name="HideStrings" value="false" />
+
+	<Module file="$(InPath)\ZunTzu.exe">
+		<SkipNamespace name="ZunTzu.Properties*" />
+	</Module>
+</Obfuscator>

@@ -1,4 +1,5 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+  <Import Project="..\packages\Obfuscar.2.2.33\build\obfuscar.props" Condition="Exists('..\packages\Obfuscar.2.2.33\build\obfuscar.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
@@ -14,7 +15,7 @@
     <SccAuxPath>
     </SccAuxPath>
     <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
-    <TargetZone>LocalIntranet</TargetZone>
+    <TargetZone>Internet</TargetZone>
     <GenerateManifests>true</GenerateManifests>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <ManifestCertificateThumbprint>A1A72DF9F1986A715552F231A99E01A490C14D6C</ManifestCertificateThumbprint>
@@ -32,6 +33,9 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>..\..\ZunTzuWeb\WebSite\download\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -50,11 +54,11 @@
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>33</ApplicationRevision>
     <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -449,26 +453,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Properties.Resources.de.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties.Resources.es.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Properties.Resources.es.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties.Resources.fr.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Properties.Resources.fr.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties.Resources.it.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Properties.Resources.it.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties.Resources.pt-BR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Properties.Resources.pt-BR.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -505,6 +489,7 @@
     <EmbeddedResource Include="ResourceFiles\Die4.wav" />
     <EmbeddedResource Include="ResourceFiles\Die5.wav" />
     <EmbeddedResource Include="ResourceFiles\Die6.wav" />
+    <None Include="obfuscar.xml" />
     <Content Include="ZunTzuLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -545,6 +530,26 @@
     <Compile Include="Randomness\Permutation.cs" />
     <Compile Include="Randomness\Randomness.cs" />
     <Compile Include="Randomness\EntropyPool.cs" />
+    <Compile Include="Properties.Resources.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.es.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.it.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.it.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties.Resources.pt-BR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Properties.Resources.pt-BR.resx</DependentUpon>
+    </Compile>
     <Compile Include="Timing\PrecisionTimer.cs" />
     <Compile Include="Timing\Timing.cs" />
     <Compile Include="AudioVideo\DirectShow.cs" />
@@ -595,7 +600,7 @@
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0</ProductName>
-      <Install>true</Install>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
@@ -1145,18 +1150,14 @@
       <DefaultIcon>Resources\ZunTzuGame.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
-  <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release_REMOVETHIS'">
-    <!-- delete the deployment folder -->
-    <RemoveDir Directories="..\..\ZunTzuWeb" />
-    <!-- copy third-party assemblies to obj folder (required by Dotfuscator) -->
-    <Copy SourceFiles="FileSystem\ICSharpCode.SharpZipLib.dll" DestinationFiles="obj\x64\Release\ICSharpCode.SharpZipLib.dll" />
-    <Copy SourceFiles="..\packages\Open.NAT.2.1.0.0\lib\net35\Open.Nat.dll" DestinationFiles="obj\x64\Release\Open.Nat.dll" />
-    <!-- call Dotfuscator -->
-    <!-- IMPORTANT! The first time you build, make sure to run the Dotfuscator GUI once to activate the user license -->
-    <Exec Command="&quot;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscator.exe&quot; -c:en -suppress:on -q Dotfuscator.xml" />
-    <!--	patch resource file -->
-    <!--Exec Command="updatekey.exe obj\x64\Release\ZunTzu.exe obj\x64\Release\fr\ZunTzu.resources.dll" /-->
-    <!-- sign again -->
-    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\mage.exe&quot; -update &quot;$(TargetPath).manifest&quot; -CertFile &quot;$(ProjectDir)\ZunTzu Software Certificate.pfx&quot;" />
+  <Target Name="AfterCompile" Condition="'$(Configuration)'=='Release'">
+    <Exec Command="&quot;$(Obfuscar)&quot; -s obfuscar.xml" />
+    <Copy SourceFiles="obj\x64\Release\obfuscated\ZunTzu.exe" DestinationFiles="obj\x64\Release\ZunTzu.exe" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Obfuscar.2.2.33\build\obfuscar.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Obfuscar.2.2.33\build\obfuscar.props'))" />
   </Target>
 </Project>

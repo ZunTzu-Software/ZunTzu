@@ -140,26 +140,24 @@ namespace ZunTzu.AudioVideo {
 	InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	internal interface ISampleGrabber {
 		void SetOneShot([In, MarshalAs(UnmanagedType.Bool)] bool OneShot);
-		void SetMediaType([In, MarshalAs(UnmanagedType.LPStruct)] AMMediaType pmt);
-		void GetConnectedMediaType([Out, MarshalAs(UnmanagedType.LPStruct)] AMMediaType pmt);
+		void SetMediaType([In] AMMediaType pmt);
+		void GetConnectedMediaType([Out] out AMMediaType pmt);
 		void SetBufferSamples([In, MarshalAs(UnmanagedType.Bool)] bool BufferThem);
 		void GetCurrentBuffer( /* not used */ );
 		void GetCurrentSample( /* not used */ );
 		void SetCallback(ISampleGrabberCB pCallback, int WhichMethodToCallback);
 	}
 
-	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	internal class AMMediaType {
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct AMMediaType {
 		public Guid majorType;
 		public Guid subType;
-		[MarshalAs(UnmanagedType.Bool)]
-		public bool fixedSizeSamples;
-		[MarshalAs(UnmanagedType.Bool)]
-		public bool temporalCompression;
-		public int sampleSize;
+		public int fixedSizeSamples; // BOOL, as int to keep the struct blittable
+		public int temporalCompression; // BOOL
+        public uint sampleSize;
 		public Guid formatType;
 		public IntPtr unkPtr;
-		public int formatSize;
+		public uint formatSize;
 		public IntPtr formatPtr;
 
 		public void Free() {
@@ -179,27 +177,18 @@ namespace ZunTzu.AudioVideo {
 	internal class SampleGrabber {
 	}
 
-	[ComImport, Guid("C6E13340-30AC-11d0-A18C-00A0C9118956"),
-	InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	internal interface IAMStreamConfig {
-		void SetFormat([In, MarshalAs(UnmanagedType.LPStruct)] AMMediaType pmt);
-		void GetFormat([Out] out AMMediaType pmt);
-		void GetNumberOfCapabilities( /* not used */ );
-		void GetStreamCaps( /* not used */ );
-	}
-
 	[StructLayout(LayoutKind.Sequential)]
 	internal class VideoInfoHeader {
 		public Rect SrcRect;
 		public Rect TargetRect;
-		public int BitRate;
-		public int BitErrorRate;
+		public uint BitRate;
+		public uint BitErrorRate;
 		public long AvgTimePerFrame;
 		public BitmapInfoHeader BmiHeader;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	internal class Rect {
+	internal struct Rect {
 		public int left;
 		public int top;
 		public int right;
@@ -207,18 +196,18 @@ namespace ZunTzu.AudioVideo {
 	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = 2)]
-	internal class BitmapInfoHeader {
-		public int Size;
+	internal struct BitmapInfoHeader {
+		public uint Size;
 		public int Width;
 		public int Height;
-		public short Planes;
-		public short BitCount;
-		public int Compression;
-		public int ImageSize;
+		public ushort Planes;
+		public ushort BitCount;
+		public uint Compression;
+		public uint ImageSize;
 		public int XPelsPerMeter;
 		public int YPelsPerMeter;
-		public int ClrUsed;
-		public int ClrImportant;
+		public uint ClrUsed;
+		public uint ClrImportant;
 	}
 
 	[ComImport, Guid("C1F400A4-3F08-11d3-9F0B-006008039E37")]

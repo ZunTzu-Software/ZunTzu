@@ -126,33 +126,19 @@ namespace ZunTzu.AudioVideo {
 				// sample grabber
 				ISampleGrabber sampleGrabber = (ISampleGrabber) new SampleGrabber();
 				IBaseFilter sampleGrabberFilter = (IBaseFilter) sampleGrabber;
-				AMMediaType mediaType = new AMMediaType();
-				mediaType.majorType = new Guid(0x73646976, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);	// MEDIATYPE_Video
-				mediaType.subType = new Guid(0xe436eb7d, 0x524f, 0x11ce, 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70);	// MEDIASUBTYPE_RGB24
-				mediaType.formatType = new Guid(0x05589f80, 0xc356, 0x11ce, 0xbf, 0x01, 0x00, 0xaa, 0x00, 0x55, 0x59, 0x5a);	// FORMAT_VideoInfo
-				sampleGrabber.SetMediaType(mediaType);
-				mediaType.Free();
-				sampleGrabber.SetOneShot(false);
+				{
+					var mediaType = new AMMediaType
+					{
+						majorType = new Guid(0x73646976, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71), // MEDIATYPE_Video
+						subType = new Guid(0xe436eb7d, 0x524f, 0x11ce, 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70),   // MEDIASUBTYPE_RGB24
+						formatType = new Guid(0x05589f80, 0xc356, 0x11ce, 0xbf, 0x01, 0x00, 0xaa, 0x00, 0x55, 0x59, 0x5a),    // FORMAT_VideoInfo
+					};
+                    sampleGrabber.SetMediaType(mediaType);
+                }
+                sampleGrabber.SetOneShot(false);
 				sampleGrabber.SetBufferSamples(false);
 				sampleGrabber.SetCallback(this, 1);
 				filterGraph.AddFilter(sampleGrabberFilter, "ZunTzu Sample Grabber");
-
-				// configure the video stream to 160x120@15fps
-				object interfaceFound;
-				captureGraphBuilder.FindInterface(
-					new Guid(0xfb6c4281, 0x0353, 0x11d1, 0x90, 0x5f, 0x00, 0x00, 0xc0, 0xcc, 0x16, 0xba),	// PIN_CATEGORY_CAPTURE
-					new Guid(0x73646976, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71),	// MEDIATYPE_Video
-					captureFilter, typeof(IAMStreamConfig).GUID, out interfaceFound);
-				IAMStreamConfig videoStreamConfig = (IAMStreamConfig) interfaceFound;
-				videoStreamConfig.GetFormat(out mediaType);
-				VideoInfoHeader infoHeader = new VideoInfoHeader();
-				Marshal.PtrToStructure(mediaType.formatPtr, infoHeader);
-				infoHeader.AvgTimePerFrame = 10000000 / 15;
-				infoHeader.BmiHeader.Width = 160;
-				infoHeader.BmiHeader.Height = 120;
-				Marshal.StructureToPtr(infoHeader, mediaType.formatPtr, false);
-				videoStreamConfig.SetFormat(mediaType);
-				mediaType.Free();
 
 				// renderer
 				IBaseFilter nullRenderer = (IBaseFilter) new NullRenderer();
@@ -164,11 +150,15 @@ namespace ZunTzu.AudioVideo {
 					captureFilter, sampleGrabberFilter, nullRenderer);
 
 				// retrieve frame size
-				sampleGrabber.GetConnectedMediaType(mediaType);
-				Marshal.PtrToStructure(mediaType.formatPtr, infoHeader);
-				frameRate = 10000000.0f / infoHeader.AvgTimePerFrame;
-				frameSize = new Size(infoHeader.BmiHeader.Width, infoHeader.BmiHeader.Height);
-				mediaType.Free();
+				{
+                    AMMediaType mediaType;
+					sampleGrabber.GetConnectedMediaType(out mediaType);
+                    var infoHeader = new VideoInfoHeader();
+                    Marshal.PtrToStructure(mediaType.formatPtr, infoHeader);
+					frameRate = 10000000.0f / infoHeader.AvgTimePerFrame;
+					frameSize = new Size(infoHeader.BmiHeader.Width, infoHeader.BmiHeader.Height);
+					mediaType.Free();
+				}
 			}
 		}
 

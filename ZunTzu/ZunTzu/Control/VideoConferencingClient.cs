@@ -84,13 +84,13 @@ namespace ZunTzu.Control {
 						srcX += (width - height) / 2;
 						float pixCombinedWeight = pixWeightX * pixWeightY;
 						// to turn image upside down, replace "(height - srcY)" by "srcY" in the line below
-						byte* src = originalFrame + (height - srcY) * width * 3 + srcX * 3;
+						byte* src = originalFrame + (height - 1 - srcY) * width * 3 + srcX * 3;
 						while(true) {	// sum along x
 							pixLeftX -= pixWeightX;
 							red += *(src + 0) * pixCombinedWeight;
 							green += *(src + 1) * pixCombinedWeight;
 							blue += *(src + 2) * pixCombinedWeight;
-							if(pixLeftX == 0.0f)
+							if(pixLeftX <= 0.0f)
 								break;
 							pixWeightX = Math.Min(1.0f, pixLeftX);
 							src += 3;
@@ -98,7 +98,7 @@ namespace ZunTzu.Control {
 						}
 						pixLeftY -= pixWeightY;
 						++srcY;
-						if(pixLeftY == 0.0f)
+						if(pixLeftY <= 0.0f)
 							break;
 						pixWeightY = Math.Min(1.0f, pixLeftY);
 					}

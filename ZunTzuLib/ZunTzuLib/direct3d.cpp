@@ -605,6 +605,8 @@ extern "C" void __cdecl RenderCustomDieMesh(
 			0.0f)
 	);
 
+	device->SetTransform(D3DTS_WORLD, reinterpret_cast<D3DMATRIX*>(&world_matrix));
+
 	D3DMATERIAL9 material;
 	memset(&material, 0, sizeof(D3DMATERIAL9));
 	material.Ambient.a = 1.0f;
@@ -659,6 +661,8 @@ extern "C" void __cdecl RenderDieMeshShadow(
 			((float)present_params.BackBufferHeight * 0.5f - y) * scaling_factor,
 			0.0f)
 	);
+
+	device->SetTransform(D3DTS_WORLD, reinterpret_cast<D3DMATRIX*>(&world_matrix));
 
 	D3DMATERIAL9 material;
 	memset(&material, 0, sizeof(D3DMATERIAL9));

@@ -125,6 +125,10 @@ namespace ZunTzu {
 			IntPtr client);
 
 		[DllImport("ZunTzuLib.dll")]
+		public static extern UInt32 GetBoundAddress(
+			IntPtr server);
+
+		[DllImport("ZunTzuLib.dll")]
 		public static extern int GetEligibleFullscreenModeCount();
 
 		[DllImport("ZunTzuLib.dll")]

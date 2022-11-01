@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using ZunTzu.Control;
 using ZunTzu.Graphics;
 using ZunTzu.Modelization;
 
@@ -147,6 +148,7 @@ namespace ZunTzu.Visualization {
 			byte* alphaFrame = stackalloc byte[64 * 64 * 4];
 			fixed(byte* videoFramePtr = videoFrame) {
 				byte* source = videoFramePtr;
+				if (playerId != model.ThisPlayer.Id) source += 10; // image data is prefixed by 10 bytes (message ID, message type, sender)
 				byte* dest = alphaFrame;
 				for(int y = 0; y < 64; ++y) {
 					for(int x = 0; x < 64; ++x, source += 3, dest += 4) {

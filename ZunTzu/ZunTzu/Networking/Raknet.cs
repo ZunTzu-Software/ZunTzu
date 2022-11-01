@@ -89,13 +89,15 @@ namespace ZunTzu.Networking
 
 		public UInt64 Guid => ZunTzuLib.GetGuid(_internal);
 
+		public UInt32 BoundAddress => ZunTzuLib.GetBoundAddress(_internal);
+
 		public void Dispose()
 		{
 			if (_internal != IntPtr.Zero)
-            {
+			{
 				ZunTzuLib.FreePeer(_internal);
 				_internal = IntPtr.Zero;
-            }
+			}
 		}
 
 		IntPtr _internal;
@@ -106,7 +108,7 @@ namespace ZunTzu.Networking
 	{
 		UInt16 sin_family;
 		UInt16 sin_port;
-		UInt32 sin_addr;
+		public UInt32 sin_addr;
 		UInt64 sin_zero;
 		UInt16 debugPort;
 		UInt16 systemIndex;
@@ -119,7 +121,7 @@ namespace ZunTzu.Networking
 			sin_zero = 0,
 			debugPort = 0,
 			systemIndex = UInt16.MaxValue,
-        };
+		};
 
 		public static bool operator ==(SystemAddress x, SystemAddress y)
 		{
@@ -133,19 +135,19 @@ namespace ZunTzu.Networking
 			return !(x == y);
 		}
 
-        public bool Equals(SystemAddress other)
-        {
-            return (this == other);
-        }
+		public bool Equals(SystemAddress other)
+		{
+			return (this == other);
+		}
 
-        public override bool Equals(object obj)
-        {
-            if (obj.GetType() != typeof(SystemAddress)) return false;
-            return Equals((SystemAddress)obj);
-        }
+		public override bool Equals(object obj)
+		{
+			if (obj.GetType() != typeof(SystemAddress)) return false;
+			return Equals((SystemAddress)obj);
+		}
 
-        public override int GetHashCode()
-        {
+		public override int GetHashCode()
+		{
 			unchecked // from Effective Java by Josh Bloch
 			{
 				int hash = 17;
@@ -154,8 +156,8 @@ namespace ZunTzu.Networking
 				hash = hash * 23 + sin_family.GetHashCode();
 				return hash;
 			}
-        }
-    }
+		}
+	}
 
 	[StructLayout(LayoutKind.Sequential, Pack = 0)]
 	struct RakNetGuid : IEquatable<RakNetGuid>
@@ -169,15 +171,15 @@ namespace ZunTzu.Networking
 			systemIndex = UInt16.MaxValue
 		};
 
-        public static bool operator ==(RakNetGuid x, RakNetGuid y)
-        {
+		public static bool operator ==(RakNetGuid x, RakNetGuid y)
+		{
 			return x.g == y.g;
-        }
+		}
 
 		public static bool operator !=(RakNetGuid x, RakNetGuid y)
-        {
+		{
 			return !(x == y);
-        }
+		}
 
 		public bool Equals(RakNetGuid other)
 		{
@@ -198,7 +200,7 @@ namespace ZunTzu.Networking
 
 	[StructLayout(LayoutKind.Sequential, Pack = 0)]
 	struct AddressOrGuid : IEquatable<AddressOrGuid>
-    {
+	{
 		public RakNetGuid rakNetGuid;
 		public SystemAddress systemAddress;
 
@@ -207,7 +209,7 @@ namespace ZunTzu.Networking
 			rakNetGuid = RakNetGuid.UNASSIGNED_RAKNET_GUID,
 			systemAddress = SystemAddress.UNASSIGNED_SYSTEM_ADDRESS,
 		};
-		
+
 		public static bool operator ==(AddressOrGuid x, AddressOrGuid y)
 		{
 			return (x.rakNetGuid != RakNetGuid.UNASSIGNED_RAKNET_GUID && x.rakNetGuid == y.rakNetGuid) || 

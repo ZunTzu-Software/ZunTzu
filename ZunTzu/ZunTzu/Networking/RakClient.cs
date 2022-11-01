@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -21,7 +22,7 @@ namespace ZunTzu.Networking
 		public NetworkStatus Status { get { return _status; } }
 
 		public RakClient()
-        {
+		{
 			_client = Peer.Create();
 		}
 
@@ -129,7 +130,7 @@ namespace ZunTzu.Networking
 
 			var connectionResult = ConnectionAttemptResult.CONNECTION_ATTEMPT_STARTED;
 			if (startupResult == StartupResult.RAKNET_STARTED)
-            {
+			{
 				// try using the host's public address
 				connectionResult = _client.Connect(serverName, (ushort)serverPort);
 			}
@@ -187,14 +188,14 @@ namespace ZunTzu.Networking
 			if (_status == NetworkStatus.Connected)
 			{
 				if (messageCode == (byte)MessageId.UnreliableMessageFromClientToAllOthers)
-                {
+				{
 					_client.Send(messageData,
 						PacketPriority.LOW_PRIORITY, PacketReliability.UNRELIABLE_SEQUENCED,
 						(int)OrderingChannel.Unreliable,
 						_serverAddress, false);
 				}
 				else
-                {
+				{
 					_client.Send(messageData,
 						PacketPriority.HIGH_PRIORITY, PacketReliability.RELIABLE_ORDERED,
 						(int)OrderingChannel.Reliable,
@@ -264,9 +265,8 @@ namespace ZunTzu.Networking
 		{
 			if (_status != NetworkStatus.Connected) return;
 
-			byte[] oldestFrameData = _outboundVideoFrameHistory.OldestFrameData;
-			byte oldestFrameId = (oldestFrameData != null ? _outboundVideoFrameHistory.OldestFrameId : (byte)0);
 			byte frameId = _outboundVideoFrameHistory.AddFrame(frameBuffer);
+			byte? latestAckedFrameId = _outboundVideoFrameHistory.LatestAckedFrameId;
 
 			byte[] data;
 			if (_serverIsOnSameComputer)
@@ -274,8 +274,8 @@ namespace ZunTzu.Networking
 				// plenty of bandwidth -> no compression to save some CPU
 				data = new byte[frameBuffer.Length + 3];
 				data[0] = (byte)MessageId.VideoFrame;
-				data[1] = (byte)frameId;
-				data[2] = (byte)(oldestFrameData != null ? oldestFrameId : frameId);
+				data[1] = frameId;
+				data[2] = latestAckedFrameId ?? frameId;
 				Array.Copy(frameBuffer, 0, data, 3, frameBuffer.Length);
 			}
 			else
@@ -285,9 +285,9 @@ namespace ZunTzu.Networking
 				{
 					fixed (byte* frameBufferPtr = frameBuffer)
 					{
-						byte* compressedBuffer = stackalloc byte[4096 * 3];
+						byte* compressedBuffer = stackalloc byte[5000 * 3]; // the main thread in .NET has a fairly fixed size of 1 MB
 						int byteCount;
-						if (oldestFrameData == null)
+						if (!latestAckedFrameId.HasValue)
 						{
 							// no reference frame
 							_videoCodec.Encode((IntPtr)frameBufferPtr, (IntPtr)compressedBuffer, out byteCount);
@@ -295,6 +295,7 @@ namespace ZunTzu.Networking
 						else
 						{
 							// reference frame
+							byte[] oldestFrameData = _outboundVideoFrameHistory.LatestAckedFrameData;
 							fixed (byte* referenceFramePtr = oldestFrameData)
 							{
 								_videoCodec.Encode((IntPtr)referenceFramePtr, (IntPtr)frameBufferPtr, (IntPtr)compressedBuffer, out byteCount);
@@ -303,8 +304,8 @@ namespace ZunTzu.Networking
 
 						data = new byte[byteCount + 3];
 						data[0] = (byte)MessageId.VideoFrame;
-						data[1] = (byte)frameId;
-						data[2] = (byte)(oldestFrameData != null ? oldestFrameId : frameId);
+						data[1] = frameId;
+						data[2] = latestAckedFrameId ?? frameId;
 						Marshal.Copy((IntPtr)compressedBuffer, data, 3, byteCount);
 					}
 				}
@@ -317,10 +318,10 @@ namespace ZunTzu.Networking
 		}
 
 		struct VideoFrame
-        {
+		{
 			public UInt64 SenderId;
 			public Packet Packet;
-        }
+		}
 
 		/// <summary>Get all pending messages received.</summary>
 		/// <returns>A list of NetworkMessage instances.</returns>
@@ -399,7 +400,7 @@ namespace ZunTzu.Networking
 		}
 
 		void onConnectionRequestedAccepted(List<NetworkMessage> messageList, Packet packet)
-        {
+		{
 			using (packet)
 			{
 				if (_status == NetworkStatus.Connecting)
@@ -429,15 +430,12 @@ namespace ZunTzu.Networking
 			{
 				if (_status == NetworkStatus.Connecting)
 				{
-					_status = NetworkStatus.Disconnected;
-					_client.Shutdown();
-
 					ConnectionFailureCause cause;
 					unsafe
-                    {
+					{
 						byte* ptr = (byte*)packet.Data.ToPointer();
-                        switch (*ptr)
-                        {
+						switch (*ptr)
+						{
 							case (byte)MessageId.ID_ALREADY_CONNECTED:
 							case (byte)MessageId.ID_CONNECTION_BANNED:
 							case (byte)MessageId.ID_INVALID_PASSWORD:
@@ -450,8 +448,8 @@ namespace ZunTzu.Networking
 							default:
 								cause = ConnectionFailureCause.Other;
 								break;
-                        }
-                    }
+						}
+					}
 
 					var message = new NetworkMessage(new byte[] {
 						(byte)MessageId.SystemMessage,
@@ -462,17 +460,20 @@ namespace ZunTzu.Networking
 					messageList.Add(message);
 				}
 			}
+
+			if (_status != NetworkStatus.Disconnected)
+			{
+				_status = NetworkStatus.Disconnected;
+				_client.Shutdown();
+			}
 		}
 
 		void onDisconnectionNotification(List<NetworkMessage> messageList, Packet packet)
 		{
 			using(packet)
-            {
+			{
 				if (_status != NetworkStatus.Disconnected)
 				{
-					_status = NetworkStatus.Disconnected;
-					_client.Shutdown();
-
 					// add the new message to the message list
 					var message = new NetworkMessage(new byte[] {
 						(byte)MessageId.SystemMessage,
@@ -482,15 +483,28 @@ namespace ZunTzu.Networking
 					messageList.Add(message);
 				}
 			}
+
+			if (_status != NetworkStatus.Disconnected)
+			{
+				_status = NetworkStatus.Disconnected;
+				_client.Shutdown();
+			}
 		}
 
 		void onVideoFrame(List<VideoFrame> videoFrameList, Packet packet)
-        {
+		{
 			unsafe
-            {
+			{
 				byte* ptr = (byte*)packet.Data.ToPointer();
-				UInt64 senderId = 0;
-				for (int i = 8; i >= 1; --i) senderId = (senderId << 8) | *(ptr + i);
+				UInt64 senderId =
+					((UInt64)(*(ptr + 1)) << 0) |
+					((UInt64)(*(ptr + 2)) << 8) |
+					((UInt64)(*(ptr + 3)) << 16) |
+					((UInt64)(*(ptr + 4)) << 24) |
+					((UInt64)(*(ptr + 5)) << 32) |
+					((UInt64)(*(ptr + 6)) << 40) |
+					((UInt64)(*(ptr + 7)) << 48) |
+					((UInt64)(*(ptr + 8)) << 56);
 
 				videoFrameList.Add(new VideoFrame { SenderId = senderId, Packet = packet });
 			}
@@ -504,25 +518,24 @@ namespace ZunTzu.Networking
 				VideoFrame videoFrame = videoFrameList[videoFrameList.Count - 1];
 				videoFrameList.RemoveAt(videoFrameList.Count - 1);
 
+				// ignore earlier frames from same sender
+				UInt64 senderId = videoFrame.SenderId;
+				for (int i = videoFrameList.Count - 1; i >= 0; --i)
+				{
+					if (videoFrameList[i].SenderId == senderId)
+					{
+						videoFrameList[i].Packet.Dispose();
+						videoFrameList.RemoveAt(i);
+					}
+				}
+
 				using (var packet = videoFrame.Packet)
 				{
-					UInt64 senderId = videoFrame.SenderId;
-
-					// ignore earlier frames from same sender
-					for (int i = videoFrameList.Count - 1; i >= 0; --i)
-					{
-						if (videoFrameList[i].SenderId == senderId)
-						{
-							videoFrameList[i].Packet.Dispose();
-							videoFrameList.RemoveAt(i);
-						}
-					}
-
 					// extract frame IDs
 					byte frameId;
 					byte referenceFrameId;
 					unsafe
-                    {
+					{
 						byte* ptr = (byte*)packet.Data.ToPointer();
 						frameId = *(ptr + 9);
 						referenceFrameId = *(ptr + 10);
@@ -570,8 +583,9 @@ namespace ZunTzu.Networking
 					if (_serverIsOnSameComputer)
 					{
 						// no compression
+						Debug.Assert(packet.Length == 64 * 64 * 3 + 11);
 						unsafe
-                        {
+						{
 							byte* ptr = (byte*)packet.Data.ToPointer() + 11;
 							Marshal.Copy((IntPtr)ptr, frame, 10, frame.Length - 10);
 						}
@@ -622,7 +636,7 @@ namespace ZunTzu.Networking
 				frameId = *(ptr + 1);
 			}
 
-			_outboundVideoFrameHistory.ClearHistoryUntilThisFrame(frameId);
+			_outboundVideoFrameHistory.AckFrame(frameId);
 		}
 
 		void onVideoCaptureDisabled(List<NetworkMessage> messageList, Packet packet)

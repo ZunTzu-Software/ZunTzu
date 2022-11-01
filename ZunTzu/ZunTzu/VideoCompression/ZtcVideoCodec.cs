@@ -299,7 +299,7 @@ namespace ZunTzu.VideoCompression {
 					byte g = frame[offset0 + 1];
 					byte b = frame[offset0 + 2];
 					offset0 += 3;
-					YCbCr[offset1] = (byte) (0.299f * r + 0.587f * g + 0.114f * b);
+					YCbCr[offset1] = clampToByte((int)(0.299f * r + 0.587f * g + 0.114f * b));
 					++offset1;
 				}
 			}
@@ -317,8 +317,8 @@ namespace ZunTzu.VideoCompression {
 							sumCr += 128.0f + 0.5f * r - 0.418688f * g - 0.081312f * b;
 						}
 					}
-					YCbCr[offset1 + 0] = (byte) (sumCb * 0.25f + 0.5f);
-					YCbCr[offset1 + 1] = (byte) (sumCr * 0.25f + 0.5f);
+					YCbCr[offset1 + 0] = clampToByte((int)(sumCb * 0.25f + 0.5f));
+					YCbCr[offset1 + 1] = clampToByte((int)(sumCr * 0.25f + 0.5f));
 					offset1 += 2;
 				}
 			}
@@ -797,7 +797,7 @@ namespace ZunTzu.VideoCompression {
 
 		private static unsafe void add(byte* refYCbCr, byte* diffFrame, byte* YCbCr) {
 			for(int i = 0; i < (64 * 64 + 32 * 32 * 2); ++i)
-				YCbCr[i] = clampToByte((diffFrame[i] << 1) + (int) refYCbCr[i] - 255);
+				YCbCr[i] = clampToByte(((int)diffFrame[i] << 1) + (int) refYCbCr[i] - 255);
 		}
 
 		private static unsafe void convertFromYCbCr(byte* YCbCr, byte* frame) {

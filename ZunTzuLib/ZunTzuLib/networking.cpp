@@ -94,18 +94,9 @@ extern "C" unsigned long long __cdecl GetGuid(void* client)
 	return peer->GetMyGUID().g;
 }
 
-extern "C" void __cdecl Statistics(void* client)
+extern "C" unsigned long __cdecl GetBoundAddress(void* server)
 {
-}
-
-extern "C" void __cdecl SendToOne(void* server, int player_id)
-{
-}
-
-extern "C" void __cdecl SendToAllOthers(void* server, int player_id)
-{
-}
-
-extern "C" void __cdecl SendToAll(void* server)
-{
+	auto peer = static_cast<RakPeerInterface*>(server);
+	auto addr = peer->GetMyBoundAddress(0);
+	return addr.address.addr4.sin_addr.S_un.S_addr;
 }

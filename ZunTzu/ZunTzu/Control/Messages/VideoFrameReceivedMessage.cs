@@ -14,17 +14,17 @@ namespace ZunTzu.Control.Messages {
 	public sealed class VideoFrameReceivedMessage : SystemMessage {
 		internal VideoFrameReceivedMessage(byte[] frameBuffer)
 		{
-			Debug.Assert(frameBuffer.Length == 2 + 8 + 64 * 64 * 3); // message ID, message type, pixels
+			Debug.Assert(frameBuffer.Length == 10 + 64 * 64 * 3); // message ID, message type, sender, pixels
 			_frameBuffer = frameBuffer;
 			_senderId =
-				(((UInt64)frameBuffer[2] & 0x00000000000000ff) << 0) |
-				(((UInt64)frameBuffer[3] & 0x00000000000000ff) << 8) |
-				(((UInt64)frameBuffer[4] & 0x00000000000000ff) << 16) |
-				(((UInt64)frameBuffer[5] & 0x00000000000000ff) << 24) |
-				(((UInt64)frameBuffer[6] & 0x00000000000000ff) << 32) |
-				(((UInt64)frameBuffer[7] & 0x00000000000000ff) << 40) |
-				(((UInt64)frameBuffer[8] & 0x00000000000000ff) << 48) |
-				(((UInt64)frameBuffer[9] & 0x00000000000000ff) << 56);
+				((UInt64)frameBuffer[2] << 0) |
+				((UInt64)frameBuffer[3] << 8) |
+				((UInt64)frameBuffer[4] << 16) |
+				((UInt64)frameBuffer[5] << 24) |
+				((UInt64)frameBuffer[6] << 32) |
+				((UInt64)frameBuffer[7] << 40) |
+				((UInt64)frameBuffer[8] << 48) |
+				((UInt64)frameBuffer[9] << 56);
 		}
 
 		public sealed override NetworkMessageType Type { get { return NetworkMessageType.VideoFrameReceived; } }

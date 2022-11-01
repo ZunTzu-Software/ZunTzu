@@ -115,6 +115,7 @@ namespace ZunTzu.Networking
 				// notify the parent process via the standard output
 				switch (result) {
 					case StartupResult.RAKNET_STARTED:
+						_boundIpAddress = _server.BoundAddress;
 						Console.Out.WriteLine("Server started {0}/{1}/{2}",
 							publicIp?.ToString() ?? "?",
 							publicPort ?? port,
@@ -152,9 +153,9 @@ namespace ZunTzu.Networking
 			if (_server != null)
 			{
 				for(int i = 0; i < _uncompressJobs.Count; ++i)
-                {
+				{
 					_uncompressJobs[i].Packet.Dispose();
-                }
+				}
 
 				_server.Dispose();
 				_server = null;
@@ -175,7 +176,7 @@ namespace ZunTzu.Networking
 					processVideoFrame();
 				}
 				else
-                {
+				{
 					// yield and wait for next job
 					Thread.Sleep(1); // according to Eric Lippert "Thread.Sleep(1) cedes control to any ready thread of the operating system’s choice"
 				}
@@ -184,6 +185,8 @@ namespace ZunTzu.Networking
 
 		void processPacket(Packet packet)
 		{
+			Debug.Assert(packet.Length > 0);
+
 			byte messageCode;
 			unsafe
 			{
@@ -192,14 +195,14 @@ namespace ZunTzu.Networking
 			}
 
 			if (messageCode == (byte)MessageId.VideoFrame)
-            {
+			{
 				// do NOT dispose this packet right now! (it will be disposed when the video frame is processed)
 				onVideoFrame(packet);
 				return;
-            }
+			}
 
 			using(packet)
-            {
+			{
 				switch (messageCode)
 				{
 					case (byte)MessageId.ID_NEW_INCOMING_CONNECTION:
@@ -247,18 +250,21 @@ namespace ZunTzu.Networking
 		}
 
 		void onPlayerConnected(Packet packet)
-        {
+		{
 			var address = extractSenderAddress(packet);
 			UInt64 playerId = address.rakNetGuid.g;
-			var playerState = new PlayerState { Address = address };
+			var playerState = new PlayerState {
+				Address = address,
+				ServerIsOnSameMachine = (address.systemAddress.sin_addr == _boundIpAddress),
+			};
 			_playersById.Add(playerId, playerState);
 
 			bool playerIsHosting = (_playersById.Count == 1);
 
 			if (playerIsHosting)
-            {
+			{
 				_hostingPlayer = playerState;
-            }
+			}
 			else
 			{
 				// notify host
@@ -284,14 +290,14 @@ namespace ZunTzu.Networking
 		}
 
 		void onPlayerDisconnected(Packet packet)
-        {
+		{
 			AddressOrGuid playerAddress = extractSenderAddress(packet);
 			UInt64 playerId = playerAddress.rakNetGuid.g;
 
 			bool playerIsHosting = (playerId == _hostingPlayer.Address.rakNetGuid.g);
 
-            if (playerIsHosting)
-            {
+			if (playerIsHosting)
+			{
 				// hosting player has left -> stop server
 				_server.Shutdown();
 				Dispose();
@@ -304,9 +310,9 @@ namespace ZunTzu.Networking
 
 				// remove video history
 				foreach(var otherPlayer in _playersById.Values)
-                {
+				{
 					otherPlayer.OutboundVideoFrameHistoryByRecipientId.Remove(playerId);
-                }
+				}
 
 				// notify all other players
 				var data = new byte[]
@@ -327,18 +333,25 @@ namespace ZunTzu.Networking
 					PacketPriority.HIGH_PRIORITY, PacketReliability.RELIABLE_ORDERED,
 					(int)OrderingChannel.Reliable,
 					AddressOrGuid.UNASSIGNED, true);
-            }
+			}
 		}
 
 		void onReliableMessageFromHostToSingleClient(Packet packet)
 		{
 			unsafe
-            {
+			{
 				// The recipient ID is stored on bytes 2 to 9 of the packet
 				if (packet.Length < 10) return; // sanity check
 				byte* ptr = (byte*)packet.Data.ToPointer();
-				UInt64 recipientId = 0;
-				for(int i = 9; i >= 2; --i) recipientId = (recipientId << 8) | *(ptr + i);
+				UInt64 recipientId =
+					((UInt64)(*(ptr + 2)) << 0) |
+					((UInt64)(*(ptr + 3)) << 8) |
+					((UInt64)(*(ptr + 4)) << 16) |
+					((UInt64)(*(ptr + 5)) << 24) |
+					((UInt64)(*(ptr + 6)) << 32) |
+					((UInt64)(*(ptr + 7)) << 40) |
+					((UInt64)(*(ptr + 8)) << 48) |
+					((UInt64)(*(ptr + 9)) << 56);
 
 				if (!_playersById.TryGetValue(recipientId, out var recipient)) return;
 
@@ -360,7 +373,7 @@ namespace ZunTzu.Networking
 			replaceSenderId(packet, senderId);
 
 			unsafe
-            {
+			{
 				_server.Send((byte*)packet.Data.ToPointer(), packet.Length,
 					PacketPriority.HIGH_PRIORITY, PacketReliability.RELIABLE_ORDERED,
 					(int)OrderingChannel.Reliable,
@@ -435,8 +448,15 @@ namespace ZunTzu.Networking
 				// The sender ID is stored on bytes 1 to 8 of the packet
 				if (packet.Length < 10) return; // sanity check
 				byte* ptr = (byte*)packet.Data.ToPointer();
-				senderId = 0;
-				for (int i = 8; i >= 1; --i) senderId = (senderId << 8) | *(ptr + i);
+				senderId =
+					((UInt64)(*(ptr + 1)) << 0) |
+					((UInt64)(*(ptr + 2)) << 8) |
+					((UInt64)(*(ptr + 3)) << 16) |
+					((UInt64)(*(ptr + 4)) << 24) |
+					((UInt64)(*(ptr + 5)) << 32) |
+					((UInt64)(*(ptr + 6)) << 40) |
+					((UInt64)(*(ptr + 7)) << 48) |
+					((UInt64)(*(ptr + 8)) << 56);
 
 				// The frame ID is stored on byte 9
 				frameId = *(ptr + 9);
@@ -444,7 +464,7 @@ namespace ZunTzu.Networking
 
 			if (!_playersById.TryGetValue(senderId, out var sender)) return;
 			if (!sender.OutboundVideoFrameHistoryByRecipientId.TryGetValue(recipientId, out var history)) return;
-			history.ClearHistoryUntilThisFrame(frameId);
+			history.AckFrame(frameId);
 		}
 
 		void onVideoCaptureDisabled(Packet packet)
@@ -465,7 +485,7 @@ namespace ZunTzu.Networking
 
 				// remove all jobs from same sender (they are all less recent)
 				for(int i = _uncompressJobs.Count - 1; i >= 0; --i)
-                {
+				{
 					if (_uncompressJobs[i].SenderId == job.SenderId)
 					{
 						_uncompressJobs.RemoveAt(i);
@@ -481,7 +501,7 @@ namespace ZunTzu.Networking
 
 				// remove all jobs with same sender/recipient pair (they are all less recent)
 				for(int i = _compressJobs.Count - 1; i >= 0; --i)
-                {
+				{
 					if (_compressJobs[i].SenderId == job.SenderId &&
 						_compressJobs[i].RecipientId == job.RecipientId)
 					{
@@ -495,11 +515,16 @@ namespace ZunTzu.Networking
 
 		void uncompressFrame(UncompressJob job)
 		{
+			// Packet data:
+			//   Byte 0:   message code (value is always MessageId.VideoFrame)
+			//   Byte 1:   frame ID
+			//   Byte 2:   reference frame ID
+			//   Byte 3-N: compressed image (uncompressed if sent from hosting player)
+
 			using (Packet packet = job.Packet)
 			{
 				UInt64 senderId = job.SenderId;
 				if (!_playersById.TryGetValue(senderId, out var sender)) return;
-				bool senderIsHosting = (sender == _hostingPlayer);
 
 				byte frameId;
 				byte referenceFrameId;
@@ -526,7 +551,7 @@ namespace ZunTzu.Networking
 				// uncompress video frame
 				InboundVideoFrameHistory history = sender.InboundVideoFrameHistory;
 				byte[] frame = new byte[64 * 64 * 3];
-				if (senderIsHosting)
+				if (sender.ServerIsOnSameMachine)
 				{
 					// hosting player -> no compression needed (it is on the same computer)
 					unsafe
@@ -561,16 +586,17 @@ namespace ZunTzu.Networking
 					}
 				}
 				if (referenceFrameId != frameId)
-                {
+				{
 					history.ClearHistoryUntilThisFrame(referenceFrameId);
 				}
 				history.AddFrame(frameId, frame);
 
 				// make one compress job for each other player
 				foreach(var playerId in _playersById.Keys)
-                {
+				{
 					if (playerId == senderId) continue;
-					_compressJobs.Add(new CompressJob(senderId, playerId, frame));
+					byte[] frameCopy = (byte[]) frame.Clone(); // this is necessary because the frame is modified by the encoding algorithm
+					_compressJobs.Add(new CompressJob(senderId, playerId, frameCopy));
 				}
 			}
 		}
@@ -590,13 +616,11 @@ namespace ZunTzu.Networking
 				history = new OutboundVideoFrameHistory();
 				sender.OutboundVideoFrameHistoryByRecipientId.Add(recipientId, history);
 			}
-			byte[] oldestFrameData = history.OldestFrameData;
-			byte oldestFrameId = (oldestFrameData != null ? history.OldestFrameId : (byte)0);
-
 			byte frameId = history.AddFrame(frame);
+			byte? latestAckedFrameId = history.LatestAckedFrameId;
 
 			byte[] data;
-			if (recipientId == 0) // hosting player
+			if (recipient.ServerIsOnSameMachine)
 			{
 				// no compression needed (it is on the same computer)
 				data = new byte[frame.Length + 11];
@@ -610,7 +634,7 @@ namespace ZunTzu.Networking
 				data[7] = (byte)((senderId & 0x00ff000000000000) >> 48);
 				data[8] = (byte)((senderId & 0xff00000000000000) >> 56);
 				data[9] = frameId;
-				data[10] = (oldestFrameData != null ? oldestFrameId : frameId);
+				data[10] = latestAckedFrameId ?? frameId;
 				Array.Copy(frame, 0, data, 11, frame.Length);
 			}
 			else
@@ -619,9 +643,9 @@ namespace ZunTzu.Networking
 				{
 					fixed (byte* frameBufferPtr = frame)
 					{
-						byte* compressedBuffer = stackalloc byte[4096 * 3];
+						byte* compressedBuffer = stackalloc byte[5000 * 3]; // the main thread in .NET has a fairly fixed size of 1 MB
 						int byteCount;
-						if (oldestFrameData == null)
+						if (!latestAckedFrameId.HasValue)
 						{
 							// no reference frame
 							_videoCodec.Encode((IntPtr)frameBufferPtr, (IntPtr)compressedBuffer, out byteCount);
@@ -629,7 +653,8 @@ namespace ZunTzu.Networking
 						else
 						{
 							// reference frame
-							fixed (byte* referenceFramePtr = oldestFrameData)
+							byte[] latestAckedFrameData = history.LatestAckedFrameData;
+							fixed (byte* referenceFramePtr = latestAckedFrameData)
 							{
 								_videoCodec.Encode((IntPtr)referenceFramePtr, (IntPtr)frameBufferPtr, (IntPtr)compressedBuffer, out byteCount);
 							}
@@ -646,7 +671,7 @@ namespace ZunTzu.Networking
 						data[7] = (byte)((senderId & 0x00ff000000000000) >> 48);
 						data[8] = (byte)((senderId & 0xff00000000000000) >> 56);
 						data[9] = frameId;
-						data[10] = (oldestFrameData != null ? oldestFrameId : frameId);
+						data[10] = latestAckedFrameId ?? frameId;
 						Marshal.Copy((IntPtr)compressedBuffer, data, 11, byteCount);
 					}
 				}
@@ -711,13 +736,15 @@ namespace ZunTzu.Networking
 		}
 
 		sealed class PlayerState
-        {
+		{
 			public AddressOrGuid Address = AddressOrGuid.UNASSIGNED;
+			public bool ServerIsOnSameMachine;
 			public InboundVideoFrameHistory InboundVideoFrameHistory = new InboundVideoFrameHistory();
 			public Dictionary<UInt64, OutboundVideoFrameHistory> OutboundVideoFrameHistoryByRecipientId = new Dictionary<UInt64, OutboundVideoFrameHistory>();
 		}
 
 		Peer _server = null;
+		UInt32 _boundIpAddress = 0;
 		Dictionary<UInt64, PlayerState> _playersById = new Dictionary<UInt64, PlayerState>();
 		PlayerState _hostingPlayer = null; // the hosting player is always the first one
 		List<UncompressJob> _uncompressJobs = new List<UncompressJob>();

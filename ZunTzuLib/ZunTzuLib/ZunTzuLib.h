@@ -31,6 +31,7 @@ extern "C" {
 	__declspec(dllexport) void* __cdecl Receive(void* client_or_server);
 	__declspec(dllexport) void __cdecl DeallocatePacket(void* client_or_server, void* packet);
 	__declspec(dllexport) unsigned long long __cdecl GetGuid(void* client);
+	__declspec(dllexport) unsigned long __cdecl GetBoundAddress(void* server);
 
 	// Direct3D
 	__declspec(dllexport) int __cdecl GetEligibleFullscreenModeCount();

@@ -13,47 +13,54 @@ namespace ZunTzu.Networking {
 		}
 		public byte Id;
 		public byte[] Data;
-		public static VideoFrame None = new VideoFrame(0, null);
 	}
 
 	internal class OutboundVideoFrameHistory {
 		public byte AddFrame(byte[] frameData) {
-			Debug.Assert(history.Count > 0);
-			VideoFrame previousFrame = history.Last.Value;
-			byte frameId = (previousFrame.Data == null ? (byte) 0 : (byte) (previousFrame.Id + 1));
-			history.AddLast(new VideoFrame(frameId, frameData));
-			if(history.Count > 16) {
-				history.RemoveFirst();
-				history.First.Value = VideoFrame.None;
+			byte frameId = 0;
+			if (_history.Count > 0)
+			{
+				VideoFrame previousFrame = _history.Last.Value;
+				frameId = (byte)(previousFrame.Id + 1);
 			}
+
+			// clear the history every 256 frames
+			// as a consequence, the equivalent of a MPEG "I" frame will be emitted 
+			if (frameId == 0)
+			{
+				_history.Clear();
+				_noAckReceivedYet = true;
+			}
+
+			_history.AddLast(new VideoFrame(frameId, frameData));
 			return frameId;
 		}
 
-		public byte OldestFrameId {
+		public byte? LatestAckedFrameId {
 			get {
-				Debug.Assert(history.Count > 0 && history.First.Value.Data != null);
-				return history.First.Value.Id;
+				if (_noAckReceivedYet) return null;
+				return _history.First.Value.Id;
 			}
 		}
 
-		public byte[] OldestFrameData {
+		public byte[] LatestAckedFrameData {
 			get {
-				Debug.Assert(history.Count > 0);
-				return history.First.Value.Data;
+				if (_noAckReceivedYet) throw new InvalidOperationException();
+				return _history.First.Value.Data;
 			}
 		}
 
-		public void ClearHistoryUntilThisFrame(byte frameId) {
-			foreach(VideoFrame frame in history) {
-				if(frame.Id == frameId) {
-					while(history.First.Value.Id != frameId)
-						history.RemoveFirst();
-					break;
-				}
+		public void AckFrame(byte frameId) {
+			if (_history.Count > 0 && _history.Last.Value.Id >= frameId)
+			{
+				_noAckReceivedYet = false;
+				while (_history.First.Value.Id < frameId)
+					_history.RemoveFirst();
 			}
 		}
 
-		private LinkedList<VideoFrame> history = new LinkedList<VideoFrame>(new VideoFrame[] { VideoFrame.None });
+		LinkedList<VideoFrame> _history = new LinkedList<VideoFrame>();
+		bool _noAckReceivedYet = true;
 	}
 
 	internal class InboundVideoFrameHistory {

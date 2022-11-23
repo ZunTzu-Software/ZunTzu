@@ -24,8 +24,8 @@ namespace ZunTzu.Control.States {
 			// this is the offset in model coordinates
 			SizeF modelCoordinates = view.ConvertScreenToModelCoordinates(
 				new SizeF(
-				mouseScreenPosition.X - previousMouseScreenPosition.X,
-				mouseScreenPosition.Y - previousMouseScreenPosition.Y));
+					mouseScreenPosition.X - previousMouseScreenPosition.X,
+					mouseScreenPosition.Y - previousMouseScreenPosition.Y));
 
 			IBoard visibleBoard = model.CurrentGameBox.CurrentGame.VisibleBoard;
 			RectangleF visibleArea = visibleBoard.VisibleArea;

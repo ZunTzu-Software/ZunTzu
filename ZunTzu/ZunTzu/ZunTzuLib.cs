@@ -207,6 +207,18 @@ namespace ZunTzu {
 			float texTop, float texRight, float texBottom, float texLeft);
 
 		[DllImport("ZunTzuLib.dll")]
+		public static extern void RenderTexturedQuadBlend(
+			IntPtr texture,
+			uint blend_color,
+			float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3,
+			float texTop, float texRight, float texBottom, float texLeft);
+
+		[DllImport("ZunTzuLib.dll")]
+		public static extern void RenderGradientQuad(
+			uint color0, uint color1,
+			float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3);
+
+		[DllImport("ZunTzuLib.dll")]
 		public static extern void RenderDieMesh(
 			IntPtr mesh_vb,
 			IntPtr mesh_ib,

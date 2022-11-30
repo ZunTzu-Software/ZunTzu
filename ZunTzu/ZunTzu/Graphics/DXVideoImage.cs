@@ -199,6 +199,24 @@ namespace ZunTzu.Graphics
 			return 0x00000000;
 		}
 
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlock(RectangleF blockPositionAndSize, float thickness, RectangleF stickerPositionAndSize, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow)
+		{
+			throw new NotSupportedException();
+		}
+
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlockBlank(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow)
+		{
+			throw new NotSupportedException();
+		}
+
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlockSilhouette(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint color)
+		{
+			throw new NotSupportedException();
+		}
+
 		DXVideoTexture _videoTexture;
 		RectangleF _imageLocation;
 		RectangleF _textureCoordinates;

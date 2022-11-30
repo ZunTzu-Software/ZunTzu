@@ -161,5 +161,23 @@ namespace ZunTzu.Graphics {
 		public uint GetColorAtPosition(PointF position) {
 			return 0xFFFFFFFF;
 		}
+
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlock(RectangleF blockPositionAndSize, float thickness, RectangleF stickerPositionAndSize, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow)
+		{
+			throw new NotSupportedException();
+		}
+
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlockBlank(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow)
+		{
+			throw new NotSupportedException();
+		}
+
+		/// <summary>Unsupported (only for textured images)</summary>
+		public void RenderBlockSilhouette(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint color)
+		{
+			throw new NotSupportedException();
+		}
 	}
 }

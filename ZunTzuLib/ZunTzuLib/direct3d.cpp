@@ -24,6 +24,7 @@ enum RENDERING_MODE {
 	RM_DEFAULT,
 	RM_SILHOUETTE,
 	RM_IGNORE_MASK,
+	RM_BLEND,
 	RM_MESH
 };
 RENDERING_MODE rendering_mode = RM_DEFAULT;
@@ -379,6 +380,16 @@ void switch_to_ignore_mask_rendering()
 	}
 }
 
+void switch_to_blend_rendering()
+{
+	if (rendering_mode != RM_BLEND) {
+		switch_to_2D_rendering();
+		device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_BLENDTEXTUREALPHA);
+		device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+		rendering_mode = RM_BLEND;
+	}
+}
+
 void switch_to_mesh_rendering(void* mesh_vb, void* mesh_ib, void* mesh_texture)
 {
 	if (rendering_mode != RM_MESH) {
@@ -521,6 +532,68 @@ extern "C" void __cdecl RenderTexturedQuadIgnoreMask(
 		tex, modulation_color,
 		x0, y0, x1, y1, x2, y2, x3, y3,
 		tex_top, tex_right, tex_bottom, tex_left);
+}
+
+extern "C" void __cdecl RenderTexturedQuadBlend(
+	void* texture,
+	unsigned int blend_color,
+	float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3,
+	float tex_top, float tex_right, float tex_bottom, float tex_left)
+{
+	switch_to_blend_rendering();
+
+	LPDIRECT3DTEXTURE9 tex = (texture != nullptr ? static_cast<LPDIRECT3DTEXTURE9>(texture) : black_tile);
+	render_quad(
+		tex, blend_color,
+		x0, y0, x1, y1, x2, y2, x3, y3,
+		tex_top, tex_right, tex_bottom, tex_left);
+}
+
+extern "C" void __cdecl RenderGradientQuad(
+	unsigned int color0, unsigned int color1,
+	float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
+{
+	switch_to_default_rendering();
+
+	// set texture
+	device->SetTexture(0, white_tile);
+
+	// draw quad
+	void* data;
+	quad_vb->Lock(0, 4 * sizeof(PosColorTexVertex), &data, 0);
+	PosColorTexVertex* verts = static_cast<PosColorTexVertex*>(data);
+
+	verts[0].x = x0;
+	verts[0].y = y0;
+	verts[0].z = 0.0f;
+	verts[0].color = color0;
+	verts[0].u = 0.0f;
+	verts[0].v = 0.0f;
+
+	verts[1].x = x1;
+	verts[1].y = y1;
+	verts[1].z = 0.0f;
+	verts[1].color = color0;
+	verts[1].u = 0.0f;
+	verts[1].v = 1.0f;
+
+	verts[2].x = x2;
+	verts[2].y = y2;
+	verts[2].z = 0.0f;
+	verts[2].color = color1;
+	verts[2].u = 1.0f;
+	verts[2].v = 0.0f;
+
+	verts[3].x = x3;
+	verts[3].y = y3;
+	verts[3].z = 0.0f;
+	verts[3].color = color1;
+	verts[3].u = 1.0f;
+	verts[3].v = 1.0f;
+
+	quad_vb->Unlock();
+
+	device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
 
 extern "C" void __cdecl RenderDieMesh(

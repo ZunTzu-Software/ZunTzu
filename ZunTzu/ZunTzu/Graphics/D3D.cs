@@ -130,6 +130,27 @@ namespace ZunTzu.Graphics
 				texTop, texRight, texBottom, texLeft);
 		}
 
+		public static void RenderTexturedQuadBlend(
+			D3DTexture texture,
+			uint blendColor,
+			float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3,
+			float texTop, float texRight, float texBottom, float texLeft)
+		{
+			ZunTzuLib.RenderTexturedQuadBlend(
+				(texture == null ? IntPtr.Zero : texture._internal), blendColor,
+				x0, y0, x1, y1, x2, y2, x3, y3,
+				texTop, texRight, texBottom, texLeft);
+		}
+
+		public static void RenderGradientQuad(
+			uint color0, uint color1,
+			float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
+		{
+			ZunTzuLib.RenderGradientQuad(
+				color0, color1,
+				x0, y0, x1, y1, x2, y2, x3, y3);
+		}
+
 		public static void RenderDieMesh(
 			D3DVertexBuffer meshVb,
 			D3DIndexBuffer meshIb,

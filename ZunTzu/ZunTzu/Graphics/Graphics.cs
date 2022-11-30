@@ -175,6 +175,35 @@ namespace ZunTzu.Graphics {
 		/// <param name="position">Position in model coordinates relative to the center of this image.</param>
 		/// <returns>A color in A8R8G8B8 format.</returns>
 		uint GetColorAtPosition(PointF position);
+
+		/// <summary>Renders a block with this image as a sticker at the given position and size.</summary>
+		/// <param name="blockPositionAndSize">Position of the block when lying down, in model coordinates relative to the center of this image.</param>
+		/// <param name="thickness">Thickness of the block, in model coordinates.</param>
+		/// <param name="stickerPositionAndSize">Position of the sticker when lying down, in model coordinates relative to the center of this image.</param>
+		/// <param name="flipProgress">Progress of the 'flip' animation: 0.0 for a fully lying down block, 1.0 for a fully standing up block.</param>
+		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this block when lying down.</param>
+		/// <param name="blockOpaqueColor">Color of the block when lying down in X8R8G8B8 format. Shading is automatically added to the edges when standing up.</param>
+		/// <param name="opacity">Transparency of the block: 0.0 for a fully transparent block, 1.0 for a fully opaque block.</param>
+		/// <param name="dropShadow">True to display the shadow cast by this block on the board.</param>
+		void RenderBlock(RectangleF blockPositionAndSize, float thickness, RectangleF stickerPositionAndSize, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow);
+
+		/// <summary>Renders an unlabelled block at the given position and size. This is meant to render the back of a hidden block.</summary>
+		/// <param name="blockPositionAndSize">Position of the block when lying down, in model coordinates relative to the center of this image.</param>
+		/// <param name="thickness">Thickness of the block, in model coordinates.</param>
+		/// <param name="flipProgress">Progress of the 'flip' animation: 0.0 for a fully lying down block, 1.0 for a fully standing up block.</param>
+		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this block when lying down.</param>
+		/// <param name="blockOpaqueColor">Color of the block when lying down in X8R8G8B8 format. Shading is automatically added to the edges when standing up.</param>
+		/// <param name="opacity">Transparency of the block: 0.0 for a fully transparent block, 1.0 for a fully opaque block.</param>
+		/// <param name="dropShadow">True to display the shadow cast by this block on the board.</param>
+		void RenderBlockBlank(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint blockOpaqueColor, float opacity, bool dropShadow);
+
+		/// <summary>Renders the silhouette of a block at the given position and size.</summary>
+		/// <param name="blockPositionAndSize">Position of the block when lying down, in model coordinates relative to the center of this image.</param>
+		/// <param name="thickness">Thickness of the block, in model coordinates.</param>
+		/// <param name="flipProgress">Progress of the 'flip' animation: 0.0 for a fully lying down block, 1.0 for a fully standing up block.</param>
+		/// <param name="rotationAngle">Rotation angle. The rotation axis goes through the center of this block when lying down.</param>
+		/// <param name="color">Color of the silhouette in A8R8G8B8 format.</param>
+		void RenderBlockSilhouette(RectangleF blockPositionAndSize, float thickness, float flipProgress, float rotationAngle, uint color);
 	}
 
 	/// <summary>A 3D object.</summary>

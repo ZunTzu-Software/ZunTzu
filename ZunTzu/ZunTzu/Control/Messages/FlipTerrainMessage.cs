@@ -31,8 +31,14 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 			IGame game = model.CurrentGameBox.CurrentGame;
+
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
 			// is the terrain in the player's hand?
-			if(boardId != -1) {
+			if (boardId != -1) {
 				// no
 				IBoard board = game.GetBoardById(boardId);
 				if(board != null) {
@@ -40,23 +46,22 @@ namespace ZunTzu.Control.Messages {
 					IPiece piece = stack.Pieces[0];
 					if(piece.CounterSection.Type == CounterSectionType.TwoSided) {
 						ISelection selection = piece.Select();
-						model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(model, selection));
+						model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(senderGuid, model, selection));
 					}
 				}
 			} else {
-				// yes, in the hand
-				IPlayer sender = model.GetPlayer(senderId);
-				if(sender != null && sender.Guid != Guid.Empty) {
-					IPlayerHand playerHand = game.GetPlayerHand(sender.Guid);
+				// yes, in the hand				
+				if(senderGuid != Guid.Empty) {
+					IPlayerHand playerHand = game.GetPlayerHand(senderGuid);
 					if(playerHand != null && playerHand.Count > zOrder) {
 						IPiece piece = playerHand.Pieces[zOrder];
 						// piece is in a player's hand -> it can't be undone
 						if(model.AnimationManager.IsBeingAnimated(piece.Stack))
 							model.AnimationManager.EndAllAnimations();
 						if(senderId == model.ThisPlayer.Id)
-							model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(new IPiece[] { piece }));
+							model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(senderGuid, new IPiece[] { piece }));
 						else
-							model.AnimationManager.LaunchAnimationSequence(new InstantFlipPiecesAnimation(new IPiece[] { piece }));
+							model.AnimationManager.LaunchAnimationSequence(new InstantFlipPiecesAnimation(senderGuid, new IPiece[] { piece }));
 					}
 				}
 			}

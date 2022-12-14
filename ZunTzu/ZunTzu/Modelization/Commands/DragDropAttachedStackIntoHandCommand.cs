@@ -105,10 +105,10 @@ namespace ZunTzu.Modelization.Commands {
 						int totalDetentsBefore = (int) (clone.RotationAngle * (12.0f / (float) Math.PI) + 0.5f) * 120;
 						int totalDetentsAfter = 0;
 						int rotationIncrements = totalDetentsAfter - totalDetentsBefore;
-						animations.Add(new InstantRotatePiecesAnimation(new IPiece[] { clone }, rotationIncrements));
+						animations.Add(new InstantRotatePiecesAnimation(playerGuid, new IPiece[] { clone }, rotationIncrements));
 					}
 					if(clone.Side != sideBefore)
-						animations.Add(new InstantFlipPiecesAnimation(new IPiece[] { clone }));
+						animations.Add(new InstantFlipPiecesAnimation(playerGuid, new IPiece[] { clone }));
 					animations.Add(new ReturnStackFromHandAnimation(stackBefore));
 					animations.Add(new RemoveTerrainAnimation(stackBefore));
 					model.AnimationManager.LaunchAnimationSequence(animations.ToArray());
@@ -124,7 +124,7 @@ namespace ZunTzu.Modelization.Commands {
 				}
 				animations.Add(new MoveToFrontOfBoardAnimation(stackBefore, piece.CounterSection.CounterSheet));
 				if(piece.Side != sideBefore)
-					animations.Add(new InstantFlipPiecesAnimation(new IPiece[] { piece }));
+					animations.Add(new InstantFlipPiecesAnimation(playerGuid, new IPiece[] { piece }));
 				animations.Add(new ReturnStackFromHandAnimation(stackBefore));
 				animations.Add(new AttachStacksAnimation(new IStack[] { stackBefore }));
 				model.AnimationManager.LaunchAnimationSequence(animations.ToArray());

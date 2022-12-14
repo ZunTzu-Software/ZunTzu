@@ -551,6 +551,31 @@ namespace ZunTzu.Modelization {
 																		}
 																		break;
 
+																	case "counter-type":
+																		List<string> eligibleCTValues;
+																		switch (currentSection) {
+																			case "terrain-section":
+																			case "card-section":
+																				errors.Add(string.Format("Wgame-box.xml, line {0}: unsupported attribute \"{1}\".", xmlTextReader.LineNumber, xml.Name));
+																				goto case "counter-section";
+
+																			case "counter-section":
+																				eligibleCTValues = new List<string>(new string[] { "Counter", "Block", "Concealed" });
+																				if (!eligibleCTValues.Contains(xml.Value))
+																					errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));																				
+																				else
+																					currentSectionType = xml.Value;
+																				break;
+																		}
+																		break;
+
+																	case "block-color":
+																		Regex hexadecimalRegex = new Regex(@"^[0-9a-fA-F]{6}$", RegexOptions.Singleline);
+																		Match hexadecimalMatch = hexadecimalRegex.Match(xml.Value);
+																		if (!hexadecimalMatch.Success)
+																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
+																		break;
+
 																	case "rows":
 																	case "columns":
 																	case "supply":
@@ -582,9 +607,16 @@ namespace ZunTzu.Modelization {
 																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
 																		break;
 
+																	case "block-thickness":
 																	case "shadow":
 																		float length;
 																		if(!float.TryParse(xml.Value, out length) || length < 0.0f)
+																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
+																		break;
+
+																	case "block-added-frame":
+																		float lengthFrame;
+																		if (!float.TryParse(xml.Value, out lengthFrame) || lengthFrame < 0.0f || lengthFrame > 100.0f)
 																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
 																		break;
 
@@ -823,6 +855,20 @@ namespace ZunTzu.Modelization {
 					XmlElement counterSectionNode = (XmlElement) counterSectionNodeList[j];
 					properties.Type = (counterSectionNode.HasAttribute("type") ? (CounterSectionType) Enum.Parse(typeof(CounterSectionType), counterSectionNode.GetAttribute("type")) :
 						(CounterSectionType) ((counterSectionNode.HasAttribute("front-left") ? 0x01 : 0x00) | (counterSectionNode.HasAttribute("back-left") ? 0x02 : 0x00)));
+					properties.CounterType = counterSectionNode.HasAttribute("counter-type") ? (CounterType)Enum.Parse(typeof(CounterType), counterSectionNode.GetAttribute("counter-type")) : CounterType.Counter;
+					if (properties.CounterType == CounterType.Block)
+					{
+						properties.BlockThickness = counterSectionNode.HasAttribute("block-thickness") ? float.Parse(counterSectionNode.GetAttribute("block-thickness")) : float.MinValue;
+						properties.BlockColor = /*0xff000000 |*/ (counterSectionNode.HasAttribute("block-color") && properties.CounterType == CounterType.Block ? UInt32.Parse(counterSectionNode.GetAttribute("block-color"), System.Globalization.NumberStyles.AllowHexSpecifier) : 0xffffff);
+						properties.BlockAddedFrame = counterSectionNode.HasAttribute("block-added-frame") ? float.Parse(counterSectionNode.GetAttribute("block-added-frame")) : 0.0f;
+					}
+                    else
+                    {
+						properties.BlockThickness = 0.0f;
+						properties.BlockColor = 0xffffff;
+						properties.BlockAddedFrame = 0.0f;
+					}
+
 					properties.Rows = (counterSectionNode.HasAttribute("rows") ? XmlConvert.ToInt32(counterSectionNode.GetAttribute("rows")) : 1);
 					properties.Columns = (counterSectionNode.HasAttribute("columns") ? XmlConvert.ToInt32(counterSectionNode.GetAttribute("columns")) : 1);
 					if(((int) properties.Type & 0x01) != 0) {

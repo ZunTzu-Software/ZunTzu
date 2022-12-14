@@ -32,7 +32,7 @@ namespace ZunTzu.Control.States {
 			}
 		}
 
-		public virtual void HandleMouseWheel(int detents) {}
+		public virtual void HandleMouseWheel(Guid executorPlayerGuid, int detents) {}
 
 		public virtual void UpdateCursor(Form mainForm, IView view) { mainForm.Cursor = Cursors.Default; }
 

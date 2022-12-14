@@ -15,6 +15,9 @@ namespace ZunTzu.Modelization {
 		/// <summary>Indicates if the pieces are single-sided or double-sided.</summary>
 		public CounterSectionType Type { get { return type; } }
 		private readonly CounterSectionType type;
+		/// <summary>Indicates if the pieces are counters, blocks, or concealed.</summary>
+		public CounterType CounterType { get { return counterType; } }
+		private readonly CounterType counterType;
 		/// <summary>Location of this grid on the counter sheet scanned image (recto).</summary>
 		public RectangleF FrontImageLocation { get { return frontImageLocation; } }
 		private readonly RectangleF frontImageLocation;
@@ -43,6 +46,15 @@ namespace ZunTzu.Modelization {
 		/// <summary>Number of copies of each piece.</summary>
 		public int Supply { get { return supply; } }
 		private readonly int supply;
+		/// <summary>Thickness of the block, if it's a block.</summary>
+		public float BlockThickness { get { return blockThickness; } }
+		private readonly float blockThickness;
+		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>
+		public float BlockAddedFrame { get { return blockAddedFrame; } }
+		private readonly float blockAddedFrame; 
+		/// <summary>Color of the block, if it's a block.</summary>
+		public uint BlockColor { get { return blockColor; } }
+		private readonly uint blockColor;
 		/// <summary>List of all pieces cut from this counter section.</summary>
 		public IPiece[] Pieces { get { return pieces; } }
 		private readonly Piece[] pieces;
@@ -55,6 +67,10 @@ namespace ZunTzu.Modelization {
 		public CounterSection(CounterSheet counterSheet, CounterSectionProperties properties, List<Piece> pieceList) {
 			this.counterSheet = counterSheet;
 			type = properties.Type;
+			counterType = properties.CounterType;
+			blockThickness = properties.BlockThickness;
+			blockAddedFrame = properties.BlockAddedFrame;
+			blockColor = properties.BlockColor;
 			frontImageLocation = properties.FrontImageLocation;
 			for(int i = (int)counterSheet.Properties.FrontImageResolution; i > 0; --i)
 				frontImageLocation = new RectangleF(frontImageLocation.X * 2, frontImageLocation.Y * 2, frontImageLocation.Width * 2, frontImageLocation.Height * 2);

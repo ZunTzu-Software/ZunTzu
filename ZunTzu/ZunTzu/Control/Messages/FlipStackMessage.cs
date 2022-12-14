@@ -28,6 +28,11 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
 			IPiece stackBottom = model.CurrentGameBox.CurrentGame.GetPieceById(stackId);
 			IStack stack = stackBottom.Stack;
 			ISelection selection = stack.Select();
@@ -35,10 +40,10 @@ namespace ZunTzu.Control.Messages {
 			foreach(IPiece piece in stack.Pieces) {
 				if(piece == stackBottom)
 					pieceEligible = true;
-				if(!pieceEligible || piece.CounterSection.IsSingleSided)
+				if(!pieceEligible || (piece.CounterSection.IsSingleSided && !piece.IsBlock))
 					selection = selection.RemovePiece(piece);
 			}
-			model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(model, selection));
+			model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(senderGuid, model, selection));
 		}
 
 		private int stackId;

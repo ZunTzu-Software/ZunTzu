@@ -27,6 +27,17 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 			ISelection selection = model.CurrentSelection;
+			
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
+			foreach (IPiece pieceBeingUnpunched in model.CurrentSelection.Pieces) {
+				if (pieceBeingUnpunched.IsBlock && pieceBeingUnpunched.Owner != Guid.Empty && pieceBeingUnpunched.Owner != senderGuid)
+					selection = selection.RemovePiece(pieceBeingUnpunched);                
+			}
+			
 			if(selection != null && !selection.Empty) {
 				IStack stack = selection.Stack;
 				CommandContext context = new CommandContext(stack.Board, stack.BoundingBox);

@@ -322,8 +322,8 @@ namespace ZunTzu.Control {
 						}
 					}
 				} else if(e.KeyData == Keys.Up || e.KeyData == Keys.Down) {
-					if(state != DialogState) {
-						State.HandleMouseWheel(e.KeyData == Keys.Up ? 120 : -120);
+					if(state != DialogState) {						
+						State.HandleMouseWheel(model.ThisPlayer.Guid, e.KeyData == Keys.Up ? 120 : -120);
 						e.Handled = true;
 					}
 				}
@@ -424,7 +424,8 @@ namespace ZunTzu.Control {
 
 		private void onMouseWheel(object o, MouseEventArgs e) {
 			if(state != DialogState) {
-				State.HandleMouseWheel(e.Delta);
+				//TODO: The GUID should be that from the executor of the action... does it matter???
+				State.HandleMouseWheel(model.ThisPlayer.Guid, e.Delta);
 			}
 		}
 

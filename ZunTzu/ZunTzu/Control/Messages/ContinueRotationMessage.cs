@@ -16,7 +16,7 @@ namespace ZunTzu.Control.Messages {
 
 		protected sealed override void SerializeDeserialize(ISerializer serializer) {}
 
-		public sealed override void Handle(Controller controller) {
+		public sealed override void Handle(Controller controller) {			
 			controller.IdleState.ContinueRotation();
 		}
 	}

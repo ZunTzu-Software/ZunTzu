@@ -31,31 +31,35 @@ namespace ZunTzu.Control.Messages {
 			IPiece pieceBeingUnpunched = model.CurrentGameBox.CurrentGame.GetPieceById(pieceBeingUnpunchedId);
 			IStack stack = pieceBeingUnpunched.Stack;
 			IPlayer sender = model.GetPlayer(senderId);
-			if(stack.Board == null) {
-				// piece is currently in the player's hand
-				if(sender != null && sender.Guid != Guid.Empty) {
-					PointF positionWhenAttached = pieceBeingUnpunched.PositionWhenAttached;
-					SizeF size = pieceBeingUnpunched.Size;
-					RectangleF boundingBoxWhenAttached = new RectangleF(
-						positionWhenAttached.X - size.Width * 0.5f,
-						positionWhenAttached.Y - size.Height * 0.5f,
-						size.Width,
-						size.Height);
-					CommandContext context = new CommandContext(pieceBeingUnpunched.CounterSection.CounterSheet, boundingBoxWhenAttached);
-					model.CommandManager.ExecuteCommandSequence(
-						context, context,
-						new UnpunchHandPieceCommand(model, sender.Guid, pieceBeingUnpunched));
-				}
-			} else {
-				CommandContext context = new CommandContext(stack.Board, stack.BoundingBox);
-				if(stack.Pieces.Length == 1) {
-					model.CommandManager.ExecuteCommandSequence(
-						context, context,
-						new UnpunchSelectionCommand(model, stack));
+
+			if (!pieceBeingUnpunched.IsBlock || (pieceBeingUnpunched.IsBlock && (pieceBeingUnpunched.Owner == Guid.Empty || pieceBeingUnpunched.Owner == sender.Guid))) {
+				if (stack.Board == null) {
+					// piece is currently in the player's hand
+					if (sender != null && sender.Guid != Guid.Empty) {
+
+						PointF positionWhenAttached = pieceBeingUnpunched.PositionWhenAttached;
+						SizeF size = pieceBeingUnpunched.Size;
+						RectangleF boundingBoxWhenAttached = new RectangleF(
+							positionWhenAttached.X - size.Width * 0.5f,
+							positionWhenAttached.Y - size.Height * 0.5f,
+							size.Width,
+							size.Height);
+						CommandContext context = new CommandContext(pieceBeingUnpunched.CounterSection.CounterSheet, boundingBoxWhenAttached);
+						model.CommandManager.ExecuteCommandSequence(
+							context, context,
+							new UnpunchHandPieceCommand(model, sender.Guid, pieceBeingUnpunched));
+					}
 				} else {
-					model.CommandManager.ExecuteCommandSequence(
-						context, context,
-						new UnpunchSubSelectionCommand(model, pieceBeingUnpunched.Select()));
+					CommandContext context = new CommandContext(stack.Board, stack.BoundingBox);
+					if (stack.Pieces.Length == 1) {
+						model.CommandManager.ExecuteCommandSequence(
+							context, context,
+							new UnpunchSelectionCommand(model, stack));
+					} else {
+						model.CommandManager.ExecuteCommandSequence(
+							context, context,
+							new UnpunchSubSelectionCommand(model, pieceBeingUnpunched.Select()));
+					}
 				}
 			}
 

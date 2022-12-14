@@ -9,9 +9,10 @@ namespace ZunTzu.Modelization.Commands {
 	/// <summary>RotateTopOfStackCommand command.</summary>
 	public class RotateTopOfStackCommand : AggregableCommand {
 
-		public RotateTopOfStackCommand(IModel model, IPiece stackBottom, int rotationIncrements)
+		public RotateTopOfStackCommand(Guid executorPlayerGuid, IModel model, IPiece stackBottom, int rotationIncrements)
 			: base(model)
 		{
+			this.executorPlayerGuid = executorPlayerGuid;
 			Debug.Assert(!stackBottom.Stack.AttachedToCounterSection && stackBottom.Stack.Pieces.Length > 1);
 			int bottomIndex = stackBottom.IndexInStackFromBottomToTop;
 			IPiece[] stackPieces = stackBottom.Stack.Pieces;
@@ -24,19 +25,19 @@ namespace ZunTzu.Modelization.Commands {
 		/// <summary>Execute this command.</summary>
 		public override void Do() {
 			preventConflict(pieces[0].Stack);
-			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(pieces, rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, pieces, rotationIncrements));
 		}
 
 		/// <summary>Cancel the result of this command.</summary>
 		public override void Undo() {
 			preventConflict(pieces[0].Stack);
-			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(pieces, -rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(executorPlayerGuid, pieces, -rotationIncrements));
 		}
 
 		/// <summary>Rollback the previous cancellation of this command.</summary>
 		public override void Redo() {
 			preventConflict(pieces[0].Stack);
-			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(pieces, rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(executorPlayerGuid, pieces, rotationIncrements));
 		}
 
 		/// <summary>Returns true if this command can be aggregated with another command.</summary>
@@ -64,5 +65,6 @@ namespace ZunTzu.Modelization.Commands {
 
 		private IPiece[] pieces;
 		private int rotationIncrements;
+		private Guid executorPlayerGuid;
 	}
 }

@@ -29,16 +29,23 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 			IPiece piece = model.CurrentGameBox.CurrentGame.GetPieceById(pieceId);
-			if(piece.Stack.Board == null) {
+
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
+			if (piece.Stack.Board == null) {
 				// piece is in a player's hand -> it can't be undone
 				if(model.AnimationManager.IsBeingAnimated(piece.Stack))
 					model.AnimationManager.EndAllAnimations();
 				if(senderId == model.ThisPlayer.Id)
-					model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(new IPiece[] { piece }));
+					model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(senderGuid, new IPiece[] { piece }));
 				else
-					model.AnimationManager.LaunchAnimationSequence(new InstantFlipPiecesAnimation(new IPiece[] { piece }));
-			} else {
-				model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(model, piece.Select()));
+					model.AnimationManager.LaunchAnimationSequence(new InstantFlipPiecesAnimation(senderGuid, new IPiece[] { piece }));
+			} 
+			else {
+				model.CommandManager.ExecuteCommandSequence(new FlipSelectionCommand(senderGuid, model, piece.Select()));
 			}
 		}
 

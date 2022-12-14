@@ -31,23 +31,43 @@ namespace ZunTzu.Control.Messages {
 			IPiece pieceBeingUnpunched = model.CurrentGameBox.CurrentGame.GetPieceById(stackBeingUnpunchedId);
 			IStack stack = pieceBeingUnpunched.Stack;
 			ISelection selection = stack.Select();
-			foreach(IPiece piece in stack.Pieces)
-				if(piece == pieceBeingUnpunched)
-					break;
-				else
-					selection = selection.RemovePiece(piece);
-			CommandContext context = new CommandContext(stack.Board, stack.BoundingBox);
-			if(stack.Pieces.Length == selection.Pieces.Length) {
-				model.CommandManager.ExecuteCommandSequence(
-					context, context,
-					new UnpunchSelectionCommand(model, stack));
-			} else {
-				model.CommandManager.ExecuteCommandSequence(
-					context, context,
-					new UnpunchSubSelectionCommand(model, selection));
-			}
 
 			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
+			bool fromUnpunched = false;
+			foreach (IPiece piece in stack.Pieces) {
+				if (piece == pieceBeingUnpunched) {
+					fromUnpunched = true;
+					if (piece.IsBlock && piece.Owner != Guid.Empty && piece.Owner != senderGuid)
+						selection = selection.RemovePiece(piece);
+				} else {
+					if (!fromUnpunched)
+						selection = selection.RemovePiece(piece);
+					else {
+						if (piece.IsBlock && piece.Owner != Guid.Empty && piece.Owner != senderGuid)
+							selection = selection.RemovePiece(piece);
+					}
+				}
+			}
+
+			CommandContext context = new CommandContext(stack.Board, stack.BoundingBox);
+			if(stack.Pieces.Length == selection.Pieces.Length) {
+				if (stack.Pieces != null && stack.Pieces.Length > 0) {
+					model.CommandManager.ExecuteCommandSequence(
+						context, context,
+						new UnpunchSelectionCommand(model, stack));
+				}
+			} else {
+				if (selection.Pieces != null && selection.Pieces.Length > 0) {
+					model.CommandManager.ExecuteCommandSequence(
+					context, context,
+					new UnpunchSubSelectionCommand(model, selection));
+				}
+			}
+
 			if(sender != null)
 				sender.StackBeingDragged = null;
 		}

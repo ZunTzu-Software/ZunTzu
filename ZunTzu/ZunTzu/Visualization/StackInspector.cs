@@ -137,7 +137,11 @@ namespace ZunTzu.Visualization {
 							position.Y - (pieceSize.Height * pieceScaling) * 0.5f,
 							pieceSize.Width * flipAngleCosinus * pieceScaling,
 							pieceSize.Height * pieceScaling);
-						piece.Graphics.Render(localisation, piece.RotationAngle);
+
+						if (piece.IsBlock && piece.CounterSection.IsSingleSided && piece.Owner != Guid.Empty && piece.Owner != model.ThisPlayer.Guid)
+							piece.Graphics.RenderBlockBlank(localisation, 0.0f, 0.0f, piece.RotationAngle, 0xff000000 | piece.BlockColor, 1.0f, true);
+						else
+							piece.Graphics.Render(localisation, piece.RotationAngle);
 					}
 				}
 

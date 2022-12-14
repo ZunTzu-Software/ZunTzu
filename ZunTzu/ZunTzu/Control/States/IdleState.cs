@@ -265,7 +265,7 @@ namespace ZunTzu.Control.States {
 					foreach(IPiece piece in stackBottom.Stack.Pieces) {
 						if(piece == stackBottom)
 							pieceIsEligible = true;
-						if(pieceIsEligible && !piece.CounterSection.IsSingleSided) {
+						if(pieceIsEligible && (!piece.CounterSection.IsSingleSided || piece.IsBlock)) {
 							// assumption: the stack will remain unchanged in the meantime
 							if(!model.AnimationManager.IsBeingAnimated(stackBottom.Stack))
 								if(stackBottom is ITerrainClone)
@@ -285,7 +285,7 @@ namespace ZunTzu.Control.States {
 			} else if(model.ThisPlayer.CursorLocation is IStackInspectorCursorLocation) {
 				IStackInspectorCursorLocation location = (IStackInspectorCursorLocation) model.ThisPlayer.CursorLocation;
 				IPiece piece = location.Piece;
-				if(piece != null && !piece.CounterSection.IsSingleSided)
+				if(piece != null && (!piece.CounterSection.IsSingleSided || piece.IsBlock))
 					// assumption: the stack will remain unchanged in the meantime
 					if(!model.AnimationManager.IsBeingAnimated(piece.Stack))
 						networkClient.Send(new FlipPieceMessage(model.StateChangeSequenceNumber, piece.Id));
@@ -293,7 +293,7 @@ namespace ZunTzu.Control.States {
 			} else if(model.ThisPlayer.CursorLocation is IHandCursorLocation) {
 				IHandCursorLocation location = (IHandCursorLocation) model.ThisPlayer.CursorLocation;
 				IPiece piece = location.Piece;
-				if(piece != null && !piece.CounterSection.IsSingleSided) {
+				if(piece != null && (!piece.CounterSection.IsSingleSided || piece.IsBlock)) {
 					// assumption: the stack will remain unchanged in the meantime
 					if(!model.AnimationManager.IsBeingAnimated(piece.Stack)) {
 						if(piece is ITerrainClone)
@@ -332,7 +332,7 @@ namespace ZunTzu.Control.States {
 			}
 		}
 
-		public override void HandleMouseWheel(int detents) {
+		public override void HandleMouseWheel(Guid executorPlayerGuid, int detents) {
 			IPiece[] piecesBeingRotated = null;
 			// over the board
 			if(model.ThisPlayer.CursorLocation is IBoardCursorLocation) {
@@ -379,7 +379,8 @@ namespace ZunTzu.Control.States {
 				RotationInProgress = true;
 				RotationIncrements += (detents / 120) * 120;
 
-				model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(PiecesBeingRotated, (detents / 120) * 120));
+				//TODO: Why there is an Animation in the IdleState? And not a Message to Rotate?
+				model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, PiecesBeingRotated, (detents / 120) * 120));
 
 				// NOT(C) => BeginRotation
 				if(!WaitingForContinueRotationMessage) {
@@ -395,8 +396,8 @@ namespace ZunTzu.Control.States {
 			// I don't think so, because the state change will get rejected anyway.
 			WaitingForContinueRotationMessage = false;
 			// B => BeginRotation
-			// NOT(B) => RotateStack
-			if(RotationInProgress) {
+			// NOT(B) => RotateStack			
+			if (RotationInProgress) {
 				WaitingForContinueRotationMessage = true;
 				RotationInProgress = false;
 				networkClient.Send(new BeginRotationMessage());
@@ -427,9 +428,9 @@ namespace ZunTzu.Control.States {
 				PiecesBeingRotated = null;
 		}
 
-		public void RejectRotation(int rotationIncrements) {
+		public void RejectRotation(Guid executorPlayerGuid, int rotationIncrements) {
 			// rollback rotation
-			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(PiecesBeingRotated, -rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, PiecesBeingRotated, -rotationIncrements));
 
 			if(!RotationInProgress && !WaitingForContinueRotationMessage)
 				PiecesBeingRotated = null;

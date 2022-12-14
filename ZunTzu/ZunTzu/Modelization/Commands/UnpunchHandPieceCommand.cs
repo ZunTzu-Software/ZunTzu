@@ -71,7 +71,7 @@ namespace ZunTzu.Modelization.Commands {
 			animations.Add(new MoveToFrontOfBoardAnimation(stackAfter, piece.CounterSection.CounterSheet));
 			animations.Add(new MoveStackInstantlyAnimation(stackAfter, new PointF(piece.PositionWhenAttached.X, piece.CounterSection.CounterSheet.VisibleArea.Bottom + piece.BoundingBox.Height * 0.5f)));
 			if(side != piece.Side)
-				animations.Add(new InstantFlipPiecesAnimation(pieceAsArray));
+				animations.Add(new InstantFlipPiecesAnimation(playerGuid, pieceAsArray));
 			animations.Add(new ReturnStackFromHandAnimation(stackAfter));
 			animations.Add(new AttachStacksAnimation(new IStack[] { stackAfter }));
 			model.AnimationManager.LaunchAnimationSequence(animations.ToArray());

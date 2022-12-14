@@ -31,25 +31,37 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 			IPiece piece = model.CurrentGameBox.CurrentGame.GetPieceById(pieceId);
-			if(senderId == model.ThisPlayer.Id) {
+
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
+			if (senderId == model.ThisPlayer.Id) {
 				controller.IdleState.AcceptRotation();
 				// piece is not in the player's hand?
 				if(piece.Stack.Board != null)
-					model.CommandManager.ExecuteCommandSequence(new ConfirmedRotatePieceCommand(model, piece, rotationIncrements));
+					model.CommandManager.ExecuteCommandSequence(new ConfirmedRotatePieceCommand(senderGuid, model, piece, rotationIncrements));
 			} else {
 				if(piece.Stack.Board == null) {
 					// piece is in a player's hand -> it can't be undone
 					if(model.AnimationManager.IsBeingAnimated(piece.Stack))
 						model.AnimationManager.EndAllAnimations();
-					model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(new IPiece[1] { piece }, rotationIncrements));
+					model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(senderGuid, new IPiece[1] { piece }, rotationIncrements));
 				} else {
-					model.CommandManager.ExecuteCommandSequence(new RotatePieceCommand(model, piece, rotationIncrements));
+					model.CommandManager.ExecuteCommandSequence(new RotatePieceCommand(senderGuid, model, piece, rotationIncrements));
 				}
 			}
 		}
 
 		public sealed override void HandleReject(Controller controller) {
-			controller.IdleState.RejectRotation(rotationIncrements);
+			IModel model = controller.Model; 
+			IPlayer sender = model.GetPlayer(senderId);
+			Guid senderGuid = Guid.Empty;
+			if (sender != null && sender.Guid != Guid.Empty)
+				senderGuid = sender.Guid;
+
+			controller.IdleState.RejectRotation(senderGuid, rotationIncrements);
 		}
 
 		private int pieceId;

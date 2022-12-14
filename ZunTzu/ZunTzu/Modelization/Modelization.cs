@@ -408,6 +408,8 @@ namespace ZunTzu.Modelization {
 	public sealed class CounterSectionProperties {
 		/// <summary>Indicates if the pieces are single-sided or double-sided.</summary>
 		public CounterSectionType Type;
+		/// <summary>Indicates if the pieces are counters or blocks.</summary>
+		public CounterType CounterType;
 		/// <summary>Row count.</summary>
 		public int Rows;
 		/// <summary>Column count.</summary>
@@ -420,6 +422,12 @@ namespace ZunTzu.Modelization {
 		public float ShadowLength;
 		/// <summary>Number of copies of each piece.</summary>
 		public int Supply;
+		/// <summary>Thickness of the block, if it's a block</summary>
+		public float BlockThickness;
+		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>
+		public float BlockAddedFrame;
+		/// <summary>Thickness of the block, if it's a block</summary>
+		public uint BlockColor;
 	}
 
 	/// <summary>Card section, part of a counter sheet, properties.</summary>
@@ -492,6 +500,14 @@ namespace ZunTzu.Modelization {
 		CardFacesOnFrontBackOnOtherSide = 0x0e, CardFacesAndBackOnBack = 0x0f
 	};
 
+	/// <summary>Type of pieces of a single section.</summary>
+	[Flags, ObfuscationAttribute(Exclude = true)]
+	public enum CounterType
+	{		
+		// counter
+		Counter = 0x01, Block = 0x02, Concealed = 0x03
+	};
+
 	/// <summary>Counter section, part of a counter sheet.</summary>
 	/// <remarks>
 	/// A counter section is basically a rectangular grid that marks the piece boundaries.
@@ -502,6 +518,8 @@ namespace ZunTzu.Modelization {
 		ICounterSheet CounterSheet { get; }
 		/// <summary>Indicates if the pieces are single-sided or double-sided.</summary>
 		CounterSectionType Type { get; }
+		/// <summary>Indicates if the pieces are counters or blocks.</summary>
+		CounterType CounterType { get; }
 		/// <summary>Location of this grid on the counter sheet scanned image (recto).</summary>
 		RectangleF FrontImageLocation { get; }
 		/// <summary>Location of this grid on the counter sheet scanned image (verso).</summary>
@@ -522,6 +540,12 @@ namespace ZunTzu.Modelization {
 		float ShadowLength { get; }
 		/// <summary>Number of copies of each piece.</summary>
 		int Supply { get; }
+		/// <summary>Thickness of the block, if it's a block</summary>
+		float BlockThickness { get; }
+		/// <summary>Added frame (%) to the block. Really it's a % removed from each side to the sticker (shrinking it)</summary>
+		float BlockAddedFrame { get; }
+		/// <summary>Color of the block, if it's a block</summary>
+		uint BlockColor { get; }
 		/// <summary>List of all pieces cut from this counter section.</summary>
 		IPiece[] Pieces { get; }
 
@@ -620,6 +644,16 @@ namespace ZunTzu.Modelization {
 		int IndexInStackFromBottomToTop { get; }
 		/// <summary>Indicates if a player as moved his mouse cursor over this card.</summary>
 		bool RolledOver { get; set; }
+		/// <summary>Indicates the player who owns the piece (for blocks and concealed counters).</summary>
+		Guid Owner { get; set; }
+		/// <summary>Tells if the piece is a block or not</summary>
+		bool IsBlock { get; }
+		/// <summary>Thickness of the block</summary>
+		float BlockThickness { get; }
+		/// <summary>Added frame (%) to the block. Really it's a % removed from each side to the sticker (shrinking it)</summary>
+		float BlockAddedFrame { get; }
+		/// <summary>Color of the block</summary>
+		uint BlockColor { get; }
 	}
 
 	/// <summary>A playing card.</summary>

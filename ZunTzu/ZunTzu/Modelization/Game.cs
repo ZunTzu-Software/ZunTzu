@@ -145,6 +145,8 @@ namespace ZunTzu.Modelization {
 								writer.WriteAttributeString("y", stack.Position.Y.ToString("F2", NumberFormatInfo.InvariantInfo));
 								if(piece.RotationAngle != 0.0f)
 									writer.WriteAttributeString("rot", (piece.RotationAngle * (180.0f / (float) Math.PI)).ToString("F0", NumberFormatInfo.InvariantInfo));
+								if (piece.Owner != Guid.Empty)
+									writer.WriteAttributeString("owner", piece.Owner.ToString());
 								writer.WriteEndElement();
 							} else {
 								writer.WriteStartElement("stack");
@@ -158,6 +160,8 @@ namespace ZunTzu.Modelization {
 										writer.WriteAttributeString("side", Side.Back.ToString());
 									if(piece.RotationAngle != 0.0f)
 										writer.WriteAttributeString("rot", (piece.RotationAngle * (180.0f / (float) Math.PI)).ToString("F0", NumberFormatInfo.InvariantInfo));
+									if (piece.Owner != Guid.Empty)
+										writer.WriteAttributeString("owner", piece.Owner.ToString());
 									writer.WriteEndElement();
 								}
 								writer.WriteEndElement();
@@ -489,6 +493,8 @@ namespace ZunTzu.Modelization {
 						stack.Position = new PointF(
 							XmlConvert.ToSingle(pieceNode.GetAttribute("x")),
 							XmlConvert.ToSingle(pieceNode.GetAttribute("y")));
+						if (pieceNode.HasAttribute("owner"))
+							piece.Owner = new Guid(pieceNode.GetAttribute("owner"));
 					}
 
 					foreach(XmlElement stackNode in layoutNode.SelectNodes("stack")) {
@@ -517,6 +523,9 @@ namespace ZunTzu.Modelization {
 								piece.Side = (Side) Enum.Parse(typeof(Side), pieceNode.GetAttribute("side"));
 							else
 								piece.Side = Side.Front;
+
+							if (pieceNode.HasAttribute("owner"))
+								piece.Owner = new Guid(pieceNode.GetAttribute("owner"));
 						}
 					}
 				}
@@ -548,6 +557,9 @@ namespace ZunTzu.Modelization {
 							piece.Side = (Side) Enum.Parse(typeof(Side), pieceNode.GetAttribute("side"));
 						else
 							piece.Side = Side.Front;
+
+						if (pieceNode.HasAttribute("owner"))
+							piece.Owner = new Guid(pieceNode.GetAttribute("owner"));
 					}
 					hand.Stack = stack;
 					playerHands.Add(guid, hand);

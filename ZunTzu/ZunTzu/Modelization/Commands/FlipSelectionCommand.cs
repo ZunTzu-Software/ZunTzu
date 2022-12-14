@@ -11,9 +11,11 @@ namespace ZunTzu.Modelization.Commands {
 	public sealed class FlipSelectionCommand : Command {
 
 		/// <summary>Constructor.</summary>
-		public FlipSelectionCommand(IModel model, ISelection selection)
+		public FlipSelectionCommand(Guid executorPlayerGuid, IModel model, ISelection selection)
 		: base(model)
 		{
+			this.executorPlayerGuid = executorPlayerGuid;
+
 			Debug.Assert(selection != null && !selection.Empty);
 
 			this.selection = selection;
@@ -22,7 +24,7 @@ namespace ZunTzu.Modelization.Commands {
 		/// <summary>Execute this command.</summary>
 		public override void Do() {
 			preventConflict(selection.Stack);
-			model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(selection.Pieces));
+			model.AnimationManager.LaunchAnimationSequence(new FlipPiecesAnimation(executorPlayerGuid, selection.Pieces));
 		}
 
 		/// <summary>Cancel the result of this command.</summary>
@@ -31,5 +33,6 @@ namespace ZunTzu.Modelization.Commands {
 		}
 
 		private ISelection selection;
+		private Guid executorPlayerGuid;
 	}
 }

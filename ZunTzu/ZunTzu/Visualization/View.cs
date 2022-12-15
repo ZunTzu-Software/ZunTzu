@@ -847,33 +847,10 @@ namespace ZunTzu.Visualization {
 													shadowLocalisation.Inflate(-2 * scaling, -2 * scaling);
 													piece.Graphics.RenderSilhouette(shadowLocalisation, piece.RotationAngle, 0x10000000);
 												}
-												else
-                                                {
-													float flipProgress = 1.0f;
-													if (piece.Owner == Guid.Empty)
-														flipProgress = 0.0f;
-
-													shadowLocalisation.Inflate(2 * scaling, 2 * scaling);
-													piece.Graphics.RenderBlockSilhouette(shadowLocalisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, 0x08000000);													
-													shadowLocalisation.Inflate(-2 * scaling, -2 * scaling);
-													piece.Graphics.RenderBlockSilhouette(shadowLocalisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, 0x10000000);													
-													shadowLocalisation.Inflate(-2 * scaling, -2 * scaling);
-													piece.Graphics.RenderBlockSilhouette(shadowLocalisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, 0x18000000);													
-													shadowLocalisation.Inflate(-2 * scaling, -2 * scaling);
-													piece.Graphics.RenderBlockSilhouette(shadowLocalisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, 0x10000000);													
-												}
 											} else {
 												// hard shadows
 												if (!piece.IsBlock) 
 													piece.Graphics.RenderSilhouette(shadowLocalisation, piece.RotationAngle, 0x40000000);
-												else
-												{
-													float flipProgress = 1.0f;
-													if (piece.Owner == Guid.Empty)
-														flipProgress = 0.0f;
-
-													piece.Graphics.RenderBlockSilhouette(shadowLocalisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, 0x40000000);
-												}
 											}
 										}
 
@@ -1019,7 +996,7 @@ namespace ZunTzu.Visualization {
 			}
 			else
 			{
-				((Piece)piece).Side = Side.Front;
+				((Piece)piece).Side = Side.Front;  
 				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, 1.0f, true);
 			}
 		}

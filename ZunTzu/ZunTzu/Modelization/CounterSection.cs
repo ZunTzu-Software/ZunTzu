@@ -46,7 +46,7 @@ namespace ZunTzu.Modelization {
 		/// <summary>Number of copies of each piece.</summary>
 		public int Supply { get { return supply; } }
 		private readonly int supply;
-		/// <summary>Thickness of the block, if it's a block.</summary>
+		/// <summary>Thickness of the block, in %, if it's a block.</summary>
 		public float BlockThickness { get { return blockThickness; } }
 		private readonly float blockThickness;
 		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>

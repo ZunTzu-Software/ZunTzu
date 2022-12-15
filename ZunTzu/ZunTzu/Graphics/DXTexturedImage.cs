@@ -331,6 +331,9 @@ namespace ZunTzu.Graphics
 			uint opacityAlpha = (uint)(opacity * 255) << 24;
 			uint blockColor = opacityAlpha | (blockOpaqueColor & 0x00ffffff);
 
+			//Thickness has a 0.3f factor applied for perspective issues
+			thickness = thickness * 0.3f;
+
 			unsafe
 			{
 				PointF* p = stackalloc PointF[4 * 3]; // first A..D, then a..d, then A'..D'

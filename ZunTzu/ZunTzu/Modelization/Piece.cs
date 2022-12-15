@@ -89,10 +89,11 @@ namespace ZunTzu.Modelization {
 		/// <summary>Size of this piece (recto and verso).</summary>
 		public SizeF Size { get { return (Side == Side.Front ? CounterSection.PieceFrontSize : CounterSection.PieceBackSize); } }
 		public float Diagonal { get { return (Side == Side.Front ? CounterSection.PieceFrontDiagonal : CounterSection.PieceBackDiagonal); } }
-
-		//public float BlockThickness { get { return (CounterSection.BlockThickness == float.MinValue ? Diagonal * 0.99f / 4 for dpi150 and /2 for dpi300 : (Diagonal * CounterSection.BlockThickness/ 100.0f)/4 or 2 for dpis 250 and 300); } }
-		//TODO: It's not clear what related measure is the BlockThickness (used in the RenderBlock method - View.cs)
-		public float BlockThickness { get { return (CounterSection.BlockThickness == float.MinValue ? 100.0f : CounterSection.BlockThickness); } }
+		
+		/// <summary>
+		/// % of the diagonal. 100% is a cube, and 50% is half cube depth (same as Columbia games blocks)
+		/// </summary>
+		public float BlockThickness { get { return (CounterSection.BlockThickness == float.MinValue ? Diagonal * 0.5f : Diagonal * CounterSection.BlockThickness / 100.0f); } }
 
 		public uint BlockColor { get { return CounterSection.BlockColor; } }
 

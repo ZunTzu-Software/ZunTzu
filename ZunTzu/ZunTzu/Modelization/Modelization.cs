@@ -422,7 +422,7 @@ namespace ZunTzu.Modelization {
 		public float ShadowLength;
 		/// <summary>Number of copies of each piece.</summary>
 		public int Supply;
-		/// <summary>Thickness of the block, if it's a block</summary>
+		/// <summary>Thickness of the block, in %, if it's a block</summary>
 		public float BlockThickness;
 		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>
 		public float BlockAddedFrame;
@@ -540,7 +540,7 @@ namespace ZunTzu.Modelization {
 		float ShadowLength { get; }
 		/// <summary>Number of copies of each piece.</summary>
 		int Supply { get; }
-		/// <summary>Thickness of the block, if it's a block</summary>
+		/// <summary>Thickness of the block, in %, if it's a block</summary>
 		float BlockThickness { get; }
 		/// <summary>Added frame (%) to the block. Really it's a % removed from each side to the sticker (shrinking it)</summary>
 		float BlockAddedFrame { get; }

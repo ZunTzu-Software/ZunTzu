@@ -606,14 +606,14 @@ namespace ZunTzu.Modelization {
 																		if(!float.TryParse(xml.Value, out pixels))
 																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
 																		break;
-
-																	case "block-thickness":
+																	
 																	case "shadow":
 																		float length;
 																		if(!float.TryParse(xml.Value, out length) || length < 0.0f)
 																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
 																		break;
-
+																	
+																	case "block-thickness":
 																	case "block-added-frame":
 																		float lengthFrame;
 																		if (!float.TryParse(xml.Value, out lengthFrame) || lengthFrame < 0.0f || lengthFrame > 100.0f)

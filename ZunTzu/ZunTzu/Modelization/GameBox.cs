@@ -614,7 +614,7 @@ namespace ZunTzu.Modelization {
 																		break;
 																	
 																	case "block-thickness":
-																	case "block-added-frame":
+																	case "block-sticker-reduction":
 																		float lengthFrame;
 																		if (!float.TryParse(xml.Value, out lengthFrame) || lengthFrame < 0.0f || lengthFrame > 100.0f)
 																			errors.Add(string.Format("Egame-box.xml, line {0}: invalid value \"{1}\" for attribute \"{2}\".", xmlTextReader.LineNumber, xml.Value, xml.Name));
@@ -860,13 +860,13 @@ namespace ZunTzu.Modelization {
 					{
 						properties.BlockThickness = counterSectionNode.HasAttribute("block-thickness") ? float.Parse(counterSectionNode.GetAttribute("block-thickness")) : float.MinValue;
 						properties.BlockColor = /*0xff000000 |*/ (counterSectionNode.HasAttribute("block-color") && properties.CounterType == CounterType.Block ? UInt32.Parse(counterSectionNode.GetAttribute("block-color"), System.Globalization.NumberStyles.AllowHexSpecifier) : 0xffffff);
-						properties.BlockAddedFrame = counterSectionNode.HasAttribute("block-added-frame") ? float.Parse(counterSectionNode.GetAttribute("block-added-frame")) : 0.0f;
+						properties.BlockStickerReduction = counterSectionNode.HasAttribute("block-sticker-reduction") ? float.Parse(counterSectionNode.GetAttribute("block-sticker-reduction")) : 0.0f;
 					}
                     else
                     {
 						properties.BlockThickness = 0.0f;
 						properties.BlockColor = 0xffffff;
-						properties.BlockAddedFrame = 0.0f;
+						properties.BlockStickerReduction = 0.0f;
 					}
 
 					properties.Rows = (counterSectionNode.HasAttribute("rows") ? XmlConvert.ToInt32(counterSectionNode.GetAttribute("rows")) : 1);

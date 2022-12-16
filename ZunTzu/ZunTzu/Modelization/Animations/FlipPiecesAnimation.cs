@@ -31,13 +31,13 @@ namespace ZunTzu.Modelization.Animations {
 			float progress = (float)(currentTimeInMicroseconds - beginTimeInMicroseconds) / (float)duration;
 			float flipAngleCosinus = 1.0f - (float) Math.Sin(progress * Math.PI);
 			for (int i = 0; i < pieces.Length; ++i) {
-				if (!((Piece)pieces[i]).IsBlock) // || (((Piece)pieces[i]).IsBlock && (((Piece)pieces[i]).Owner == Guid.Empty || ((Piece)pieces[i]).Owner == executorPlayerGuid)))
+				if (!((Piece)pieces[i]).IsBlock) 
 					((Piece)pieces[i]).FlipAngleCosinus = flipAngleCosinus;
 			}
 			if(notYetFlipped && progress > 0.5f) {
 				notYetFlipped = false;
 				for (int i = 0; i < pieces.Length; ++i) {
-					if (!((Piece)pieces[i]).IsBlock) // || (((Piece)pieces[i]).IsBlock && (((Piece)pieces[i]).Owner == Guid.Empty || ((Piece)pieces[i]).Owner == executorPlayerGuid)))
+					if (!((Piece)pieces[i]).IsBlock) 
 						((Piece)pieces[i]).Side = finalSides[i];
 					if (((Piece)pieces[i]).IsBlock && (((Piece)pieces[i]).Owner == Guid.Empty || ((Piece)pieces[i]).Owner == executorPlayerGuid))
 						((Piece)pieces[i]).Owner = ((Piece)pieces[i]).Owner == Guid.Empty ? executorPlayerGuid : Guid.Empty;
@@ -50,12 +50,12 @@ namespace ZunTzu.Modelization.Animations {
 			for(int i = 0; i < pieces.Length; ++i) {
 				Piece piece = (Piece) pieces[i];
 				if (notYetFlipped) {
-					if (!piece.IsBlock) // || (piece.IsBlock && (piece.Owner == Guid.Empty || piece.Owner == executorPlayerGuid)))
+					if (!piece.IsBlock) 
 						piece.Side = finalSides[i];
 					if (piece.IsBlock && (piece.Owner == Guid.Empty || piece.Owner == executorPlayerGuid))
 						piece.Owner = piece.Owner == Guid.Empty ? executorPlayerGuid : Guid.Empty;
 				}
-				if (!piece.IsBlock)// || (piece.IsBlock && (piece.Owner == Guid.Empty || piece.Owner == executorPlayerGuid)))
+				if (!piece.IsBlock)
 					piece.FlipAngleCosinus = 1.0f;
 			}
 		}

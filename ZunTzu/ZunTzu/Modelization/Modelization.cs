@@ -424,8 +424,8 @@ namespace ZunTzu.Modelization {
 		public int Supply;
 		/// <summary>Thickness of the block, in %, if it's a block</summary>
 		public float BlockThickness;
-		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>
-		public float BlockAddedFrame;
+		/// <summary>Percentage (0-100) of how much do you want to reduce the sticker size to create a frame around it (centered).</summary>
+		public float BlockStickerReduction;
 		/// <summary>Thickness of the block, if it's a block</summary>
 		public uint BlockColor;
 	}
@@ -542,8 +542,8 @@ namespace ZunTzu.Modelization {
 		int Supply { get; }
 		/// <summary>Thickness of the block, in %, if it's a block</summary>
 		float BlockThickness { get; }
-		/// <summary>Added frame (%) to the block. Really it's a % removed from each side to the sticker (shrinking it)</summary>
-		float BlockAddedFrame { get; }
+		/// <summary>Percentage (0-100) of how much do you want to reduce the sticker size to create a frame around it (centered).</summary>
+		float BlockStickerReduction { get; }
 		/// <summary>Color of the block, if it's a block</summary>
 		uint BlockColor { get; }
 		/// <summary>List of all pieces cut from this counter section.</summary>
@@ -650,8 +650,8 @@ namespace ZunTzu.Modelization {
 		bool IsBlock { get; }
 		/// <summary>Thickness of the block</summary>
 		float BlockThickness { get; }
-		/// <summary>Added frame (%) to the block. Really it's a % removed from each side to the sticker (shrinking it)</summary>
-		float BlockAddedFrame { get; }
+		/// <summary>Percentage (0-100) of how much do you want to reduce the sticker size to create a frame around it (centered).</summary>
+		float BlockStickerReduction { get; }
 		/// <summary>Color of the block</summary>
 		uint BlockColor { get; }
 	}

@@ -873,13 +873,10 @@ namespace ZunTzu.Visualization {
                                         else
                                         {
 											RectangleF localisationFramedSticker = new RectangleF(
-											gameDisplayArea.X + (position.X - visibleArea.X - (size.Width * flipAngleCosinus) * 0.5f) * scaling + size.Width * scaling * piece.BlockAddedFrame/2,
-											gameDisplayArea.Y + (position.Y - visibleArea.Y - size.Height * 0.5f) * scaling + size.Height * scaling * piece.BlockAddedFrame/2,
-											(size.Width * flipAngleCosinus) * scaling * (1.0f - piece.BlockAddedFrame),
-											size.Height * scaling * (1.0f - piece.BlockAddedFrame));
-
-											//RectangleF localisationFramedSticker = new RectangleF(localisation.X + localisation.Width * piece.BlockAddedFrame, localisation.Y + localisation.Height * piece.BlockAddedFrame, localisation.Width * (1.0f - 2 * piece.BlockAddedFrame), localisation.Height * (1.0f - 2 * piece.BlockAddedFrame));
-
+											gameDisplayArea.X + (position.X - visibleArea.X - (size.Width * flipAngleCosinus) * 0.5f) * scaling + size.Width * scaling * piece.BlockStickerReduction/2,
+											gameDisplayArea.Y + (position.Y - visibleArea.Y - size.Height * 0.5f) * scaling + size.Height * scaling * piece.BlockStickerReduction/2,
+											(size.Width * flipAngleCosinus) * scaling * (1.0f - piece.BlockStickerReduction),
+											size.Height * scaling * (1.0f - piece.BlockStickerReduction));											
 
 											if (pass < 2)
 											{

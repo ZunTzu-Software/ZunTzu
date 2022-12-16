@@ -49,9 +49,9 @@ namespace ZunTzu.Modelization {
 		/// <summary>Thickness of the block, in %, if it's a block.</summary>
 		public float BlockThickness { get { return blockThickness; } }
 		private readonly float blockThickness;
-		/// <summary>Added frame for a block, if it's a block. It's a float, but it's the % of the sticker's width and height that will be added to create a frame. </summary>
-		public float BlockAddedFrame { get { return blockAddedFrame; } }
-		private readonly float blockAddedFrame; 
+		/// <summary>Percentage (0-100) of how much do you want to reduce the sticker size to create a frame around it (centered).</summary>
+		public float BlockStickerReduction { get { return blockStickerReduction; } }
+		private readonly float blockStickerReduction; 
 		/// <summary>Color of the block, if it's a block.</summary>
 		public uint BlockColor { get { return blockColor; } }
 		private readonly uint blockColor;
@@ -69,7 +69,7 @@ namespace ZunTzu.Modelization {
 			type = properties.Type;
 			counterType = properties.CounterType;
 			blockThickness = properties.BlockThickness;
-			blockAddedFrame = properties.BlockAddedFrame;
+			blockStickerReduction = properties.BlockStickerReduction;
 			blockColor = properties.BlockColor;
 			frontImageLocation = properties.FrontImageLocation;
 			for(int i = (int)counterSheet.Properties.FrontImageResolution; i > 0; --i)

@@ -176,12 +176,12 @@ namespace ZunTzu.Modelization {
 			}
 		}
 
-		public float BlockAddedFrame
+		public float BlockStickerReduction
         {
 			get
 			{
 				if (this.CounterSection.CounterType == CounterType.Block)
-					return this.CounterSection.BlockAddedFrame / 100.0f;
+					return this.CounterSection.BlockStickerReduction / 100.0f;
 				else
 					return 0.0f;
 			}

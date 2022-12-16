@@ -880,15 +880,11 @@ namespace ZunTzu.Visualization {
 
 											if (pass < 2)
 											{
-												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, 0xff000000 | piece.BlockColor);												
+												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, piece.BlockColor, 1.0f);												
 											}
-											else if (piece is ICounter)
+											else
 											{
-												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, 0x7f000000 | piece.BlockColor);
-											}
-											else if (piece.RolledOver)
-											{
-												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, 0x3f000000 | piece.BlockColor);
+												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, piece.BlockColor, 0.5f);
 											}
 										}
 									}
@@ -972,29 +968,29 @@ namespace ZunTzu.Visualization {
 			}
 		}
 
-		private void renderBlockByOwnership(RectangleF localisation, RectangleF localisationFramedSticker, float scaling, IPiece piece, uint opaqueColor) {
+		private void renderBlockByOwnership(RectangleF localisation, RectangleF localisationFramedSticker, float scaling, IPiece piece, uint opaqueColor, float opacity) {
 			float flipProgress = 1.0f;
 
 			if (piece.Owner == Guid.Empty)
 			{
 				flipProgress = 0.0f;
 				((Piece)piece).Side = Side.Front;
-				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, 1.0f, true);
+				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
 			}
 			else if (piece.Owner != model.ThisPlayer.Guid)
 			{
 				if (piece.CounterSection.IsSingleSided)
-					piece.Graphics.RenderBlockBlank(localisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, opaqueColor, 1.0f, true);
+					piece.Graphics.RenderBlockBlank(localisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
 				else
 				{
 					((Piece)piece).Side = Side.Back;
-					piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, 1.0f, true);
+					piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
 				}
 			}
 			else
 			{
 				((Piece)piece).Side = Side.Front;  
-				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, 1.0f, true);
+				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
 			}
 		}
 

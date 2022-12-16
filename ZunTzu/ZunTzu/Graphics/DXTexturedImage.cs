@@ -473,8 +473,8 @@ namespace ZunTzu.Graphics
 							for (int pass = 0; pass < 4 && pass * 2.0f < thickness; ++pass) // several passes for a softer shadow
 							{
 								float offset = pass * -2.0f;
-								D3D.RenderGradientQuad(0x10000000, 0x04000000, J->X, J->Y, K->X, K->Y, J->X + thickness + offset, J->Y + thickness, K->X + thickness + offset, K->Y + thickness + offset);
-								D3D.RenderGradientQuad(0x10000000, 0x04000000, K->X, K->Y, L->X, L->Y, K->X + thickness + offset, K->Y + thickness + offset, L->X + thickness, L->Y + thickness + offset);
+								D3D.RenderGradientQuad(0x20000000, 0x08000000, J->X, J->Y, K->X, K->Y, J->X + thickness + offset, J->Y + thickness, K->X + thickness + offset, K->Y + thickness + offset);
+								D3D.RenderGradientQuad(0x20000000, 0x08000000, K->X, K->Y, L->X, L->Y, K->X + thickness + offset, K->Y + thickness + offset, L->X + thickness, L->Y + thickness + offset);
 							}
 						}
 						else // flipProgress == 1.0f
@@ -483,8 +483,8 @@ namespace ZunTzu.Graphics
 							for (int pass = 0; pass < 4 && pass * 8.0f < h; ++pass) // several passes for a softer shadow
 							{
 								float offset = pass * -8.0f;
-								D3D.RenderGradientQuad(0x10000000, 0x00000000, K_prime->X, K_prime->Y, K->X, K->Y, K_prime->X + h + offset, K_prime->Y + h, K->X + h + offset, K->Y + h + offset);
-								D3D.RenderGradientQuad(0x10000000, 0x00000000, K->X, K->Y, L->X, L->Y, K->X + h + offset, K->Y + h + offset, L->X + h, L->Y + h + offset);
+								D3D.RenderGradientQuad(0x20000000, 0x00000000, K_prime->X, K_prime->Y, K->X, K->Y, K_prime->X + h + offset, K_prime->Y + h, K->X + h + offset, K->Y + h + offset);
+								D3D.RenderGradientQuad(0x20000000, 0x00000000, K->X, K->Y, L->X, L->Y, K->X + h + offset, K->Y + h + offset, L->X + h, L->Y + h + offset);
 							}
 						}
 					}

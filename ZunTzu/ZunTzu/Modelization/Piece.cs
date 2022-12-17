@@ -1,7 +1,7 @@
 // Copyright (c) 2022 ZunTzu Software and contributors
 
 using System;
-//using System.Diagnostics;
+using System.Diagnostics;
 using System.Drawing;
 using ZunTzu.Graphics;
 
@@ -48,16 +48,38 @@ namespace ZunTzu.Modelization {
 		/// <remarks>
 		/// The value for a piece at rest (i.e. not flipping) is 1.0f.
 		/// This value is not used if the piece is still attached to the counter section.
+		/// This value is not used for blocks.
 		/// </remarks>
 		public float FlipAngleCosinus
 		{
 			get { return (stack.AttachedToCounterSection ? 1.0f : flipAngleCosinus); }
-			set { flipAngleCosinus = value; }
+			set {
+				Debug.Assert(!IsBlock);
+				Debug.Assert(value >= 0.0f && value <= 1.0f);
+				flipAngleCosinus = value;
+			}
 		}
 		private float flipAngleCosinus = 1.0f;
 
+		/// <summary>Progress of the ownership transition animation of a block.</summary>
+		/// <remarks>
+		/// This value is only used for blocks that are not attached to the counter section.
+		/// The value for a piece that is not owned at rest (i.e. lying flat on the board) is 0.0f.
+		/// The value for an owned piece at rest (i.e. standing up) is 1.0f.
+		/// </remarks>
+		public float BlockOwnershipTransitionProgress
+		{
+			get { return blockOwnershipTransitionProgress; }
+			set {
+				Debug.Assert(IsBlock);
+				Debug.Assert(value >= 0.0f && value <= 1.0f);
+				blockOwnershipTransitionProgress = value;
+			}
+		}
+		private float blockOwnershipTransitionProgress = 0.0f;
+
 		/// <summary>Visible side.</summary>
-		/// <remarks>This value is not used if the piece is still attached to the counter section.</remarks>
+		/// <remarks>This value is not used if the piece is still attached to the counter section, or if it is a block.</remarks>
 		public abstract Side Side { get; set; }
 
 		/// <summary>Gets the selection encompassing this piece only.</summary>

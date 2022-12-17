@@ -616,8 +616,16 @@ namespace ZunTzu.Modelization {
 		/// <remarks>
 		/// The value for a piece at rest (i.e. not flipping) is 1.0f.
 		/// This value is not used if the piece is still attached to the counter section.
+		/// This value is not used for blocks.
 		/// </remarks>
 		float FlipAngleCosinus { get; }
+		/// <summary>Progress of the ownership transition animation of a block.</summary>
+		/// <remarks>
+		/// This value is only used for blocks that are not attached to the counter section.
+		/// The value for a piece that is not owned at rest (i.e. lying flat on the board) is 0.0f.
+		/// The value for an owned piece at rest (i.e. standing up) is 1.0f.
+		/// </remarks>
+		float BlockOwnershipTransitionProgress { get; }
 		/// <summary>Visible side.</summary>
 		/// <remarks>This value is not used if the piece is still attached to the counter section.</remarks>
 		Side Side { get; }

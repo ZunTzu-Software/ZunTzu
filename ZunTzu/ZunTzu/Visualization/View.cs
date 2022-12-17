@@ -752,10 +752,8 @@ namespace ZunTzu.Visualization {
 										size.Height * scaling + 4.0f);
 									if (!piece.IsBlock)
 										piece.Graphics.RenderSilhouette(localisation, piece.RotationAngle, blinkModulationColor);
-									else if (piece.Owner == Guid.Empty)
-										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, 0.0f, piece.RotationAngle, blinkModulationColor);
 									else
-										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, 1.0f, piece.RotationAngle, blinkModulationColor);
+										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, blinkModulationColor);
 								}
 							}
 						}
@@ -794,10 +792,8 @@ namespace ZunTzu.Visualization {
 									
 									if (!piece.IsBlock)
 										piece.Graphics.RenderSilhouette(localisation, piece.RotationAngle, blinkModulationColor);
-									else if (piece.Owner == Guid.Empty)
-										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, 0.0f, piece.RotationAngle, blinkModulationColor);
 									else
-										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, 1.0f, piece.RotationAngle, blinkModulationColor);
+										piece.Graphics.RenderBlockSilhouette(localisation, piece.BlockThickness * scaling, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, blinkModulationColor);
 								}
 							}
 						}
@@ -873,18 +869,18 @@ namespace ZunTzu.Visualization {
                                         else
                                         {
 											RectangleF localisationFramedSticker = new RectangleF(
-											gameDisplayArea.X + (position.X - visibleArea.X - (size.Width * flipAngleCosinus) * 0.5f) * scaling + size.Width * scaling * piece.BlockStickerReduction/2,
-											gameDisplayArea.Y + (position.Y - visibleArea.Y - size.Height * 0.5f) * scaling + size.Height * scaling * piece.BlockStickerReduction/2,
-											(size.Width * flipAngleCosinus) * scaling * (1.0f - piece.BlockStickerReduction),
-											size.Height * scaling * (1.0f - piece.BlockStickerReduction));											
+												gameDisplayArea.X + (position.X - visibleArea.X - size.Width * 0.5f) * scaling + size.Width * (scaling * piece.BlockStickerReduction/2),
+												gameDisplayArea.Y + (position.Y - visibleArea.Y - size.Height * 0.5f) * scaling + size.Height * (scaling * piece.BlockStickerReduction/2),
+												size.Width * (scaling * (1.0f - piece.BlockStickerReduction)),
+												size.Height * (scaling * (1.0f - piece.BlockStickerReduction)));
 
-											if (pass < 2)
-											{
-												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, piece.BlockColor, 1.0f);												
-											}
-											else
-											{
-												renderBlockByOwnership(localisation, localisationFramedSticker, scaling, piece, piece.BlockColor, 0.5f);
+											float opacity = (pass < 2 ? 1.0f : 0.5f);
+											if (piece.Owner == Guid.Empty || piece.Owner == model.ThisPlayer.Guid) {
+												piece.FrontGraphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, piece.BlockColor, opacity, true);
+											} else if (piece.BackGraphics != null) {
+												piece.BackGraphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, piece.BlockColor, opacity, true);
+											} else {
+												piece.FrontGraphics.RenderBlockBlank(localisation, piece.BlockThickness * scaling, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, piece.BlockColor, opacity, true);
 											}
 										}
 									}
@@ -967,33 +963,6 @@ namespace ZunTzu.Visualization {
 				}
 			}
 		}
-
-		private void renderBlockByOwnership(RectangleF localisation, RectangleF localisationFramedSticker, float scaling, IPiece piece, uint opaqueColor, float opacity) {
-			float flipProgress = 1.0f;
-
-			if (piece.Owner == Guid.Empty)
-			{
-				flipProgress = 0.0f;
-				((Piece)piece).Side = Side.Front;
-				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
-			}
-			else if (piece.Owner != model.ThisPlayer.Guid)
-			{
-				if (piece.CounterSection.IsSingleSided)
-					piece.Graphics.RenderBlockBlank(localisation, piece.BlockThickness * scaling, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
-				else
-				{
-					((Piece)piece).Side = Side.Back;
-					piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
-				}
-			}
-			else
-			{
-				((Piece)piece).Side = Side.Front;  
-				piece.Graphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, flipProgress, piece.RotationAngle, opaqueColor, opacity, opacity == 1.0f);
-			}
-		}
-
 
 		private void renderRuler() {
 			if(model.IsMeasuring) {

@@ -91,7 +91,8 @@ namespace ZunTzu.Modelization.Animations {
 			for (int i = 0; i < pieces.Length; ++i) {
 				Piece piece = (Piece)pieces[i];
 				if (piece.IsBlock) {
-					piece.BlockOwnershipTransitionProgress = (initiallyOwnedBlocks[i] ? 1.0f - progress : progress);
+					float ownershipProgress = (initiallyOwnedBlocks[i] ? 1.0f - progress : progress);
+					piece.BlockOwnershipTransitionProgress = (float)Math.Sin(ownershipProgress * (Math.PI * 0.5f));
 				} else {
 					piece.FlipAngleCosinus = flipAngleCosinus;
 				}

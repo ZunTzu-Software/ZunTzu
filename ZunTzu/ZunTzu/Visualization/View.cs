@@ -707,6 +707,21 @@ namespace ZunTzu.Visualization {
 			}
 		}
 
+		enum Layer {
+			Unpunched,
+			Terrains,
+			Cards,
+			Counters,
+			Count, // not an eligible value
+		}
+
+		enum Pass {
+			Folded,
+			UnfoldedOpaque,
+			UnfoldedTransparent,
+			Count, // not an eligible value
+		}
+
 		private void renderPieces(long currentTimeInMicroseconds) {
 			IGame game = model.CurrentGameBox.CurrentGame;
 			IBoard visibleBoard = game.VisibleBoard;
@@ -717,15 +732,15 @@ namespace ZunTzu.Visualization {
 			visibleBoard.FillListWithUnfoldedStacksWithinAreaBackToFront(unfoldedStackList, visibleArea);
 			if(game.Mode != Mode.Terrain) {
 				// for each layer (bottom layer is for unpunched pieces, next layer is for punched terrains, next layer is for punched cards, top layer is for punched counters)
-				for(int layer = 0; layer < 4; ++layer) {
+				for(int layer = 0; layer < (int)Layer.Count; ++layer) {
 					// render each selection hint
 					ISelection selection = model.CurrentSelection;
 					if(selection != null) {
 						IStack stack = selection.Stack;
 						if(visibleBoard == stack.Board &&
-							((layer == 0 && stack.AttachedToCounterSection) ||
-							(layer == 2 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
-							(layer == 3 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)) &&
+							((layer == (int)Layer.Unpunched && stack.AttachedToCounterSection) ||
+								(layer == (int)Layer.Cards && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
+								(layer == (int)Layer.Counters && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)) &&
 							visibleArea.IntersectsWith(stack.BoundingBox))
 						{
 							// computes modulation color for blinking
@@ -739,8 +754,8 @@ namespace ZunTzu.Visualization {
 								CounterSectionType type = counterSection.Type;
 								if(selection.Contains(piece) &&
 									(!stack.AttachedToCounterSection ||
-									(counterSection.ContainsCounters && ((int) type & ((int) ((ICounterSheet) visibleBoard).Side + 1)) != 0) ||
-									(!counterSection.ContainsCounters && counterSection.HasCardFaceOnFront == (((ICounterSheet) visibleBoard).Side == Side.Front))))
+										(counterSection.ContainsCounters && ((int) type & ((int) ((ICounterSheet) visibleBoard).Side + 1)) != 0) ||
+										(!counterSection.ContainsCounters && counterSection.HasCardFaceOnFront == (((ICounterSheet) visibleBoard).Side == Side.Front))))
 								{
 									PointF position = piece.Position;
 									SizeF size = piece.Size;
@@ -764,9 +779,9 @@ namespace ZunTzu.Visualization {
 					IBoardCursorLocation cursor = thisPlayer.CursorLocation as IBoardCursorLocation;
 					if(cursor != null && cursor.Piece != null && thisPlayer.IsCursorVisible) {
 						IStack stack = cursor.Piece.Stack;
-						if(((layer == 0 && stack.AttachedToCounterSection) ||
-							(layer == 2 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
-							(layer == 3 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)) &&
+						if(((layer == (int)Layer.Unpunched && stack.AttachedToCounterSection) ||
+								(layer == (int)Layer.Cards && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
+								(layer == (int)Layer.Counters && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)) &&
 							(thisPlayer.StackBeingDragged == null || thisPlayer.StackBeingDragged.GetType() == stack.Pieces[0].GetType()) &&
 							(thisPlayer.PieceBeingDragged == null || thisPlayer.PieceBeingDragged.GetType() == stack.Pieces[0].GetType()))
 						{
@@ -800,13 +815,13 @@ namespace ZunTzu.Visualization {
 					}
 
 					// three passes: folded stacks pass, 2 x unfolded stacks pass (last pass is 50% transparent)
-					for(int pass = 0; pass < 3; ++pass) {
-						List<IStack> stackList = (pass == 0 ? foldedStackList : unfoldedStackList);
+					for(int pass = 0; pass < (int)Pass.Count; ++pass) {
+						List<IStack> stackList = (pass == (int)Pass.Folded ? foldedStackList : unfoldedStackList);
 						foreach(IStack stack in stackList) {
-							if(((layer == 0 && stack.AttachedToCounterSection) ||
-								(layer == 1 && stack.Pieces[0] is ITerrain) ||
-								(layer == 2 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
-								(layer == 3 && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)))
+							if(((layer == (int)Layer.Unpunched && stack.AttachedToCounterSection) ||
+								(layer == (int)Layer.Terrains && stack.Pieces[0] is ITerrain) ||
+								(layer == (int)Layer.Cards && !stack.AttachedToCounterSection && stack.Pieces[0] is ICard) ||
+								(layer == (int)Layer.Counters && !stack.AttachedToCounterSection && stack.Pieces[0] is ICounter)))
 							{
 								foreach(IPiece piece in stack.Pieces) {
 									// don't render attached pieces on the opposite side
@@ -826,7 +841,7 @@ namespace ZunTzu.Visualization {
 											size.Height * scaling);
 
 										// render shadow
-										if(pass < 2 && !stack.AttachedToCounterSection && counterSection.ShadowLength > 0.0f) {																				
+										if(pass < (int)Pass.UnfoldedTransparent && !stack.AttachedToCounterSection && counterSection.ShadowLength > 0.0f) {																				
 											float shadowLength = counterSection.ShadowLength * scaling;
 											RectangleF shadowLocalisation = localisation;
 											shadowLocalisation.Offset(shadowLength, shadowLength);											
@@ -853,7 +868,7 @@ namespace ZunTzu.Visualization {
 										// render piece
 										if (!piece.IsBlock)
 										{
-											if (pass < 2)
+											if (pass < (int)Pass.UnfoldedTransparent)
 											{
 												piece.Graphics.Render(localisation, piece.RotationAngle, 0xffffffff);
 											}
@@ -874,7 +889,7 @@ namespace ZunTzu.Visualization {
 												size.Width * (scaling * (1.0f - piece.BlockStickerReduction)),
 												size.Height * (scaling * (1.0f - piece.BlockStickerReduction)));
 
-											float opacity = (pass < 2 ? 1.0f : 0.5f);
+											float opacity = (pass == (int)Pass.UnfoldedTransparent ? 0.5f : 1.0f);
 											if (piece.Owner == Guid.Empty || piece.Owner == model.ThisPlayer.Guid) {
 												piece.FrontGraphics.RenderBlock(localisation, piece.BlockThickness * scaling, localisationFramedSticker, piece.BlockOwnershipTransitionProgress, piece.RotationAngle, piece.BlockColor, opacity, true);
 											} else if (piece.BackGraphics != null) {
@@ -917,8 +932,10 @@ namespace ZunTzu.Visualization {
 				}
 
 				// two passes: folded stacks pass, unfolded stacks pass
-				for(int pass = 0; pass < 2; ++pass) {
-					List<IStack> stackList = (pass == 0 ? foldedStackList : unfoldedStackList);
+				for(int pass = 0; pass < (int)Pass.Count; ++pass) {
+					if (pass == (int)Pass.UnfoldedTransparent) continue;
+
+					List<IStack> stackList = (pass == (int)Pass.Folded ? foldedStackList : unfoldedStackList);
 					foreach(IStack stack in stackList) {
 						IPiece piece = stack.Pieces[0];
 						if(piece.CounterSection.CounterSheet.Properties.Type == CounterSheetType.Terrain) {

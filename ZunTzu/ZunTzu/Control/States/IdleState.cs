@@ -332,7 +332,7 @@ namespace ZunTzu.Control.States {
 			}
 		}
 
-		public override void HandleMouseWheel(Guid executorPlayerGuid, int detents) {
+		public override void HandleMouseWheel(int detents) {
 			IPiece[] piecesBeingRotated = null;
 			// over the board
 			if(model.ThisPlayer.CursorLocation is IBoardCursorLocation) {
@@ -379,8 +379,7 @@ namespace ZunTzu.Control.States {
 				RotationInProgress = true;
 				RotationIncrements += (detents / 120) * 120;
 
-				//TODO: Why there is an Animation in the IdleState? And not a Message to Rotate?
-				model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, PiecesBeingRotated, (detents / 120) * 120));
+				model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(PiecesBeingRotated, (detents / 120) * 120));
 
 				// NOT(C) => BeginRotation
 				if(!WaitingForContinueRotationMessage) {
@@ -396,7 +395,7 @@ namespace ZunTzu.Control.States {
 			// I don't think so, because the state change will get rejected anyway.
 			WaitingForContinueRotationMessage = false;
 			// B => BeginRotation
-			// NOT(B) => RotateStack			
+			// NOT(B) => RotateStack
 			if (RotationInProgress) {
 				WaitingForContinueRotationMessage = true;
 				RotationInProgress = false;
@@ -428,9 +427,9 @@ namespace ZunTzu.Control.States {
 				PiecesBeingRotated = null;
 		}
 
-		public void RejectRotation(Guid executorPlayerGuid, int rotationIncrements) {
+		public void RejectRotation(int rotationIncrements) {
 			// rollback rotation
-			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, PiecesBeingRotated, -rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(PiecesBeingRotated, -rotationIncrements));
 
 			if(!RotationInProgress && !WaitingForContinueRotationMessage)
 				PiecesBeingRotated = null;

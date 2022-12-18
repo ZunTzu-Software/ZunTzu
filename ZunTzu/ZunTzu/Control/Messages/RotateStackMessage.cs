@@ -30,34 +30,19 @@ namespace ZunTzu.Control.Messages {
 		public sealed override void HandleAccept(Controller controller) {
 			IModel model = controller.Model;
 			IPiece stackBottom = model.CurrentGameBox.CurrentGame.GetPieceById(stackBottomPieceId);
-
-			IPlayer sender = model.GetPlayer(senderId);
-			Guid senderGuid = Guid.Empty;
-			if (sender != null && sender.Guid != Guid.Empty)
-				senderGuid = sender.Guid;
-
 			if (senderId == model.ThisPlayer.Id) {
 				controller.IdleState.AcceptRotation();
-				model.CommandManager.ExecuteCommandSequence(new ConfirmedRotateTopOfStackCommand(senderGuid, model, stackBottom, rotationIncrements));
+				model.CommandManager.ExecuteCommandSequence(new ConfirmedRotateTopOfStackCommand(model, stackBottom, rotationIncrements));
 			} else {
-				model.CommandManager.ExecuteCommandSequence(new RotateTopOfStackCommand(senderGuid, model, stackBottom, rotationIncrements));
+				model.CommandManager.ExecuteCommandSequence(new RotateTopOfStackCommand(model, stackBottom, rotationIncrements));
 			}
 		}
 
 		public sealed override void HandleReject(Controller controller) {
-
-			IModel model = controller.Model;
-
-			IPlayer sender = model.GetPlayer(senderId);
-			Guid senderGuid = Guid.Empty;
-			if (sender != null && sender.Guid != Guid.Empty)
-				senderGuid = sender.Guid;
-
-			controller.IdleState.RejectRotation(senderGuid, rotationIncrements);
+			controller.IdleState.RejectRotation(rotationIncrements);
 		}
 
 		private int stackBottomPieceId;
 		private int rotationIncrements;
-
 	}
 }

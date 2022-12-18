@@ -9,8 +9,8 @@ namespace ZunTzu.Modelization.Commands {
 	/// <summary>ConfirmedRotateTopOfStackCommand command.</summary>
 	public sealed class ConfirmedRotateTopOfStackCommand : RotateTopOfStackCommand {
 
-		public ConfirmedRotateTopOfStackCommand(Guid executorPlayerGuid, IModel model, IPiece stackBottom, int rotationIncrements)
-			: base(executorPlayerGuid, model, stackBottom, rotationIncrements) {}
+		public ConfirmedRotateTopOfStackCommand(IModel model, IPiece stackBottom, int rotationIncrements)
+			: base(model, stackBottom, rotationIncrements) {}
 
 		/// <summary>Execute this command.</summary>
 		public override void Do() {}

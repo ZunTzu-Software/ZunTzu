@@ -78,7 +78,7 @@ namespace ZunTzu.Modelization.Commands {
 				(IAnimation) new SplitStackAnimation(stackBefore, pieceAsArray, stackAfter));
 			animations.Add(new MoveToFrontOfBoardAnimation(stackAfter, boardAfter));
 			if(rotationIncrements != 0)
-				animations.Add(new InstantRotatePiecesAnimation(playerGuid, pieceAsArray, rotationIncrements));
+				animations.Add(new InstantRotatePiecesAnimation(pieceAsArray, rotationIncrements));
 			if(sideAfter != piece.Side)
 				animations.Add(new InstantFlipPiecesAnimation(playerGuid, pieceAsArray));
 			animations.Add(new MoveStackFromHandAnimation(stackAfter, positionAfter));

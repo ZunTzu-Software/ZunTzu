@@ -310,8 +310,10 @@ namespace ZunTzu.Graphics
 		{
 			Debug.Assert(thickness >= 0.0f);
 			Debug.Assert(flipProgress >= 0.0f && flipProgress <= 1.0f);
-			Debug.Assert(rotationAngle > (float)-Math.PI && rotationAngle <= (float)Math.PI);
 			Debug.Assert(opacity >= 0.0f && opacity <= 1.0f);
+
+			while (rotationAngle < 0.0f) rotationAngle += (float)Math.PI * 2.0f;
+			while (rotationAngle >= (float)Math.PI * 2.0f) rotationAngle -= (float)Math.PI * 2.0f;
 
 			//    A'                B'
 			//      +-------______+
@@ -457,7 +459,7 @@ namespace ZunTzu.Graphics
 						L = B;
 						K_prime = A_prime;
 					}
-					else if (rotationAngle == -0.5f * (float)Math.PI)
+					else if (rotationAngle == 1.5f * (float)Math.PI)
 					{
 						stillRotating = false;
 						J = A;
@@ -545,17 +547,7 @@ namespace ZunTzu.Graphics
 					{
 						double mix;
 
-						if (rotationAngle < -Math.PI * 0.75f)
-						{
-							// Render C'D'CD + D'A'DA
-							mix = (rotationAngle + Math.PI * 1.25f) / (Math.PI * 0.5f);
-						}
-						else if (rotationAngle < -Math.PI * 0.25f)
-						{
-							// Render D'A'DA + A'B'AB
-							mix = (rotationAngle + Math.PI * 0.75f) / (Math.PI * 0.5f);
-						}
-						else if (rotationAngle < Math.PI * 0.25f)
+						if (rotationAngle < Math.PI * 0.25f || rotationAngle >= Math.PI * 1.75f)
 						{
 							// Render A'B'AB + B'C'BC
 							mix = (rotationAngle + Math.PI * 0.25f) / (Math.PI * 0.5f);
@@ -565,10 +557,15 @@ namespace ZunTzu.Graphics
 							// Render B'C'BC + C'D'CD 
 							mix = (rotationAngle - Math.PI * 0.25f) / (Math.PI * 0.5f);
 						}
-						else
+						else if (rotationAngle < Math.PI * 1.25f)
 						{
 							// Render C'D'CD + D'A'DA
 							mix = (rotationAngle - Math.PI * 0.75f) / (Math.PI * 0.5f);
+						}
+						else
+						{
+							// Render D'A'DA + A'B'AB
+							mix = (rotationAngle + Math.PI * 0.75f) / (Math.PI * 0.5f);
 						}
 
 						double lightMix = 1.0 - mix * 0.5;
@@ -597,29 +594,29 @@ namespace ZunTzu.Graphics
 							((uint)(255 * darkerBlue) << 0);
 					}
 
-					if (rotationAngle < -Math.PI * 0.75f || rotationAngle >= Math.PI * 0.75f)
-					{
-						// Render C'D'CD + D'A'DA
-						D3D.RenderMonochromaticQuad(lighterColor, C_prime->X, C_prime->Y, C->X, C->Y, D_prime->X, D_prime->Y, D->X, D->Y);
-						D3D.RenderMonochromaticQuad(darkerColor, D_prime->X, D_prime->Y, D->X, D->Y, A_prime->X, A_prime->Y, A->X, A->Y);
-					}
-					else if (rotationAngle < -Math.PI * 0.25f)
-					{
-						// Render D'A'DA + A'B'AB
-						D3D.RenderMonochromaticQuad(lighterColor, D_prime->X, D_prime->Y, D->X, D->Y, A_prime->X, A_prime->Y, A->X, A->Y);
-						D3D.RenderMonochromaticQuad(darkerColor, A_prime->X, A_prime->Y, A->X, A->Y, B_prime->X, B_prime->Y, B->X, B->Y);
-					}
-					else if (rotationAngle < Math.PI * 0.25f)
+					if (rotationAngle < Math.PI * 0.25f || rotationAngle >= Math.PI * 1.75f)
 					{
 						// Render A'B'AB + B'C'BC
 						D3D.RenderMonochromaticQuad(lighterColor, A_prime->X, A_prime->Y, A->X, A->Y, B_prime->X, B_prime->Y, B->X, B->Y);
 						D3D.RenderMonochromaticQuad(darkerColor, B_prime->X, B_prime->Y, B->X, B->Y, C_prime->X, C_prime->Y, C->X, C->Y);
 					}
-					else
+					else if (rotationAngle < Math.PI * 0.75f)
 					{
 						// Render B'C'BC + C'D'CD 
 						D3D.RenderMonochromaticQuad(lighterColor, B_prime->X, B_prime->Y, B->X, B->Y, C_prime->X, C_prime->Y, C->X, C->Y);
 						D3D.RenderMonochromaticQuad(darkerColor, C_prime->X, C_prime->Y, C->X, C->Y, D_prime->X, D_prime->Y, D->X, D->Y);
+					}
+					else if (rotationAngle < Math.PI * 1.25f)
+					{
+						// Render C'D'CD + D'A'DA
+						D3D.RenderMonochromaticQuad(lighterColor, C_prime->X, C_prime->Y, C->X, C->Y, D_prime->X, D_prime->Y, D->X, D->Y);
+						D3D.RenderMonochromaticQuad(darkerColor, D_prime->X, D_prime->Y, D->X, D->Y, A_prime->X, A_prime->Y, A->X, A->Y);
+					}
+					else
+					{
+						// Render D'A'DA + A'B'AB
+						D3D.RenderMonochromaticQuad(lighterColor, D_prime->X, D_prime->Y, D->X, D->Y, A_prime->X, A_prime->Y, A->X, A->Y);
+						D3D.RenderMonochromaticQuad(darkerColor, A_prime->X, A_prime->Y, A->X, A->Y, B_prime->X, B_prime->Y, B->X, B->Y);
 					}
 				}
 

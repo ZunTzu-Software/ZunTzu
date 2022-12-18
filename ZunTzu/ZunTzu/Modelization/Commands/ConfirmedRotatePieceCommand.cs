@@ -9,8 +9,8 @@ namespace ZunTzu.Modelization.Commands {
 	/// <summary>ConfirmedRotatePieceCommand command.</summary>
 	public sealed class ConfirmedRotatePieceCommand : RotatePieceCommand {
 
-		public ConfirmedRotatePieceCommand(Guid executorPlayerGuid, IModel model, IPiece piece, int rotationIncrements)
-			: base(executorPlayerGuid, model, piece, rotationIncrements) {}
+		public ConfirmedRotatePieceCommand(IModel model, IPiece piece, int rotationIncrements)
+			: base(model, piece, rotationIncrements) {}
 
 		/// <summary>Execute this command.</summary>
 		public override void Do() {}

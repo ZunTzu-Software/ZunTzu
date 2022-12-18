@@ -9,30 +9,29 @@ namespace ZunTzu.Modelization.Commands {
 	/// <summary>RotatePieceCommand command.</summary>
 	public class RotatePieceCommand : AggregableCommand {
 
-		public RotatePieceCommand(Guid executorPlayerGuid, IModel model, IPiece piece, int rotationIncrements)
+		public RotatePieceCommand(IModel model, IPiece piece, int rotationIncrements)
 			: base(model)
 		{
 			this.piece = piece;
 			this.rotationIncrements = rotationIncrements;
-			this.executorPlayerGuid = executorPlayerGuid;
 		}
 
 		/// <summary>Execute this command.</summary>
 		public override void Do() {
 			preventConflict(piece.Stack);
-			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(executorPlayerGuid, new IPiece[1] { piece }, rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new InstantRotatePiecesAnimation(new IPiece[1] { piece }, rotationIncrements));
 		}
 
 		/// <summary>Cancel the result of this command.</summary>
 		public override void Undo() {
 			preventConflict(piece.Stack);
-			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(executorPlayerGuid, new IPiece[1] { piece }, -rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(new IPiece[1] { piece }, -rotationIncrements));
 		}
 
 		/// <summary>Rollback the previous cancellation of this command.</summary>
 		public override void Redo() {
 			preventConflict(piece.Stack);
-			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(executorPlayerGuid, new IPiece[1] { piece }, rotationIncrements));
+			model.AnimationManager.LaunchAnimationSequence(new RotatePiecesAnimation(new IPiece[1] { piece }, rotationIncrements));
 		}
 
 		/// <summary>Returns true if this command can be aggregated with another command.</summary>
@@ -52,6 +51,5 @@ namespace ZunTzu.Modelization.Commands {
 
 		private IPiece piece;
 		private int rotationIncrements;
-		private Guid executorPlayerGuid;
 	}
 }
